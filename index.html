@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mosaic</title>
+    <title>Mosaic Notes</title>
     <link rel="stylesheet" href="bower_components/jquery-ui/themes/base/all.css"></link>
     <link rel="stylesheet" href="bower_components/font-awesome/css/all.min.css"></link>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"></link>
@@ -46,7 +46,13 @@
             </li>
             <li class="text-center">
                 <label for="gap"><i class="fa fa-wave-square"></i> Gap px:</label>
-                <input id="gap" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1" min="0" value="3" type="number" onchange="changeGap('.grid', $(this).val()+'px')">
+                <input id="gap" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="3" type="number" onchange="changeGap('.grid', $(this).val()+'px')">
+            </li>
+            <li class="mb-2">
+                <hr style="border-color:gray" />
+            </li>
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="window.print()">
+                <i class="fa fa-print"></i> Print
             </li>
         </ul>
     </nav>

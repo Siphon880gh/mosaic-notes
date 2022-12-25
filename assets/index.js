@@ -30,19 +30,24 @@
 
         function deleteLastBox() {
             if (window.lastBox !== null) {
-                let remindMeByText = window.lastBox.text().substr(0, 30);
-                let confirmed = (`Delete the box?\n\n${remindMeByText}`);
+                let remindMeByText = `"${window.lastBox.text().substr(0, 50).trim()+"..."}"`;
+                let confirmed = confirm(`Delete the box?\n\n${remindMeByText}`);
                 if (confirmed) {
                     window.lastBox.remove();
+                    window.lastBox = null;
+                    toggleClass('.page-controls__controls', 'invisible'); // Menu can close
                 }
             } else {
-                alert("Error: You never interacted with any boxes. No recent box to duplicate.")
+                alert("Error: You haven't interacted with any current boxes. No box to duplicate.")
             }
         }
 
         function clearCanvas() {
-            if (confirm("Delete all boxes. Are you sure?"))
+            if (confirm("Delete all boxes. Are you sure?")) {
                 $(".grid-item").remove();
+                window.lastBox = null;
+                toggleClass('.page-controls__controls', 'invisible'); // Menu can close
+            }
         }
 
         $(() => {
