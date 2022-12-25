@@ -66,7 +66,7 @@
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="addBox()">
                 <i class="fa fa-vector-square"></i> New
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer">
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="precheckCanDuplicateBox()">
                 <i class="fa fa-clone"></i> Duplicate
             </li>
             <li class="mb-2">
@@ -108,6 +108,14 @@
             $("body").append($(`<style id="dynamic-style-block--gap"></style>`).html(newGapStyle))
         }
 
+        function precheckCanDuplicateBox() {
+            console.log("hi")
+            if (window.lastBox !== null) {
+                const options = [window.lastBox.width() + "px", window.lastBox.height() + "px", window.lastBox.html()]
+                addBox(...options)
+            }
+        }
+
         function addBox(width = "100px", height = "100px", html = "&nbsp;") {
             const $box = $(`<div class="grid-item rounded-sm" contenteditable="true" style="width:${width}; height:${height}">${html}</div>`);
             $(".grid").append($box);
@@ -125,6 +133,7 @@
                     console.group("I'm at: ")
                     console.log(gridItem);
                     console.groupEnd();
+                    window.lastBox = $(gridItem);
                 }
             })
         });
