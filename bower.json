@@ -1,22 +1,23 @@
 {
-    "name": "mosaic",
-    "authors": [
-        "Weng Fei Fung <weffung@ucdavis.edu>"
-    ],
-    "description": "",
-    "main": "",
-    "license": "MIT",
-    "homepage": "",
-    "ignore": [
-        "**/.*",
-        "node_modules",
-        "bower_components",
-        "test",
-        "tests"
-    ],
-    "dependencies": {
-        "bootstrap": "^5.2.3",
-        "jquery": "^3.6.3",
-        "jquery-ui": "^1.12.1"
-    }
+  "name": "mosaic",
+  "authors": [
+    "Weng Fei Fung <weffung@ucdavis.edu>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "jquery": "^3.6.3",
+    "jquery-ui": "^1.12.1",
+    "font-awesome": "fontawesome#^6.2.1"
+  }
 }

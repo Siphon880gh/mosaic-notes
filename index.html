@@ -6,8 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mosaic</title>
-    <style rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"></style>
-    <style rel="stylesheet" href="bower_components/jquery-ui/themes/base/all.css"></style>
+    <link rel="stylesheet" href="bower_components/jquery-ui/themes/base/all.css"></link>
+    <link rel="stylesheet" href="bower_components/font-awesome/css/all.min.css"></link>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"></link>
     <style>
         .grid {
             display: flex;
@@ -18,21 +19,70 @@
         .grid-item {
             border: 1px solid black;
         }
+        
+        .page-controls {
+            top: 5px;
+            right: 5px;
+            width: 125px;
+            height: 100px;
+            position: absolute;
+            text-align: right;
+        }
+        
+        @media print {
+            .page-controls {
+                display: none;
+            }
+        }
     </style>
 </head>
 
 <body>
-    <div class="grid">
+    <main class="grid">
         <div class="grid-item">A</div>
         <div class="grid-item">B</div>
         <div class="grid-item">C</div>
+    </main>
+    <nav class="page-controls w-108">
 
-    </div>
+        <i class="fa fa-solid fa-gear cursor-pointer" onclick="toggleClass('.page-controls__controls', 'invisible')"></i>
+        <ul class="page-controls__controls invisible">
+            <li class="mb-2">
+                <hr/>
+            </li>
+            <li class="mb-2 hover:text-red-900 cursor-pointer">
+                <i class="fa fa-vector-square"></i> New
+            </li>
+            <li class="mb-2 hover:text-red-900 cursor-pointer">
+                <i class="fa fa-clone"></i> Duplicate
+            </li>
+            <li class="mb-2">
+                <hr/>
+            </li>
+            <li class="mb-2 hover:text-red-900 cursor-pointer">
+                <i class="fa fa-times-circle"></i> Delete
+            </li>
+            <li class="mb-2 hover:text-red-900 cursor-pointer">
+                <i class="fa fa-trash-alt"></i> Clear Canvas
+            </li>
+            <li class="mb-2">
+                <hr/>
+            </li>
+            <li>
+                <label for="gap"><i class="fa fa-wave-square"></i> Gap px:</label>
+                <input id="gap" class="w-12 border-1 ring-1 border-black ring-black" value="0" type="number">
+            </li>
+        </ul>
+    </nav>
 
-
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
+
+    <script>
+        function toggleClass(querySelect, clssName) {
+            document.querySelector(querySelect).classList.toggle(clssName)
+        }
+    </script>
 </body>
 
 </html>
