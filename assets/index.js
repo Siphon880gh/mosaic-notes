@@ -64,6 +64,11 @@
                 $(".grid-item:not(.ui-resizable)").resizable()
             }, 100);
 
+            // Warn user if on mobile that this is a Desktop app
+            if(window.innerWidth < 816) {
+                alert("Advisory: You are on a small window. The purpose of this app is to create a boxed notes template that prints on a 11 x 8.5 inches paper. Then you would use it for work or school. Please visit on a bigger screen.")
+            }
+
             // Point to last grid item for duplication or deletion
             $("body").on("click", event => {
                 const gridItem = event.target.matches(".grid-item") ? event.target : event.target.closest(".grid-item");
