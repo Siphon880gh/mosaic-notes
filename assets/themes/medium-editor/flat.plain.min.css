@@ -1,3 +1,7 @@
+.medium-editor-button-last {
+    border-right: 1px dashed white !important;
+}
+
 .medium-toolbar-arrow-under:after {
     top: 60px;
     border-color: rgba(229, 231, 235, 1) transparent transparent;
