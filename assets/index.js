@@ -71,9 +71,11 @@
             setInterval(() => {
                 $(".grid-item:not(.ui-resizable)").resizable();
                 
+                // TODO: This plugin is conflicting with copying and pasting images into the box
                 let newGridsWithoutRichTextControls = document.querySelectorAll('.grid-item:not(.medium-editor-element)');
                 if(newGridsWithoutRichTextControls.length) {
                     editor = new MediumEditor(newGridsWithoutRichTextControls);
+                    restyleNewEditorInstances();
                 }
             }, 100);
             
