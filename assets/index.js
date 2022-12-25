@@ -72,10 +72,20 @@
                 $(".grid-item:not(.ui-resizable)").resizable();
                 
                 // TODO: This plugin is conflicting with copying and pasting images into the box
-                let newGridsWithoutRichTextControls = document.querySelectorAll('.grid-item:not(.medium-editor-element)');
+                // let newGridsWithoutRichTextControls = document.querySelectorAll('.grid-item:not(.medium-editor-element)');
+                newGridsWithoutRichTextControls = {}
                 if(newGridsWithoutRichTextControls.length) {
-                    editor = new MediumEditor(newGridsWithoutRichTextControls);
-                    restyleNewEditorInstances();
+                    editor = new MediumEditor(newGridsWithoutRichTextControls, {
+                        targetBlank: true,
+                        autoLink: true,
+                        imageDragging: true,
+                        toolbar: {
+                            //buttons: ['bold', 'italic', 'underline', 'anchor', 'image', 'h2', 'h3', 'quote']
+                            //buttons: ["bold", "italic", "underline", "strikethrough", "subscript", "superscript", "anchor", "image", "quote", "pre", "orderedlist", "unorderedlist", "indent", "outdent", "justifyLeft", "justifyCenter", "justifyRight", "justifyFull", "h1", "h2", "h3", "h4", "h5", "h6", "removeFormat", "html"]
+                            buttons: ["bold", "italic", "underline", "strikethrough", "anchor", "image", "quote", "indent", "outdent", "orderedlist", "unorderedlist", "justifyLeft", "justifyCenter", "justifyRight", "h1", "h2", "h3", "h4", "h5", "h6", "html"]
+                        }
+                    });
+                    restyleNewEditorIcons();
                 }
             }, 100);
             

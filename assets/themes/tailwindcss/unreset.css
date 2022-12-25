@@ -5,6 +5,9 @@
 .unreset h4,
 .unreset h5,
 .unreset h6,
+.unreset ul,
+.unreset ol,
+.unreset li,
 .unreset blockquote {
     all: revert;
 }
