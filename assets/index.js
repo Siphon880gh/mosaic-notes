@@ -71,14 +71,16 @@
             setInterval(() => {
                 $(".grid-item:not(.ui-resizable)").resizable();
                 
-                // TODO: This plugin is conflicting with copying and pasting images into the box
-                // let newGridsWithoutRichTextControls = document.querySelectorAll('.grid-item:not(.medium-editor-element)');
-                newGridsWithoutRichTextControls = {}
+                let newGridsWithoutRichTextControls = document.querySelectorAll('.grid-item:not(.medium-editor-element)');
                 if(newGridsWithoutRichTextControls.length) {
                     editor = new MediumEditor(newGridsWithoutRichTextControls, {
                         targetBlank: true,
                         autoLink: true,
                         imageDragging: true,
+                        paste: {
+                            /* This was preventing pictures from pasting into box */
+                            forcePlainText: false,
+                        },
                         toolbar: {
                             //buttons: ['bold', 'italic', 'underline', 'anchor', 'image', 'h2', 'h3', 'quote']
                             //buttons: ["bold", "italic", "underline", "strikethrough", "subscript", "superscript", "anchor", "image", "quote", "pre", "orderedlist", "unorderedlist", "indent", "outdent", "justifyLeft", "justifyCenter", "justifyRight", "justifyFull", "h1", "h2", "h3", "h4", "h5", "h6", "removeFormat", "html"]
