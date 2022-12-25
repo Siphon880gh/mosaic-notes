@@ -23,10 +23,9 @@
         .page-controls {
             top: 5px;
             right: 5px;
-            width: 125px;
+            width: 135px;
             height: 100px;
             position: absolute;
-            text-align: right;
         }
         
         @media print {
@@ -52,14 +51,14 @@
         <div class="grid-item">B</div>
         <div class="grid-item">C</div>
     </main>
-    <nav class="page-controls w-108">
+    <nav class="page-controls w-108 text-right">
 
         <i class="fa fa-solid fa-gear cursor-pointer" onclick="toggleClass('.page-controls__controls', 'invisible')"></i>
-        <ul class="page-controls__controls invisible">
+        <ul class="page-controls__controls invisible bg-gray-200 rounded-md p-2 text-left">
             <li class="mb-2">
                 <hr/>
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer">
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="addBox()">
                 <i class="fa fa-vector-square"></i> New
             </li>
             <li class="mb-2 hover:text-red-900 cursor-pointer">
@@ -77,9 +76,9 @@
             <li class="mb-2">
                 <hr/>
             </li>
-            <li>
+            <li class="text-center">
                 <label for="gap"><i class="fa fa-wave-square"></i> Gap px:</label>
-                <input id="gap" class="w-12 border-1 ring-1 border-black ring-black" value="0" type="number">
+                <input id="gap" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1" value="0" type="number">
             </li>
         </ul>
     </nav>
@@ -90,6 +89,11 @@
     <script>
         function toggleClass(querySelect, clssName) {
             document.querySelector(querySelect).classList.toggle(clssName)
+        }
+
+        function addBox(width = "100px", height = "100px") {
+            const $box = $(`<div class="grid-item rounded-md" style="width:${width}; height:${height}"></div>`);
+            $(".grid").append($box);
         }
     </script>
 </body>
