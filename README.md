@@ -18,6 +18,9 @@ Is a front-end client made in jQuery, jQuery UI, and Tailwind CSS. Will work out
 
 # Screenshots
 
+**Now with Rich Text Controls:**
+![Page](/assets/screenshots/rich-text-controls.png)
+
 **Page:**
 ![Page](/assets/screenshots/page.png)
 
