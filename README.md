@@ -18,7 +18,8 @@ Create boxes stacked in a mosaic way for you to customize with instructions, the
 Is a front-end client made in jQuery, jQuery UI, and Tailwind CSS. Will work out of the box.
 
 ## Future version
-Will have ability to save and load your different templates.
+- Will have ability to rearrange your boxes. Thinking of using jQuery UI.
+- Will have ability to save and load your different templates. Working on it at persist.js.
 
 ## Screenshots
 
