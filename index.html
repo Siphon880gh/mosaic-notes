@@ -7,15 +7,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mosaic</title>
     <style rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css"></style>
+    <style rel="stylesheet" href="bower_components/jquery-ui/themes/base/all.css"></style>
+    <style>
+        .grid {
+            display: flex;
+            justify-content: flex-start;
+            flex-flow: row wrap;
+        }
+        
+        .grid-item {
+            border: 1px solid black;
+        }
+    </style>
 </head>
 
 <body>
+    <div class="grid">
+        <div class="grid-item">A</div>
+        <div class="grid-item">B</div>
+        <div class="grid-item">C</div>
 
+    </div>
 
 
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/masonry-layout/dist/masonry.pkgd.min.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.js"></script>
 </body>
 
 </html>
