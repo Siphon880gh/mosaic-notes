@@ -1,4 +1,4 @@
-# Mosiac
+# Mosaic Notes
 By Weng Fei Fung
 
 ![Last Commit](https://img.shields.io/github/last-commit/Siphon880gh/mosaic-notes/master)
@@ -9,6 +9,9 @@ By Weng Fei Fung
 ## Description
 
 Create boxes layered in a mosaic way for you to print then take notes. You can resize these boxes, add rich text, even paste pictures into it. In the end, print the webpage for your note taking purposes at school, work, etc.
+
+## Demo
+[Open Demo](https://siphon880gh.github.io/mosaic-notes/)
 
 ## Installation
 Is a front-end client made in jQuery, jQuery UI, and Tailwind CSS. Will work out of the box.
