@@ -8,7 +8,7 @@ By Weng Fei Fung
 
 ## Description
 
-Create boxes layered in a mosaic way for you to print then take notes. You can resize these boxes, add rich text, even paste pictures into it. In the end, print the webpage for your note taking purposes at school, work, etc.
+Create boxes stacked in a mosaic way for you to customize with instructions, then print it out for traditional pencil and pen notetaking. You can resize these boxes, add rich text, even paste pictures into it. In the end, print for your note taking purposes at school, work, etc. An example use is nursing brainsheets.
 
 ## Demo
 [Open Demo](https://siphon880gh.github.io/mosaic-notes/)
@@ -24,5 +24,5 @@ Is a front-end client made in jQuery, jQuery UI, and Tailwind CSS. Will work out
 **Page with Menu:**
 ![Page with menu](/assets/screenshots/page-with-menu.png)
 
-**Print Peeview:**
+**Print Preview:**
 ![Page with menu](/assets/screenshots/print-preview.png)
