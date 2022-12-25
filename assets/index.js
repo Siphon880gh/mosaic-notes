@@ -2,7 +2,7 @@
         window.lastBox = null;
 
         function toggleClass(querySelected, clssName) {
-            document.querySelector(querySelected).classList.toggle(clssName)
+            document.querySelectorAll(querySelected).forEach(el=>el.classList.toggle(clssName))
         }
 
         function changeGap(querySelected, gap) {
