@@ -13,13 +13,17 @@ Create boxes stacked in a mosaic way for you to customize with instructions, the
 ## Demo
 [Open Demo](https://siphon880gh.github.io/mosaic-notes/)
 
+
 ## Installation
 Is a front-end client made in jQuery, jQuery UI, and Tailwind CSS. Will work out of the box.
+
+## Future version
+Will have ability to save and load your different templates.
 
 ## Screenshots
 
 **With Advanced Rich Text Controls:**
-![Page](/assets/screenshots/rich-text-controls.png)
+![Page](/assets/screenshots/rich-text-controls-advanced.png)
 
 
 **With Simple Rich Text Controls:**
