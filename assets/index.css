@@ -21,6 +21,10 @@
     font-size: 150%;
 }
 
+.page-controls li.active {
+    opacity: .5;
+}
+
 @media print {
     .page-controls {
         display: none;

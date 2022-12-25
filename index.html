@@ -69,10 +69,10 @@
             <li class="mb-2">
                 <hr style="border-color:gray" />
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleClass('i:not(.fa)', 'hidden')">
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleClass('i:not(.fa)', 'hidden'); $(this).toggleClass('active');">
                 <i class="fa fa-print"></i> Collapse italics
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleClass('i:not(.fa)', 'invisible')">
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleClass('i:not(.fa)', 'invisible'); $(this).toggleClass('active');">
                 <i class="fa fa-print"></i> Invisible italics
             </li>
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="window.print()">
