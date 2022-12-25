@@ -16,9 +16,13 @@ Create boxes stacked in a mosaic way for you to customize with instructions, the
 ## Installation
 Is a front-end client made in jQuery, jQuery UI, and Tailwind CSS. Will work out of the box.
 
-# Screenshots
+## Screenshots
 
-**Now with Rich Text Controls:**
+**With Advanced Rich Text Controls:**
+![Page](/assets/screenshots/rich-text-controls.png)
+
+
+**With Simple Rich Text Controls:**
 ![Page](/assets/screenshots/rich-text-controls.png)
 
 **Page:**

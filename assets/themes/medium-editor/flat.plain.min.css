@@ -1,6 +1,15 @@
+/** Enhancements **/
+
 .medium-editor-button-last {
     border-right: 1px dashed white !important;
 }
+
+.medium-editor-toolbar {
+    opacity: .87;
+}
+
+
+/** Changed colors: **/
 
 .medium-toolbar-arrow-under:after {
     top: 60px;
