@@ -13,7 +13,15 @@
             $("#dynamic-style-block--gap").remove();
             $("body").append($(`<style id="dynamic-style-block--gap"></style>`).html(newGapStyle))
         }
-
+        
+        function changePadding(querySelected, gap) {
+            console.log("Changed padding")
+            const newGapStyle = `${querySelected} {
+                padding: ${gap}
+            }`
+            $("#dynamic-style-block--gap").remove();
+            $("body").append($(`<style id="dynamic-style-block--gap"></style>`).html(newGapStyle))
+        }
         function precheckCanDuplicateBox() {
             if (window.lastBox !== null) {
                 const options = [window.lastBox.width() + "px", window.lastBox.height() + "px", window.lastBox.html()]

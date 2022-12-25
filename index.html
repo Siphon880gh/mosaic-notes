@@ -16,12 +16,18 @@
             gap: 3px;
         }
     </style>
+    <style id="dynamic-style-block--padding">
+        .grid-item {
+            padding: 10px;
+        }
+    </style>
 </head>
 
 <body>
     <main class="grid">
         <div class="grid-item rounded-sm" contenteditable="true" style="width:33%">
             <b>Mosaic Notes</b>
+            <span>By Weng Fei Fung.</span>
             <p>Create boxes stacked in a mosaic way for you to customize with instructions, then print it out for traditional pencil and pen notetaking. You can resize these boxes, add rich text, even paste pictures into it. In the end, print for your note
                 taking purposes at school, work, etc. An example use is nursing brainsheets.</p>
         </div>
@@ -50,8 +56,12 @@
                 <hr style="border-color:gray" />
             </li>
             <li class="text-center">
-                <label for="gap"><i class="fa fa-wave-square"></i> Gap px:</label>
+                <label for="gap"><i class="fa fa-wave-square"></i> Gap px:</label><br/>
                 <input id="gap" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="3" type="number" onchange="changeGap('.grid', $(this).val()+'px')">
+            </li>
+            <li class="text-center">
+                <label for="padding"><i class="fa fa-compress-arrows-alt"></i> Padding px:</label><br/>
+                <input id="padding" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="10" type="number" onchange="changePadding('.grid-item', $(this).val()+'px')">
             </li>
             <li class="mb-2">
                 <hr style="border-color:gray" />
