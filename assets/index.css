@@ -9,11 +9,15 @@
 }
 
 .page-controls {
-    top: 5px;
-    right: 5px;
+    top: 10px;
+    right: 15px;
     width: 155px;
     height: 100px;
     position: absolute;
+}
+
+.page-controls .fa-gear {
+    font-size: 150%;
 }
 
 @media print {
@@ -28,7 +32,6 @@
 body {
     width: 8.5in;
     height: calc(11in - 10px);
-    position: relative;
     border-radius: 20px;
     border: 1px solid rgba(125, 125, 125, .5);
     margin: 5px auto;
