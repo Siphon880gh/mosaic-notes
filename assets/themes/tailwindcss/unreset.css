@@ -1,0 +1,10 @@
+.unreset a,
+.unreset h1,
+.unreset h2,
+.unreset h3,
+.unreset h4,
+.unreset h5,
+.unreset h6,
+.unreset blockquote {
+    all: revert;
+}

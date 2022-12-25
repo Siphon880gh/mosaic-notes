@@ -33,7 +33,7 @@
 }
 
 .medium-editor-toolbar li .medium-editor-button-active {
-    background-color: #23482a;
+    background-color: darkgray;
     color: black;
 }
 

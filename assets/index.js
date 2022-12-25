@@ -32,7 +32,7 @@
         }
 
         function addBox(width = "100px", height = "100px", html = "&nbsp;") {
-            const $box = $(`<div class="grid-item rounded-sm" contenteditable="true" style="width:${width}; height:${height}">${html}</div>`);
+            const $box = $(`<div class="grid-item rounded-sm unreset" contenteditable="true" style="width:${width}; height:${height}">${html}</div>`);
             $(".grid").append($box);
         }
 
