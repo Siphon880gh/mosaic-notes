@@ -55,9 +55,9 @@
 
 <body>
     <main class="grid">
-        <div class="grid-item">A</div>
-        <div class="grid-item">B</div>
-        <div class="grid-item">C</div>
+        <div class="grid-item rounded-sm" contenteditable="true">A</div>
+        <div class="grid-item rounded-sm" contenteditable="true">B</div>
+        <div class="grid-item rounded-sm" contenteditable="true">C</div>
     </main>
     <nav class="page-controls w-108 text-right">
 
@@ -90,8 +90,11 @@
 
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="//raw.githack.com/tkambler/whenLive/master/src/jquery.whenlive.js"></script>
 
     <script>
+        window.lastBox = null;
+
         function toggleClass(querySelected, clssName) {
             document.querySelector(querySelected).classList.toggle(clssName)
         }
@@ -105,15 +108,26 @@
             $("body").append($(`<style id="dynamic-style-block--gap"></style>`).html(newGapStyle))
         }
 
-        function addBox(width = "100px", height = "100px") {
-            const $box = $(`<div contenteditable="true" class="grid-item rounded-md" style="width:${width}; height:${height}">&nbsp;</div>`);
+        function addBox(width = "100px", height = "100px", html = "&nbsp;") {
+            const $box = $(`<div class="grid-item rounded-sm" contenteditable="true" style="width:${width}; height:${height}">${html}</div>`);
             $(".grid").append($box);
         }
         $(() => {
+            // Always have resizable grid items
             setInterval(() => {
                 $(".grid-item:not(.ui-resizable)").resizable()
             }, 100);
-        })
+
+            // Point to last grid item for duplication or deletion
+            $("body").on("click", event => {
+                const gridItem = event.target.matches(".grid-item") ? event.target : event.target.closest(".grid-item");
+                if (gridItem) {
+                    console.group("I'm at: ")
+                    console.log(gridItem);
+                    console.groupEnd();
+                }
+            })
+        });
     </script>
 </body>
 
