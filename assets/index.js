@@ -49,7 +49,7 @@
                 alert("Error: You haven't interacted with any current boxes. No box to duplicate.")
             }
         }
-
+        
         function clearCanvas() {
             if (confirm("Delete all boxes. Are you sure?")) {
                 $(".grid-item").remove();
@@ -58,17 +58,25 @@
             }
         }
 
+        function toggleLastBoxBorders() {
+            if (window.lastBox !== null) {
+                window.lastBox.toggleClass("no-borders");
+            } else {
+                alert("Error: You haven't interacted with any current boxes. No box to toggle borders with.")
+            }
+        }
+
         $(() => {
             // Always have resizable grid items that can have rich text controls
             setInterval(() => {
                 $(".grid-item:not(.ui-resizable)").resizable();
-
+                
                 let newGridsWithoutRichTextControls = document.querySelectorAll('.grid-item:not(.medium-editor-element)');
                 if(newGridsWithoutRichTextControls.length) {
                     editor = new MediumEditor(newGridsWithoutRichTextControls);
                 }
             }, 100);
-
+            
             // Warn user if on mobile that this is a Desktop app
             if(window.innerWidth < 816) {
                 alert("Advisory: You are on a small window. The purpose of this app is to create a boxed notes template that prints on a 11 x 8.5 inches paper. Then you would use it for work or school. Please visit on a bigger screen.")

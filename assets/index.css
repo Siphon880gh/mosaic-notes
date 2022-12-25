@@ -25,6 +25,10 @@
     opacity: .5;
 }
 
+.no-borders {
+    border: 0;
+}
+
 @media print {
     .page-controls {
         display: none;
