@@ -54,7 +54,7 @@
     <nav class="page-controls w-108 text-right">
 
         <i class="fa fa-solid fa-gear cursor-pointer" onclick="toggleClass('.page-controls__controls', 'invisible')"></i>
-        <ul class="page-controls__controls invisible bg-gray-200 rounded-md p-2 text-left">
+        <ul class="page-controls__controls invisible bg-gray-200 rounded-md p-2 text-left opacity-75">
             <li class="mb-2">
                 <hr/>
             </li>
@@ -92,9 +92,14 @@
         }
 
         function addBox(width = "100px", height = "100px") {
-            const $box = $(`<div class="grid-item rounded-md" style="width:${width}; height:${height}"></div>`);
+            const $box = $(`<div contenteditable="true" class="grid-item rounded-md" style="width:${width}; height:${height}">&nbsp;</div>`);
             $(".grid").append($box);
         }
+        $(() => {
+            setInterval(() => {
+                $(".grid-item:not(.ui-resizable)").resizable()
+            }, 100);
+        })
     </script>
 </body>
 
