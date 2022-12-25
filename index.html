@@ -73,7 +73,7 @@
                 <hr style="border-color:gray" />
             </li>
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="deleteLastBox()">
-                <i class="fa fa-times-circle"></i> Delete
+                <i class="fa fa-times-circle"></i> Delete box
             </li>
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="clearCanvas()">
                 <i class="fa fa-trash-alt"></i> Clear Canvas
@@ -132,6 +132,11 @@
             } else {
                 alert("Error: You never interacted with any boxes. No recent box to duplicate.")
             }
+        }
+
+        function clearCanvas() {
+            if (confirm("Delete all boxes. Are you sure?"))
+                $(".grid-item").remove();
         }
 
         $(() => {
