@@ -23,18 +23,23 @@ Is a front-end client made in jQuery, jQuery UI, and Tailwind CSS. Will work out
 
 ## Screenshots
 
-**With Advanced Rich Text Controls:**
+### With Advanced Rich Text Controls:
+
 ![Page](/assets/screenshots/rich-text-controls-advanced.png)
 
 
-**With Simple Rich Text Controls:**
+### With Simple Rich Text Controls:
+
 ![Page](/assets/screenshots/rich-text-controls.png)
 
-**Page:**
+### Page:
+
 ![Page](/assets/screenshots/page.png)
 
-**Page with Menu:**
+### Page with Menu:
+
 ![Page with menu](/assets/screenshots/page-with-menu.png)
 
-**Print Preview:**
+### Print Preview:
+
 ![Page with menu](/assets/screenshots/print-preview.png)
