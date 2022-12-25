@@ -59,9 +59,14 @@
         }
 
         $(() => {
-            // Always have resizable grid items
+            // Always have resizable grid items that can have rich text controls
             setInterval(() => {
-                $(".grid-item:not(.ui-resizable)").resizable()
+                $(".grid-item:not(.ui-resizable)").resizable();
+
+                let newGridsWithoutRichTextControls = document.querySelectorAll('.grid-item:not(.medium-editor-element)');
+                if(newGridsWithoutRichTextControls.length) {
+                    editor = new MediumEditor(newGridsWithoutRichTextControls);
+                }
             }, 100);
 
             // Warn user if on mobile that this is a Desktop app
