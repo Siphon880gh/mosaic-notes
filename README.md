@@ -5,3 +5,14 @@ Create boxes layered in a mosaic way for you to print then take notes. You can r
 
 ## Installation
 Is a front-end client made in jQuery, jQuery UI, and Tailwind CSS. Will work out of the box.
+
+# Screenshots
+
+**Page:**
+![Page](/assets/screenshots/page.png)
+
+**Page with Menu:**
+![Page with menu](/assets/screenshots/page-with-menu.png)
+
+**Print Peeview:**
+![Page with menu](/assets/screenshots/print-preview.png)
