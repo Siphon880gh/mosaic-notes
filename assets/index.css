@@ -29,6 +29,14 @@
     border: 0;
 }
 
+body {
+    width: 8.5in;
+    height: calc(11in - 10px);
+    border-radius: 20px;
+    border: 1px solid rgba(125, 125, 125, .5);
+    margin: 5px auto;
+}
+
 @media print {
     .page-controls {
         display: none;
@@ -36,12 +44,7 @@
     .ui-resizable-handle {
         display: none;
     }
-}
-
-body {
-    width: 8.5in;
-    height: calc(11in - 10px);
-    border-radius: 20px;
-    border: 1px solid rgba(125, 125, 125, .5);
-    margin: 5px auto;
+    body {
+        border: 0;
+    }
 }
