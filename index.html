@@ -46,6 +46,11 @@
             margin: 5px auto;
         }
     </style>
+    <style id="dynamic-style-block--gap">
+        .grid {
+            gap: 3px;
+        }
+    </style>
 </head>
 
 <body>
@@ -78,7 +83,7 @@
             </li>
             <li class="text-center">
                 <label for="gap"><i class="fa fa-wave-square"></i> Gap px:</label>
-                <input id="gap" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1" value="0" type="number">
+                <input id="gap" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1" min="0" value="3" type="number" onchange="changeGap('.grid', $(this).val()+'px')">
             </li>
         </ul>
     </nav>
@@ -87,8 +92,17 @@
     <script src="bower_components/jquery-ui/jquery-ui.js"></script>
 
     <script>
-        function toggleClass(querySelect, clssName) {
-            document.querySelector(querySelect).classList.toggle(clssName)
+        function toggleClass(querySelected, clssName) {
+            document.querySelector(querySelected).classList.toggle(clssName)
+        }
+
+        function changeGap(querySelected, gap) {
+            console.log("Changed gap")
+            const newGapStyle = `${querySelected} {
+                gap: ${gap}
+            }`
+            $("#dynamic-style-block--gap").remove();
+            $("body").append($(`<style id="dynamic-style-block--gap"></style>`).html(newGapStyle))
         }
 
         function addBox(width = "100px", height = "100px") {
