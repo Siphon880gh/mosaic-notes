@@ -122,13 +122,9 @@
         .ui-resizable-e,
         .ui-resizable-s,
         .ui-resizable-se {
-            display: auto
+            display: auto;
         }
     </style>
-    <script>
-        window.w = 0;
-        window.h = 0;
-    </script>
 </head>
 
 <body>
@@ -204,6 +200,14 @@
         $(() => {
             enableSort();
         })
+    </script>
+    <script>
+        document.body.addEventListener('keydown', function(e) {
+            console.log(e.shiftKey); // shift
+            console.log(e.ctrlKey); // ctrl
+            console.log(e.altKey); // alt
+            console.log(e.metaKey); // command/windows (meta) key
+        });
     </script>
 </body>
 
