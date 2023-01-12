@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mosaic Notes</title>
-    <link rel="stylesheet" href="bower_components/jquery-ui/themes/base/all.css"></link>
+    <link rel="stylesheet" href="https://api.jqueryui.com/jquery-wp-content/themes/jquery/css/base.css?v=4"></link>
     <link rel="stylesheet" href="bower_components/font-awesome/css/all.min.css"></link>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"></link>
     <link rel="stylesheet" href="bower_components/medium-editor/dist/css/medium-editor.min.css">
@@ -24,17 +24,88 @@
             padding: 10px;
         }
     </style>
+
+    <script>
+        function enableResize() {
+
+            var bmDisplay = "auto";
+
+            $("#box-mode").html(
+                `
+                    .ui-resizable-e,
+                    .ui-resizable-s,
+                    .ui-resizable-se {
+                        display: ${bmDisplay}
+                    }
+                `
+            )
+        } // enableResize
+
+        function disableResize() {
+
+            var bmDisplay = "none";
+
+            $("#box-mode").html(
+                `
+                    .ui-resizable-e,
+                    .ui-resizable-s,
+                    .ui-resizable-se {
+                        display: ${bmDisplay}
+                    }
+            `
+            )
+        } // disableResize
+
+        function enableSort() {
+            $(".grid").sortable({
+                cursor: "move",
+                handle: ".handle-sort",
+                helper: "clone",
+                forceHelperSize: true,
+                forcePlaceholderSize: true,
+                sort(event, ui) {
+                    const w = ui.helper.width(),
+                        h = ui.helper.height();
+
+                    ui.placeholder.css("visibility", "visible");
+                    ui.placeholder.css("height", h);
+                    ui.placeholder.css("width", w);
+                    ui.placeholder.css("background-color", "lightred");
+                }
+            });
+        }
+
+        function disableSort() {
+            $(".grid").sortable("destroy");
+            // $(".grid-item").sortable();
+        }
+    </script>
+    <style id="box-mode">
+        .ui-resizable-e,
+        .ui-resizable-s,
+        .ui-resizable-se {
+            display: auto
+        }
+    </style>
+    <script>
+        window.w = 0;
+        window.h = 0;
+    </script>
 </head>
 
 <body>
     <main class="grid">
         <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
+            <span class="handle-sort ui-icon ui-icon-arrow-4-diag"></span>
             <b>Mosaic Notes</b>
             <span>By Weng Fei Fung.</span>
             <p>Create boxes stacked in a mosaic way for you to customize with instructions, then print it out for traditional pencil and pen notetaking. You can resize these boxes, add rich text, even paste pictures into it. In the end, print for your note
                 taking purposes at school, work, etc. An example use is nursing brainsheets.</p>
         </div>
-        <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">This is a sample box. Create more mosaic boxes from <i class="fa fa-cog"></i>, resize this one, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Design your mosaic notes now!</div>
+        <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
+            <span class="handle-sort ui-icon ui-icon-arrow-4-diag"></span>
+            <p>This is a sample box. Create more mosaic boxes from <i class="fa fa-cog"></i>, resize this one, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Design your mosaic notes now!</p>
+        </div>
     </main>
     <nav class="page-controls w-108 text-right">
 
@@ -90,6 +161,12 @@
     <script src="assets/themes/medium-editor/flat.plain.icons.min.js"></script>
     <script src="assets/index.js"></script>
     <script src="assets/persist.js"></script>
+
+    <script>
+        $(() => {
+            enableSort();
+        })
+    </script>
 </body>
 
 </html>
