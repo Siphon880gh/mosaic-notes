@@ -37,6 +37,12 @@ body {
     margin: 5px auto;
 }
 
+.handle-rearrange {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+}
+
 @media print {
     .page-controls {
         display: none;
