@@ -49,18 +49,19 @@ body {
 .page-controls {
     top: 10px;
     right: 15px;
-    width: 155px;
+    width: 170px;
     height: 100px;
     position: absolute;
 }
 
 .page-controls>button.fa-plus {
     font-size: 125%;
-    margin-right: 1ch;
+    margin-right: 1.5ch;
 }
 
 .page-controls>button.fa-ellipsis-v {
     font-size: 150%;
+    margin-right: 1.5ch;
 }
 
 .page-controls li.active {
@@ -78,6 +79,32 @@ body {
     width: 25px;
     height: 25px;
     vertical-align: middle;
+}
+
+#indicator-box-mode {
+    display: inline;
+}
+
+#indicator-box-mode>.icon {
+    display: none;
+}
+
+#indicator-box-mode[data-cycled="0"] .icon:nth-child(1) {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-bottom: 3px;
+}
+
+#indicator-box-mode[data-cycled="1"] .icon:nth-child(2) {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-bottom: 3px;
+}
+
+#indicator-box-mode[data-cycled="2"] .icon:nth-child(3) {
+    display: inline-block;
+    vertical-align: bottom;
+    margin-bottom: 3px;
 }
 
 

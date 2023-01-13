@@ -70,7 +70,7 @@ $(()=>{
             changeBoxMode("plain")
     });
     document.body.addEventListener('keyup', function(e) {
-        changeBoxMode("plain")
+        reassertBoxModeVisual();
     });
 });
 
@@ -134,7 +134,63 @@ function toggleAllClass(querySelected, clssName) {
 
 /**
  * 
+ * function changeBoxModeVisual
+ * Core implementation. User clicks toggle through different layout states: resizable|rearrange|plain
+ * @param {string} mode resizable|rearrange|plain  
+ * 
+ */
+function changeBoxModeVisual() {
+    let $indicator = $("#indicator-box-mode")
+    let cycled = $indicator.attr("data-cycled");
+    cycled = parseInt(cycled);
+    cycled += 1;
+    cycled = cycled % 3;
+
+    $indicator.attr("data-cycled", cycled);
+
+    switch(cycled) {
+        case 0:
+            changeBoxMode("plain");
+            break;
+        case 1:
+            changeBoxMode("resizable");
+            break;
+        case 2:
+            changeBoxMode("rearrange");
+            break;
+    }
+}
+
+/**
+ * 
+ * function reassertBoxModeVisual
+ * Low level implementation. Refer to visual indicator to return to the desired box mode.
+ * @param {string} mode resizable|rearrange|plain  
+ * 
+ */
+function reassertBoxModeVisual() {
+    let $indicator = $("#indicator-box-mode")
+    let cycled = $indicator.attr("data-cycled");
+    cycled = parseInt(cycled);
+    
+    switch(cycled) {
+        case 0:
+            changeBoxMode("plain");
+            break;
+        case 1:
+            changeBoxMode("resizable");
+            break;
+        case 2:
+            changeBoxMode("rearrange");
+            break;
+    }
+}
+
+
+/**
+ * 
  * function changeBoxMode
+ * Low level implementation
  * @param {string} mode resizable|rearrange|plain  
  * 
  */
@@ -144,13 +200,13 @@ function changeBoxMode(mode) {
         case "resizable":
             $("#box-mode").html(
                 `
-                    .handle-rearrange {
+                    .grid-item .handle-rearrange {
                         display: none !important;
                     }
 
-                    .ui-resizable-e,
-                    .ui-resizable-s,
-                    .ui-resizable-se {
+                    .grid-item .ui-resizable-e,
+                    .grid-item .ui-resizable-s,
+                    .grid-item .ui-resizable-se {
                         display: auto !important;
                     }
                 `
@@ -159,13 +215,13 @@ function changeBoxMode(mode) {
         case "rearrange":
             $("#box-mode").html(
                 `
-                    .handle-rearrange {
+                    .grid-item .handle-rearrange {
                         display: auto !important;
                     }
 
-                    .ui-resizable-e,
-                    .ui-resizable-s,
-                    .ui-resizable-se {
+                    .grid-item .ui-resizable-e,
+                    .grid-item .ui-resizable-s,
+                    .grid-item .ui-resizable-se {
                         display: none !important;
                     }
                 `
@@ -174,13 +230,13 @@ function changeBoxMode(mode) {
         case "plain":
             $("#box-mode").html(
                 `
-                    .handle-rearrange {
+                    .grid-item .handle-rearrange {
                         display: none !important;
                     }
 
-                    .ui-resizable-e,
-                    .ui-resizable-s,
-                    .ui-resizable-se {
+                    .grid-item .ui-resizable-e,
+                    .grid-item .ui-resizable-s,
+                    .grid-item .ui-resizable-se {
                         display: none !important;
                     }
                 `

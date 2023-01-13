@@ -28,23 +28,23 @@
     </style>
 
     <style id="box-mode">
-        .handle-rearrange {
+        .grid-item .handle-rearrange {
             display: none !important;
         }
         
-        .ui-resizable-e,
-        .ui-resizable-s,
-        .ui-resizable-se {
+        .grid-item .ui-resizable-e,
+        .grid-item .ui-resizable-s,
+        .grid-item .ui-resizable-se {
             display: none !important;
         }
     </style>
 </head>
 
 <body>
-    <nav class="page-controls w-108 text-right">
+    <nav class="page-controls text-right">
 
         <button class="fa fa-solid fa-plus cursor-pointer border-circle-gray hover:text-red-600 hover:border-red-600" onclick="addBox()"></button>
-        <button class="fa fa-solid fa-ellipsis-v cursor-pointer hover:text-red-600" onclick="toggleAllClass( '.page-controls__controls', 'invisible')"></button>
+        <button class="fa fa-solid fa-ellipsis-v cursor-pointer hover:text-red-600" onclick="toggleAllClass('.page-controls__controls', 'invisible')"></button>
         <ul class="page-controls__controls invisible bg-gray-200 rounded-md p-2 text-left opacity-75">
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="precheckCanDuplicateBox()">
                 <i class="fa fa-clone"></i> Duplicate
@@ -87,41 +87,49 @@
             <li class="mb-2">
                 <hr/>
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleAllClass( 'i:not(.fa)', 'hidden'); $(this).toggleClass( 'active');">
-                <i class="fa fa-print"></i> Collapse italics
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="changeBoxModeVisual()">
+                <i class="fa fa-print"></i> Readjust Layout:
+                <section id="indicator-box-mode" class="cursor-pointer hover:text-red-600 inline" data-cycled="0">
+                    <span class="icon ui-icon ui-icon-check"></span>
+                    <span class="icon ui-icon ui-icon-gripsmall-diagonal-se"></span>
+                    <span class="icon ui-icon ui-icon-arrow-4-diag"></span>
+                </section>
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleAllClass( 'i:not(.fa)', 'invisible'); $(this).toggleClass( 'active');">
-                <i class="fa fa-print"></i> Invisible italics
+            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="toggleAllClass( 'i:not(.fa)', 'hidden'); $(this).toggleClass( 'active'); ">
+                <i class="fa fa-print "></i> Collapse italics
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="window.print()">
-                <i class="fa fa-print"></i> Print
+            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="toggleAllClass( 'i:not(.fa)', 'invisible'); $(this).toggleClass( 'active'); ">
+                <i class="fa fa-print "></i> Invisible italics
+            </li>
+            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="window.print() ">
+                <i class="fa fa-print "></i> Print
             </li>
         </ul>
     </nav>
     <!-- Box settings -->
 
-    <main class="grid">
-        <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
+    <main class="grid ">
+        <div class="grid-item rounded-sm unreset " contenteditable="true " style="width:33% ">
             <b>Mosaic Notes</b>
             <span>By Weng Fei Fung.</span>
             <p>Create boxes stacked in a mosaic way for you to customize with instructions, then print it out for traditional pencil and pen notetaking. You can resize these boxes, add rich text, even paste pictures into it. In the end, print for your note
                 taking purposes at school, work, etc. An example use is nursing brainsheets.</p>
-            <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
+            <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag "></span>
         </div>
-        <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
-            <p>This is a sample box. Create more mosaic boxes from <i class="fa fa-ellipsis-v"></i>, resize this one, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Design your mosaic notes
+        <div class="grid-item rounded-sm unreset " contenteditable="true " style="width:33% ">
+            <p>This is a sample box. Create more mosaic boxes from <i class="fa fa-ellipsis-v "></i>, resize this one, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Design your mosaic notes
                 now!
             </p>
-            <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
+            <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag "></span>
         </div>
     </main>
 
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
-    <script src="bower_components/medium-editor/dist/js/medium-editor.min.js"></script>
-    <script src="assets/themes/medium-editor/flat.plain.icons.min.js"></script>
-    <script src="assets/index.js"></script>
-    <script src="assets/persist.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js "></script>
+    <script src="bower_components/jquery-ui/jquery-ui.min.js "></script>
+    <script src="bower_components/medium-editor/dist/js/medium-editor.min.js "></script>
+    <script src="assets/themes/medium-editor/flat.plain.icons.min.js "></script>
+    <script src="assets/index.js "></script>
+    <script src="assets/persist.js "></script>
 
 </body>
 
