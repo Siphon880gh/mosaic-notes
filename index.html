@@ -39,13 +39,13 @@
                     $("#box-mode").html(
                         `
                             .handle-rearrange {
-                                display: none;
+                                display: none !important;
                             }
 
                             .ui-resizable-e,
                             .ui-resizable-s,
                             .ui-resizable-se {
-                                display: auto;
+                                display: auto !important;
                             }
                         `
                     )
@@ -54,13 +54,13 @@
                     $("#box-mode").html(
                         `
                             .handle-rearrange {
-                                display: auto;
+                                display: auto !important;
                             }
 
                             .ui-resizable-e,
                             .ui-resizable-s,
                             .ui-resizable-se {
-                                display: none;
+                                display: none !important;
                             }
                         `
                     )
@@ -69,13 +69,13 @@
                     $("#box-mode").html(
                         `
                             .handle-rearrange {
-                                display: none;
+                                display: none !important;
                             }
 
                             .ui-resizable-e,
                             .ui-resizable-s,
                             .ui-resizable-se {
-                                display: none;
+                                display: none !important;
                             }
                         `
                     )
@@ -88,9 +88,13 @@
 
         function enableSort() {
             $(".grid").sortable({
+                items: "> .grid-item",
                 cursor: "move",
                 handle: ".handle-rearrange",
                 helper: "clone",
+                revert: true,
+                scroll: true,
+                // tolerance: "pointer",
                 forceHelperSize: true,
                 forcePlaceholderSize: true,
                 sort(event, ui) {
@@ -112,13 +116,13 @@
     </script>
     <style id="box-mode">
         .handle-rearrange {
-            display: none;
+            display: none !important;
         }
         
         .ui-resizable-e,
         .ui-resizable-s,
         .ui-resizable-se {
-            display: auto;
+            display: none !important;
         }
     </style>
 </head>
@@ -126,15 +130,15 @@
 <body>
     <main class="grid">
         <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
-            <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
             <b>Mosaic Notes</b>
             <span>By Weng Fei Fung.</span>
             <p>Create boxes stacked in a mosaic way for you to customize with instructions, then print it out for traditional pencil and pen notetaking. You can resize these boxes, add rich text, even paste pictures into it. In the end, print for your note
                 taking purposes at school, work, etc. An example use is nursing brainsheets.</p>
+            <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
         </div>
         <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
-            <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
             <p>This is a sample box. Create more mosaic boxes from <i class="fa fa-cog"></i>, resize this one, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Design your mosaic notes now!</p>
+            <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
         </div>
     </main>
     <nav class="page-controls w-108 text-right">
@@ -205,8 +209,10 @@
             // console.log(e.metaKey); // command/windows (meta) key
             if ((e.metaKey || e.ctrlKey) && e.shiftKey)
                 changeBoxMode("rearrange")
-            else if (e.metaKey || e.ctrlKey)
+            else if ((e.metaKey || e.ctrlKey) && !e.shiftKey)
                 changeBoxMode("resizable")
+            else if (!e.metaKey && !e.ctrlKey && !e.shiftKey)
+                changeBoxMode("plain")
         });
         document.body.addEventListener('keyup', function(e) {
             changeBoxMode("plain")
