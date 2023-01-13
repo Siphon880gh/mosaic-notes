@@ -33,7 +33,7 @@ body {
 }
 
 
-/** Components **/
+/** Settings Components **/
 
 .grid {
     display: flex;
@@ -67,13 +67,6 @@ body {
     opacity: .5;
 }
 
-.handle-rearrange {
-    position: absolute;
-    bottom: 1px;
-    right: 1px;
-    cursor: move;
-}
-
 .page-controls__controls hr {
     border: 0;
     border-top: 1px solid rgba(125, 125, 125, .5);
@@ -81,7 +74,18 @@ body {
     padding: 0;
 }
 
-.on-hover-red:hover {
-    color: red;
-    border-color: red !important;
+.page-controls__controls [type="color"] {
+    width: 25px;
+    height: 25px;
+    vertical-align: middle;
+}
+
+
+/** Box Components **/
+
+.handle-rearrange {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    cursor: move;
 }

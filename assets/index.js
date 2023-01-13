@@ -230,3 +230,29 @@
             }
 
         } // changeBoxMode
+
+
+        function initSort() {
+            $(".grid").sortable({
+                items: "> .grid-item",
+                cursor: "move",
+                handle: ".handle-rearrange",
+                helper: "clone",
+                revert: true,
+                scroll: true,
+                // tolerance:"pointer",
+                forceHelperSize: true,
+                forcePlaceholderSize: true,
+                sort(event, ui) {
+                    const w = ui.helper.width(),
+                        h = ui.helper.height();
+
+                    ui.placeholder.css("visibility", "visible");
+                    ui.placeholder.css("height", h);
+                    ui.placeholder.css("width", w);
+                    ui.placeholder.css("background-color", "lightred");
+                }
+            });
+        }
+
+        initSort();

@@ -48,7 +48,7 @@
                 <i class="fa fa-clone"></i> Duplicate
             </li>
             <li class="mb-2">
-                <hr style="border-color:gray" />
+                <hr/>
             </li>
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="deleteLastBox()">
                 <i class="fa fa-times-circle"></i> Delete box
@@ -57,20 +57,20 @@
                 <i class="fa fa-trash-alt"></i> Clear Canvas
             </li>
             <li class="mb-2">
-                <hr style="border-color:gray" />
+                <hr/>
             </li>
             <li class="text-center">
                 <label for="gap"><i class="fa fa-wave-square"></i> Gap global:</label><br/>
                 <input id="gap" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="3" type="number" onchange="changeGap( '.grid', $(this).val()+ 'px')">
-                <span style="padding-left:1ch;">px</span>
+                <label for="grap" class="pl-1">px</label>
             </li>
             <li class="text-center">
                 <label for="padding"><i class="fa fa-compress-arrows-alt"></i> Padding global:</label><br/>
                 <input id="padding" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="10" type="number" onchange="changePadding( '.grid-item', $(this).val()+ 'px')">
-                <span style="padding-left:1ch;">px</span>
+                <label for="padding" class="pl-1">px</label>
             </li>
             <li class="mb-2">
-                <hr style="border-color:gray" />
+                <hr/>
             </li>
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleLastBoxBorders();">
                 <span class="fa-regular fa-square"></span> Toggle Border
@@ -80,10 +80,10 @@
             </li>
             <li class="mb-2 hover:text-red-900 cursor-pointer">
                 <span class="fa-regular fa-square"></span> Border Color
-                <input type="color" id="change-border-color" onchange="changeBorderColor(event);" style="width:25px; height:25px; vertical-align:middle;">
+                <input type="color" id="change-border-color" onchange="changeBorderColor(event);">
             </li>
             <li class="mb-2">
-                <hr style="border-color:gray" />
+                <hr/>
             </li>
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleClass( 'i:not(.fa)', 'hidden'); $(this).toggleClass( 'active');">
                 <i class="fa fa-print"></i> Collapse italics
