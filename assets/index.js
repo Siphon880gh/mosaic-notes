@@ -59,7 +59,10 @@ $(()=>{
         // console.log(e.ctrlKey); // ctrl
         // console.log(e.altKey); // alt
         // console.log(e.metaKey); // command/windows (meta) key
-        if ((e.metaKey || e.ctrlKey) && e.shiftKey)
+        // console.log(e.key); // any letter, number, etc
+        if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p")
+            commandPrompt();
+        else if ((e.metaKey || e.ctrlKey) && e.shiftKey)
             changeBoxMode("rearrange")
         else if ((e.metaKey || e.ctrlKey) && !e.shiftKey)
             changeBoxMode("resizable")
@@ -301,8 +304,8 @@ function resetCanvas(bypassed) {
         $(".grid").html("");
         let html1 = $("#template-starter-box-1").html()
         let html2 = $("#template-starter-box-2").html()
-        addBox("33%", "293px", html1)
-        addBox("33%", "293px", html2)
+        addBox("33%", "337px", html1)
+        addBox("33%", "337px", html2)
         window.lastBox = getLastItemIfExists();
         toggleAllClass('.page-controls__controls', 'invisible'); // Menu can close
     }
