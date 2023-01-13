@@ -63,12 +63,12 @@
             </li>
             <li class="text-center">
                 <label for="gap"><i class="fa fa-wave-square"></i> Gap global:</label><br/>
-                <input id="gap" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="3" type="number" onchange="changeGapGlobal( '.grid', $(this).val()+ 'px')">
+                <input id="gap" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="3" type="number" onchange="changeGapGlobal('.grid', $(this).val()+ 'px')">
                 <label for="grap" class="pl-1">px</label>
             </li>
             <li class="text-center">
                 <label for="padding"><i class="fa fa-compress-arrows-alt"></i> Padding global:</label><br/>
-                <input id="padding" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="10" type="number" onchange="changePaddingGlobal( '.grid-item', $(this).val()+ 'px')">
+                <input id="padding" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="10" type="number" onchange="changePaddingGlobal('.grid-item', $(this).val()+ 'px')">
                 <label for="padding" class="pl-1">px</label>
             </li>
             <li class="mb-2">
@@ -95,10 +95,10 @@
                     <span class="icon ui-icon ui-icon-arrow-4-diag"></span>
                 </section>
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="toggleAllClass( 'i:not(.fa)', 'hidden'); $(this).toggleClass( 'active'); ">
+            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="toggleAllClass('i:not(.fa)', 'hidden'); $(this).toggleClass('active'); ">
                 <i class="fa fa-print "></i> Collapse italics
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="toggleAllClass( 'i:not(.fa)', 'invisible'); $(this).toggleClass( 'active'); ">
+            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="toggleAllClass('i:not(.fa)', 'invisible'); $(this).toggleClass('active'); ">
                 <i class="fa fa-print "></i> Invisible italics
             </li>
             <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="window.print() ">
