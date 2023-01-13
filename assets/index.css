@@ -1,7 +1,7 @@
 /** Styling classes */
 
-.no-borders {
-    border: 0;
+.border-0 {
+    border: 0 !important;
 }
 
 .border-circle-gray {

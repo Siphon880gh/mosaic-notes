@@ -55,6 +55,7 @@
             html = `<span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>` + html;
             const $box = $(`<div class="grid-item rounded-sm unreset" contenteditable="true" style="width:${width}; height:${height}">${html}</div>`);
             $(".grid").append($box);
+            window.lastBox = $box;
         }
 
         function deleteLastBox() {
@@ -76,10 +77,6 @@
         }
         
         function clearCanvas() {
-            if (window.lastBox == null) {
-                window.lastBox = getLastItemIfExists();
-            }
-
             if (confirm("Delete all boxes. Are you sure?")) {
                 $(".grid-item").remove();
                 window.lastBox = null;
@@ -126,7 +123,7 @@
             }
 
             if (window.lastBox !== null) {
-                window.lastBox.toggleClass("no-borders");
+                window.lastBox.toggleClass("border-0");
             } else {
                 alert("Error: You haven't interacted with any current boxes. No box to toggle borders with.")
             }
