@@ -180,8 +180,9 @@
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="changeBorderLength();">
                 <i class="fa-regular fa-square"></i> Border Length
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="changeBorderColor();">
+            <li class="mb-2 hover:text-red-900 cursor-pointer">
                 <i class="fa-regular fa-square"></i> Border Color
+                <input type="color" id="change-border-color" onchange="changeBorderColor(event);" style="width:25px; height:25px; vertical-align:middle;">
             </li>
             <li class="mb-2">
                 <hr style="border-color:gray" />

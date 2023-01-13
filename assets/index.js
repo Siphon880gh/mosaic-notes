@@ -105,13 +105,16 @@
             }
         } // changeBorderLength
 
-        function changeBorderColor() {
+        function changeBorderColor(event) {
+            event.preventDefault();
+            event.stopPropagation();
             if (window.lastBox == null) {
                 window.lastBox = getLastItemIfExists();
             }
 
             if (window.lastBox !== null) {
-                window.lastBox.toggleClass("no-borders");
+                const color = event.target.value;
+                window.lastBox.css("border-color", color);
             } else {
                 alert("Error: You haven't interacted with any current boxes. No box to toggle borders with.")
             }
