@@ -32,10 +32,6 @@
          * @param {string} mode resizable|rearrange|plain  
          * 
          */
-
-        // changeBoxMode("resizable");
-        // changeBoxMode("rearrange");
-        // changeBoxMode("plain");
         function changeBoxMode(mode) {
 
             switch (mode) {
@@ -203,10 +199,17 @@
     </script>
     <script>
         document.body.addEventListener('keydown', function(e) {
-            console.log(e.shiftKey); // shift
-            console.log(e.ctrlKey); // ctrl
-            console.log(e.altKey); // alt
-            console.log(e.metaKey); // command/windows (meta) key
+            // console.log(e.shiftKey); // shift
+            // console.log(e.ctrlKey); // ctrl
+            // console.log(e.altKey); // alt
+            // console.log(e.metaKey); // command/windows (meta) key
+            if ((e.metaKey || e.ctrlKey) && e.shiftKey)
+                changeBoxMode("rearrange")
+            else if (e.metaKey || e.ctrlKey)
+                changeBoxMode("resizable")
+        });
+        document.body.addEventListener('keyup', function(e) {
+            changeBoxMode("plain")
         });
     </script>
 </body>
