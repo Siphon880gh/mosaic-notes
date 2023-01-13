@@ -12,7 +12,7 @@ function saveBodyHTML(localStorageKey) {
     // - Remove classes flagging it was initialized
     let html = document.body.innerHTML.replaceAll("ui-resizable", "").replaceAll("medium-editor-element", "")
     let $html = $(html);
-    // - Remove resize handles or it would duplicate when you reload
+    // - Remove resize handles so the boxes can be initiated to be resizable and the handles added back
     $html.find(".ui-resizable-handle").remove();
     html = $html.html();
     console.log(html)

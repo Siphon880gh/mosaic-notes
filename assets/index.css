@@ -116,3 +116,9 @@ body {
     right: 1px;
     cursor: move;
 }
+
+.ui-resizable-se {
+    bottom: -3px !important;
+    right: -3px !important;
+    transform: scale(140%);
+}

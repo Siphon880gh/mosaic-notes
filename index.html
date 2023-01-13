@@ -58,6 +58,9 @@
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="clearCanvas()">
                 <i class="fa fa-trash-alt"></i> Clear Canvas
             </li>
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="resetCanvas()">
+                <i class="fa fa-recycle"></i> Reset Canvas
+            </li>
             <li class="mb-2">
                 <hr/>
             </li>
@@ -95,41 +98,62 @@
                     <span class="icon ui-icon ui-icon-arrow-4-diag"></span>
                 </section>
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="toggleAllClass('i:not(.fa)', 'hidden'); $(this).toggleClass('active'); ">
-                <i class="fa fa-print "></i> Collapse italics
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleAllClass('i:not(.fa)', 'hidden'); $(this).toggleClass('active');">
+                <i class="fa fa-print"></i> Collapse italics
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="toggleAllClass('i:not(.fa)', 'invisible'); $(this).toggleClass('active'); ">
-                <i class="fa fa-print "></i> Invisible italics
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleAllClass('i:not(.fa)', 'invisible'); $(this).toggleClass('active');">
+                <i class="fa fa-print"></i> Invisible italics
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="window.print() ">
-                <i class="fa fa-print "></i> Print
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="window.print()">
+                <i class="fa fa-print"></i> Print
             </li>
         </ul>
     </nav>
     <!-- Box settings -->
 
-    <main class="grid ">
-        <div class="grid-item rounded-sm unreset " contenteditable="true " style="width:33% ">
+    <main class="grid">
+        <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
             <b>Mosaic Notes</b>
             <span>By Weng Fei Fung.</span>
-            <p>Create boxes stacked in a mosaic way for you to customize with instructions, then print it out for traditional pencil and pen notetaking. You can resize these boxes, add rich text, even paste pictures into it. In the end, print for your note
-                taking purposes at school, work, etc. An example use is nursing brainsheets.</p>
-            <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag "></span>
+            <p>Create boxes stacked in a mosaic way for you to customize with instructions, then print it out for traditional pencil and pen notetaking. You can resize these boxes, add rich text, even paste pictures into it. In the end, print for your note-taking
+                purposes at school, work, etc. An example use is nursing brainsheets.</p>
+            <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
         </div>
-        <div class="grid-item rounded-sm unreset " contenteditable="true " style="width:33% ">
-            <p>This is a sample box. Create more mosaic boxes from <i class="fa fa-ellipsis-v "></i>, resize this one, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Design your mosaic notes
+        <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
+            <p>This is a sample box. Create more mosaic boxes from <i class="fa fa-ellipsis-v"></i>, resize this one, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Design your mosaic notes
                 now!
             </p>
-            <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag "></span>
+            <br>
+            <p>
+                Dragging lower right corner<br> - Resize: Hold CMD/CTRL<br> - Rearrange: Hold CMD/CTRL + Shift
+            </p>
+            <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
         </div>
     </main>
 
-    <script src="bower_components/jquery/dist/jquery.min.js "></script>
-    <script src="bower_components/jquery-ui/jquery-ui.min.js "></script>
-    <script src="bower_components/medium-editor/dist/js/medium-editor.min.js "></script>
-    <script src="assets/themes/medium-editor/flat.plain.icons.min.js "></script>
-    <script src="assets/index.js "></script>
-    <script src="assets/persist.js "></script>
+    <aside id="template-starter-box-1" aria-hidden="true" class="hidden">
+        <b>Mosaic Notes</b>
+        <span>By Weng Fei Fung.</span>
+        <p>Create boxes stacked in a mosaic way for you to customize with instructions, then print it out for traditional pencil and pen notetaking. You can resize these boxes, add rich text, even paste pictures into it. In the end, print for your note-taking
+            purposes at school, work, etc. An example use is nursing brainsheets.</p>
+        <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
+    </aside>
+    <aside id="template-starter-box-2" aria-hidden="true" class="hidden">
+        <p>This is a sample box. Create more mosaic boxes from <i class="fa fa-ellipsis-v"></i>, resize this one, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Design your mosaic notes now!
+        </p>
+        <br>
+        <p>
+            Dragging lower right corner<br> - Resize: Hold CMD/CTRL<br> - Rearrange: Hold CMD/CTRL + Shift
+        </p>
+        <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
+    </aside>
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="bower_components/medium-editor/dist/js/medium-editor.min.js"></script>
+    <script src="assets/themes/medium-editor/flat.plain.icons.min.js"></script>
+    <script src="assets/index.js"></script>
+    <script src="assets/persist.js"></script>
 
 </body>
 

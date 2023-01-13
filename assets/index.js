@@ -51,10 +51,7 @@ $(()=>{
     initSort();
 
     // Future proof persisting boxes. Would find the last box, however can add more implementations as necessary.
-    let hasGridItems = $(".grid-item").length>0;
-    if(hasGridItems) {
-        window.lastBox = $(".grid-item").last()
-    }
+    window.lastBox = getLastItemIfExists();
 
     // Init modifier keys for changing resizing/rearranging/plain boxes
     document.body.addEventListener('keydown', function(e) {
@@ -114,9 +111,9 @@ $(()=>{
  */
 
 function getLastItemIfExists() {
-    let hasGridItems = $(".grid-item").length>0;
+    let hasGridItems = $(".grid").find(".grid-item").length>0;
     if(hasGridItems) {
-        return window.lastBox = $(".grid-item").last()
+        return $(".grid").find(".grid-item").last()
     } else {
         return null;
     }
@@ -207,7 +204,7 @@ function changeBoxMode(mode) {
                     .grid-item .ui-resizable-e,
                     .grid-item .ui-resizable-s,
                     .grid-item .ui-resizable-se {
-                        display: auto !important;
+                        display: initial !important;
                     }
                 `
             )
@@ -216,7 +213,7 @@ function changeBoxMode(mode) {
             $("#box-mode").html(
                 `
                     .grid-item .handle-rearrange {
-                        display: auto !important;
+                        display: initial !important;
                     }
 
                     .grid-item .ui-resizable-e,
@@ -293,12 +290,23 @@ function deleteLastBox() {
 
 function clearCanvas() {
     if (confirm("Delete all boxes. Are you sure?")) {
-        $(".grid-item").remove();
+        $(".grid").html("");
         window.lastBox = null;
         toggleAllClass('.page-controls__controls', 'invisible'); // Menu can close
     }
 }
 
+function resetCanvas(bypassed) {
+    if (bypassed || confirm("Reset canvas. Are you sure?")) {
+        $(".grid").html("");
+        let html1 = $("#template-starter-box-1").html()
+        let html2 = $("#template-starter-box-2").html()
+        addBox("33%", "293px", html1)
+        addBox("33%", "293px", html2)
+        window.lastBox = getLastItemIfExists();
+        toggleAllClass('.page-controls__controls', 'invisible'); // Menu can close
+    }
+}
 
 function changeGapGlobal(querySelected, gap) {
     const newGapStyle = `${querySelected} {
