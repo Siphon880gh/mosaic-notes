@@ -1,5 +1,11 @@
 
         window.lastBox = null;
+        $(()=>{
+            let hasGridItems = $(".grid-item").length>0;
+            if(hasGridItems) {
+                window.lastBox = $(".grid-item").last()
+            }
+        })
 
         function toggleClass(querySelected, clssName) {
             document.querySelectorAll(querySelected).forEach(el=>el.classList.toggle(clssName))
@@ -22,7 +28,21 @@
             $("#dynamic-style-block--gap").remove();
             $("body").append($(`<style id="dynamic-style-block--gap"></style>`).html(newGapStyle))
         }
+
+        function getLastItemIfExists() {
+            let hasGridItems = $(".grid-item").length>0;
+            if(hasGridItems) {
+                return window.lastBox = $(".grid-item").last()
+            } else {
+                return null;
+            }
+        } // getLastItemIfExists
+
         function precheckCanDuplicateBox() {
+            if (window.lastBox == null) {
+                window.lastBox = getLastItemIfExists();
+            }
+            
             if (window.lastBox !== null) {
                 const options = [window.lastBox.width() + "px", window.lastBox.height() + "px", window.lastBox.html()]
                 addBox(...options)
@@ -38,6 +58,10 @@
         }
 
         function deleteLastBox() {
+            if (window.lastBox == null) {
+                window.lastBox = getLastItemIfExists();
+            }
+
             if (window.lastBox !== null) {
                 let remindMeByText = `"${window.lastBox.text().substr(0, 50).trim()+"..."}"`;
                 let confirmed = confirm(`Delete the box?\n\n${remindMeByText}`);
@@ -52,6 +76,10 @@
         }
         
         function clearCanvas() {
+            if (window.lastBox == null) {
+                window.lastBox = getLastItemIfExists();
+            }
+
             if (confirm("Delete all boxes. Are you sure?")) {
                 $(".grid-item").remove();
                 window.lastBox = null;
@@ -59,13 +87,47 @@
             }
         }
 
-        function toggleLastBoxBorders() {
+        function changeBorderLength() {
+            if (window.lastBox == null) {
+                window.lastBox = getLastItemIfExists();
+            }
+
+            if (window.lastBox !== null) {
+                var borderLength = window.lastBox.css("border-width")?window.lastBox.css("border-width"):"1px";
+                var newLength = prompt("", borderLength);
+                if(!newLength) return;
+                else if(!newLength.includes("px")) {
+                    newLength += "px";
+                }
+                window.lastBox.css("border-width", newLength);
+            } else {
+                alert("Error: You haven't interacted with any current boxes. No box to toggle borders with.")
+            }
+        } // changeBorderLength
+
+        function changeBorderColor() {
+            if (window.lastBox == null) {
+                window.lastBox = getLastItemIfExists();
+            }
+
             if (window.lastBox !== null) {
                 window.lastBox.toggleClass("no-borders");
             } else {
                 alert("Error: You haven't interacted with any current boxes. No box to toggle borders with.")
             }
-        }
+        } // changeBorderColor
+        
+        function toggleLastBoxBorders() {
+            if (window.lastBox == null) {
+                window.lastBox = getLastItemIfExists();
+            }
+
+            if (window.lastBox !== null) {
+                window.lastBox.toggleClass("no-borders");
+            } else {
+                alert("Error: You haven't interacted with any current boxes. No box to toggle borders with.")
+            }
+        } // toggleLastBoxBorders
 
         $(() => {
             // Always have resizable grid items that can have rich text controls
