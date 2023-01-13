@@ -94,7 +94,7 @@
                 helper: "clone",
                 revert: true,
                 scroll: true,
-                // tolerance: "pointer",
+                // tolerance:"pointer",
                 forceHelperSize: true,
                 forcePlaceholderSize: true,
                 sort(event, ui) {
@@ -145,70 +145,70 @@
 
         <i class="fa fa-solid fa-plus cursor-pointer on-hover-red" onclick="addBox()" style="font-size: 140%; margin-right:1ch; border-radius:33%; border:2px solid gray;"></i>
 
-        <i class="fa fa-solid fa-gear cursor-pointer on-hover-red" onclick="toggleClass( '.page-controls__controls', 'invisible') "></i>
+        <i class="fa fa-solid fa-gear cursor-pointer on-hover-red" onclick="toggleClass( '.page-controls__controls', 'invisible')"></i>
         <ul class="page-controls__controls invisible bg-gray-200 rounded-md p-2 text-left opacity-75">
-            <!-- <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="addBox() ">
-                <i class="fa fa-vector-square "></i> New
+            <!-- <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="addBox()">
+                <i class="fa fa-vector-square"></i> New
             </li> -->
-            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="precheckCanDuplicateBox() ">
-                <i class="fa fa-clone "></i> Duplicate
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="precheckCanDuplicateBox()">
+                <i class="fa fa-clone"></i> Duplicate
             </li>
-            <li class="mb-2 ">
-                <hr style="border-color:gray " />
+            <li class="mb-2">
+                <hr style="border-color:gray" />
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="deleteLastBox() ">
-                <i class="fa fa-times-circle "></i> Delete box
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="deleteLastBox()">
+                <i class="fa fa-times-circle"></i> Delete box
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="clearCanvas() ">
-                <i class="fa fa-trash-alt "></i> Clear Canvas
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="clearCanvas()">
+                <i class="fa fa-trash-alt"></i> Clear Canvas
             </li>
-            <li class="mb-2 ">
-                <hr style="border-color:gray " />
+            <li class="mb-2">
+                <hr style="border-color:gray" />
             </li>
-            <li class="text-center ">
-                <label for="gap "><i class="fa fa-wave-square "></i> Gap global:</label><br/>
-                <input id="gap " class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2 " min="0 " value="3 " type="number " onchange="changeGap( '.grid', $(this).val()+ 'px') ">
-                <span style="padding-left:1ch; ">px</span>
+            <li class="text-center">
+                <label for="gap"><i class="fa fa-wave-square"></i> Gap global:</label><br/>
+                <input id="gap" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="3" type="number" onchange="changeGap( '.grid', $(this).val()+ 'px')">
+                <span style="padding-left:1ch;">px</span>
             </li>
-            <li class="text-center ">
-                <label for="padding "><i class="fa fa-compress-arrows-alt "></i> Padding global:</label><br/>
-                <input id="padding " class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2 " min="0 " value="10 " type="number " onchange="changePadding( '.grid-item', $(this).val()+ 'px') ">
-                <span style="padding-left:1ch; ">px</span>
+            <li class="text-center">
+                <label for="padding"><i class="fa fa-compress-arrows-alt"></i> Padding global:</label><br/>
+                <input id="padding" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="10" type="number" onchange="changePadding( '.grid-item', $(this).val()+ 'px')">
+                <span style="padding-left:1ch;">px</span>
             </li>
-            <li class="mb-2 ">
-                <hr style="border-color:gray " />
+            <li class="mb-2">
+                <hr style="border-color:gray" />
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="toggleLastBoxBorders(); ">
-                <span class="fa-regular fa-square "></span> Toggle Border
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleLastBoxBorders();">
+                <span class="fa-regular fa-square"></span> Toggle Border
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="changeBorderLength(); ">
-                <span class="fa-regular fa-square "></span> Border Length
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="changeBorderLength();">
+                <span class="fa-regular fa-square"></span> Border Length
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer ">
-                <span class="fa-regular fa-square "></span> Border Color
-                <input type="color" id="change-border-color " onchange="changeBorderColor(event); " style="width:25px; height:25px; vertical-align:middle; ">
+            <li class="mb-2 hover:text-red-900 cursor-pointer">
+                <span class="fa-regular fa-square"></span> Border Color
+                <input type="color" id="change-border-color" onchange="changeBorderColor(event);" style="width:25px; height:25px; vertical-align:middle;">
             </li>
-            <li class="mb-2 ">
-                <hr style="border-color:gray " />
+            <li class="mb-2">
+                <hr style="border-color:gray" />
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="toggleClass( 'i:not(.fa)', 'hidden'); $(this).toggleClass( 'active'); ">
-                <i class="fa fa-print "></i> Collapse italics
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleClass( 'i:not(.fa)', 'hidden'); $(this).toggleClass( 'active');">
+                <i class="fa fa-print"></i> Collapse italics
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="toggleClass( 'i:not(.fa)', 'invisible'); $(this).toggleClass( 'active'); ">
-                <i class="fa fa-print "></i> Invisible italics
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleClass( 'i:not(.fa)', 'invisible'); $(this).toggleClass( 'active');">
+                <i class="fa fa-print"></i> Invisible italics
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer " onclick="window.print() ">
-                <i class="fa fa-print "></i> Print
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="window.print()">
+                <i class="fa fa-print"></i> Print
             </li>
         </ul>
     </nav>
 
-    <script src="bower_components/jquery/dist/jquery.min.js "></script>
-    <script src="bower_components/jquery-ui/jquery-ui.min.js "></script>
-    <script src="bower_components/medium-editor/dist/js/medium-editor.min.js "></script>
-    <script src="assets/themes/medium-editor/flat.plain.icons.min.js "></script>
-    <script src="assets/index.js "></script>
-    <script src="assets/persist.js "></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script src="bower_components/medium-editor/dist/js/medium-editor.min.js"></script>
+    <script src="assets/themes/medium-editor/flat.plain.icons.min.js"></script>
+    <script src="assets/index.js"></script>
+    <script src="assets/persist.js"></script>
 
     <script>
         $(() => {
