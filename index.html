@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Mosaic Notes</title>
+
     <link rel="stylesheet" href="https://api.jqueryui.com/jquery-wp-content/themes/jquery/css/base.css?v=4"></link>
     <link rel="stylesheet" href="bower_components/font-awesome/css/all.min.css"></link>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css"></link>
@@ -42,7 +44,7 @@
     <nav class="page-controls w-108 text-right">
 
         <button class="fa fa-solid fa-plus cursor-pointer border-circle-gray hover:text-red-600 hover:border-red-600" onclick="addBox()"></button>
-        <button class="fa fa-solid fa-ellipsis-v cursor-pointer hover:text-red-600" onclick="toggleClass( '.page-controls__controls', 'invisible')"></button>
+        <button class="fa fa-solid fa-ellipsis-v cursor-pointer hover:text-red-600" onclick="toggleAllClass( '.page-controls__controls', 'invisible')"></button>
         <ul class="page-controls__controls invisible bg-gray-200 rounded-md p-2 text-left opacity-75">
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="precheckCanDuplicateBox()">
                 <i class="fa fa-clone"></i> Duplicate
@@ -61,12 +63,12 @@
             </li>
             <li class="text-center">
                 <label for="gap"><i class="fa fa-wave-square"></i> Gap global:</label><br/>
-                <input id="gap" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="3" type="number" onchange="changeGap( '.grid', $(this).val()+ 'px')">
+                <input id="gap" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="3" type="number" onchange="changeGapGlobal( '.grid', $(this).val()+ 'px')">
                 <label for="grap" class="pl-1">px</label>
             </li>
             <li class="text-center">
                 <label for="padding"><i class="fa fa-compress-arrows-alt"></i> Padding global:</label><br/>
-                <input id="padding" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="10" type="number" onchange="changePadding( '.grid-item', $(this).val()+ 'px')">
+                <input id="padding" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="10" type="number" onchange="changePaddingGlobal( '.grid-item', $(this).val()+ 'px')">
                 <label for="padding" class="pl-1">px</label>
             </li>
             <li class="mb-2">
@@ -85,10 +87,10 @@
             <li class="mb-2">
                 <hr/>
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleClass( 'i:not(.fa)', 'hidden'); $(this).toggleClass( 'active');">
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleAllClass( 'i:not(.fa)', 'hidden'); $(this).toggleClass( 'active');">
                 <i class="fa fa-print"></i> Collapse italics
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleClass( 'i:not(.fa)', 'invisible'); $(this).toggleClass( 'active');">
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleAllClass( 'i:not(.fa)', 'invisible'); $(this).toggleClass( 'active');">
                 <i class="fa fa-print"></i> Invisible italics
             </li>
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="window.print()">
@@ -96,6 +98,7 @@
             </li>
         </ul>
     </nav>
+    <!-- Box settings -->
 
     <main class="grid">
         <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
@@ -120,23 +123,6 @@
     <script src="assets/index.js"></script>
     <script src="assets/persist.js"></script>
 
-    <script>
-        document.body.addEventListener('keydown', function(e) {
-            // console.log(e.shiftKey); // shift
-            // console.log(e.ctrlKey); // ctrl
-            // console.log(e.altKey); // alt
-            // console.log(e.metaKey); // command/windows (meta) key
-            if ((e.metaKey || e.ctrlKey) && e.shiftKey)
-                changeBoxMode("rearrange")
-            else if ((e.metaKey || e.ctrlKey) && !e.shiftKey)
-                changeBoxMode("resizable")
-            else if (!e.metaKey && !e.ctrlKey && !e.shiftKey)
-                changeBoxMode("plain")
-        });
-        document.body.addEventListener('keyup', function(e) {
-            changeBoxMode("plain")
-        });
-    </script>
 </body>
 
 </html>
