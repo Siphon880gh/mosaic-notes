@@ -368,3 +368,24 @@ function changeBorderColor(event) {
         alert("Error: You haven't interacted with any current boxes. No box to toggle borders with.")
     }
 } // changeBorderColor
+
+/**
+ * 
+ * Command prompt
+ * User enters command like `save data1` or `load data1`
+ */
+function commandPrompt() {
+    var cmd = prompt("Enter your command\n\nEg. `save data1` or `load data1`\n")
+    if(cmd) {
+        if(cmd.includes("save ")) {
+            let localStorageKey = cmd.split(" ")[1];
+            saveBodyHTML(localStorageKey)
+        } else if(cmd.includes("load ")) {
+            let localStorageKey = cmd.split(" ")[1];
+            loadBodyHTML(localStorageKey)
+        } else if(cmd.includes("open ")) {
+            let localStorageKey = cmd.split(" ")[1];
+            loadBodyHTML(localStorageKey)
+        }
+    }
+}

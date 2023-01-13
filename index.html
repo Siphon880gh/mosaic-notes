@@ -43,6 +43,10 @@
 <body>
     <nav class="page-controls text-right">
 
+
+        <button class="fa fa-solid fa-terminal cursor-pointer hover:text-red-600 hover:border-red-600" onclick="commandPrompt()"></button>
+
+        <button class="fa fa-solid fa-open cursor-pointer hover:text-red-600 hover:border-red-600" onclick="loadPrompt()"></button>
         <button class="fa fa-solid fa-plus cursor-pointer border-circle-gray hover:text-red-600 hover:border-red-600" onclick="addBox()"></button>
         <button class="fa fa-solid fa-ellipsis-v cursor-pointer hover:text-red-600" onclick="toggleAllClass('.page-controls__controls', 'invisible')"></button>
         <ul class="page-controls__controls invisible bg-gray-200 rounded-md p-2 text-left opacity-75">

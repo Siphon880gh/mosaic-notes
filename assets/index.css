@@ -64,6 +64,13 @@ body {
     margin-right: 1.5ch;
 }
 
+.page-controls>button.fa-terminal {
+    position: fixed;
+    bottom: 10px;
+    right: 2ch;
+    font-size: 125%;
+}
+
 .page-controls li.active {
     opacity: .5;
 }
