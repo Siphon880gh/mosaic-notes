@@ -1,3 +1,40 @@
+/** Styling classes */
+
+.no-borders {
+    border: 0;
+}
+
+.border-circle-gray {
+    border: 2px solid gray;
+    border-radius: 33%;
+}
+
+
+/** General Layout **/
+
+body {
+    width: 8.5in;
+    height: calc(11in - 10px);
+    border-radius: 20px;
+    border: 1px solid rgba(125, 125, 125, .5);
+    margin: 5px auto;
+}
+
+@media print {
+    .page-controls {
+        display: none;
+    }
+    .ui-resizable-handle {
+        display: none;
+    }
+    body {
+        border: 0;
+    }
+}
+
+
+/** Components **/
+
 .grid {
     display: flex;
     justify-content: flex-start;
@@ -17,7 +54,12 @@
     position: absolute;
 }
 
-.page-controls .fa-gear {
+.page-controls>button.fa-plus {
+    font-size: 125%;
+    margin-right: 1ch;
+}
+
+.page-controls>button.fa-ellipsis-v {
     font-size: 150%;
 }
 
@@ -25,35 +67,11 @@
     opacity: .5;
 }
 
-.no-borders {
-    border: 0;
-}
-
-body {
-    width: 8.5in;
-    height: calc(11in - 10px);
-    border-radius: 20px;
-    border: 1px solid rgba(125, 125, 125, .5);
-    margin: 5px auto;
-}
-
 .handle-rearrange {
     position: absolute;
     bottom: 1px;
     right: 1px;
     cursor: move;
-}
-
-@media print {
-    .page-controls {
-        display: none;
-    }
-    .ui-resizable-handle {
-        display: none;
-    }
-    body {
-        border: 0;
-    }
 }
 
 .page-controls__controls hr {

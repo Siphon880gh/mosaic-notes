@@ -173,3 +173,63 @@
                 }
             })
         });
+
+
+        /**
+         * 
+         * function changeBoxMode
+         * @param {string} mode resizable|rearrange|plain  
+         * 
+         */
+        function changeBoxMode(mode) {
+
+            switch (mode) {
+                case "resizable":
+                    $("#box-mode").html(
+                        `
+                            .handle-rearrange {
+                                display: none !important;
+                            }
+
+                            .ui-resizable-e,
+                            .ui-resizable-s,
+                            .ui-resizable-se {
+                                display: auto !important;
+                            }
+                        `
+                    )
+                    break;
+                case "rearrange":
+                    $("#box-mode").html(
+                        `
+                            .handle-rearrange {
+                                display: auto !important;
+                            }
+
+                            .ui-resizable-e,
+                            .ui-resizable-s,
+                            .ui-resizable-se {
+                                display: none !important;
+                            }
+                        `
+                    )
+                    break;
+                case "plain":
+                    $("#box-mode").html(
+                        `
+                            .handle-rearrange {
+                                display: none !important;
+                            }
+
+                            .ui-resizable-e,
+                            .ui-resizable-s,
+                            .ui-resizable-se {
+                                display: none !important;
+                            }
+                        `
+                    )
+                    break;
+                default:
+            }
+
+        } // changeBoxMode
