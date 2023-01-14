@@ -61,9 +61,11 @@ $(()=>{
             "OK": function() {
                 commandPromptProcessor($('#command-prompt-cmd').val());
                 $(this).dialog('close');
+                $("#command-prompt-cmd").val("")
             },
             "Close": function() {
                 $(this).dialog('close');
+                $("#command-prompt-cmd").val("")
             }
         }
     });
@@ -218,7 +220,7 @@ function displayMessage(heading, message) {
             $("#msg").fadeOut("slow", ()=>{
                 $("#msg").slideUp("slow");
             });
-        },2000)
+        }, 2000)
     });
 }
 
