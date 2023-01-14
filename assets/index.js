@@ -451,7 +451,7 @@ function commandPrompt(event) {
         `Enter your command
         
  Save/Load on this device: 'save <name>' or 'load <name>'
- Export/Import to different device: 'export' or 'import <name>'
+ Export/Import to different device: 'export' or 'import <contents>'
         
         `
     )
