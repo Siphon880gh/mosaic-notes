@@ -60,8 +60,9 @@ $(()=>{
         // console.log(e.altKey); // alt
         // console.log(e.metaKey); // command/windows (meta) key
         // console.log(e.key); // any letter, number, etc
+        
         if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p")
-            commandPrompt();
+            commandPrompt(e);
         else if ((e.metaKey || e.ctrlKey) && e.shiftKey)
             changeBoxMode("rearrange")
         else if ((e.metaKey || e.ctrlKey) && !e.shiftKey)
@@ -381,8 +382,18 @@ function changeBorderColor(event) {
  * Command prompt
  * User enters command like `save data1` or `load data1`
  */
-function commandPrompt() {
-    var cmd = prompt("Enter your command\n\nEg. `save data1` or `load data1`\n")
+function commandPrompt(event) {
+     // Prevent the web browser's command pallete from showing up if in Developer's Mode while we are using our app's command palette shortcut
+    event.preventDefault();
+
+    var cmd = prompt(
+        `Enter your command
+        
+ Save/Load on this device: 'save <name>' or 'load <name>'
+ Export/Import to different device: 'export' or 'import <name>'
+        
+        `
+    )
     if(cmd) {
         if(cmd.includes("save ")) {
             let localStorageKey = "mosaic_notes__" + cmd.split(" ")[1];
