@@ -1,3 +1,33 @@
+/** 
+ * For VS Code Outline
+ * Don't want it alphabetized in outline? ... -> Sort By: Position
+ * Jump to that section's exact comment or function name: Copy -> Search
+ * 
+ * */
+delete {
+    "Init Process": {
+        "Warn user if on mobile":{},
+        "lastBox: Tracks the most recent box for toggling borders, etc settings":{},
+        "Init sorting makes items able to rearrange via handle icon":{},
+        "Future proof persisting boxes. Would find the last box, however can add more implementations as necessary.":{},
+        "Init modifier keys for changing resizing/rearranging/plain boxes.":{}
+    },
+    "Init polling required": {
+        "Warn user if on mobile":{},
+        "Resizable":{},
+        "Rich text editor":{},
+        "Modifier keys to switch between resize/rearrange/plain mode.":{}
+    },
+    "Utility functions": {},
+    "Low level implementation for core methods: Change box mode into resizable|rearrange|plain": {
+        "function changeBoxModeVisual": "Core implementation. User clicks toggle through different layout states: resizable|rearrange|plain",
+        "function reassertBoxModeVisual": "Low level implementation. Refer to visual indicator to return to the desired box mode.",
+        "function changeBoxMode": "Low level implementation, resizable|rearrange|plain"
+    },
+    "Setting methods to change box appearance and behaviors": {},
+    "Command prompt": {}
+
+}
 
 /** 
  * Init Process
