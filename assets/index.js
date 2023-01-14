@@ -211,6 +211,10 @@ function toggleAllClass(querySelected, clssName) {
     document.querySelectorAll(querySelected).forEach(el=>el.classList.toggle(clssName))
 }
 
+function closeMenu() {
+    toggleAllClass('.page-controls__controls', 'invisible');
+}
+
 function displayMessage(heading, message) {
     // TODO: Make it a slide in at the bottom right with success colors.
     $("#msg-heading").text(heading)
@@ -382,7 +386,7 @@ function deleteLastBox() {
         if (confirmed) {
             window.lastBox.remove();
             window.lastBox = null;
-            toggleAllClass('.page-controls__controls', 'invisible'); // Menu can close
+            closeMenu();
         }
     } else {
         alert("Error: You haven't interacted with any current boxes. No box to duplicate.")
@@ -393,7 +397,7 @@ function clearCanvas() {
     if (confirm("Delete all boxes. Are you sure?")) {
         $(".grid").html("");
         window.lastBox = null;
-        toggleAllClass('.page-controls__controls', 'invisible'); // Menu can close
+        closeMenu();
     }
 }
 
@@ -407,7 +411,7 @@ function resetCanvas(bypassed) {
         addBox("33%", "314px", html2)
         addBox("33%", "314px", html3)
         window.lastBox = getLastItemIfExists();
-        toggleAllClass('.page-controls__controls', 'invisible'); // Menu can close
+        closeMenu();
     }
 }
 
@@ -495,7 +499,6 @@ function fixLayoutHandles() {
             }, 200);
         }
     });
-    toggleAllClass('.page-controls__controls', 'invisible'); // Menu can close
 } // fixLayoutHandles
 
 /**
