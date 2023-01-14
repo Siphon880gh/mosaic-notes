@@ -158,6 +158,7 @@ function toggleAllClass(querySelected, clssName) {
 }
 
 function displayMessage(message) {
+    // TODO: Make it a slide in at the bottom right with success colors.
     alert(message);
 }
 
@@ -427,7 +428,8 @@ function commandPrompt(event) {
     if(cmd) {
         if(cmd.includes("save ")) {
             let localStorageKey = "mosaic_notes__" + cmd.split(" ")[1];
-            saveBodyHTML(localStorageKey)
+            saveBodyHTML(localStorageKey);
+            displayMessage("Saved!");
         } else if(cmd.includes("load ")) {
             let localStorageKey = "mosaic_notes__" + cmd.split(" ")[1];
             loadBodyHTML(localStorageKey)
