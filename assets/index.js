@@ -91,7 +91,9 @@ $(()=>{
         // console.log(e.metaKey); // command/windows (meta) key
         // console.log(e.key); // any letter, number, etc
         
-        if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p")
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="v")
+            setTimeout(fixLayoutHandles, 100);
+        else if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p")
             commandPrompt(e);
         else if ((e.metaKey || e.ctrlKey) && e.shiftKey)
             changeBoxMode("rearrange")
@@ -147,12 +149,15 @@ $(()=>{
     // Must call 
     reinitableResizable();
     reinitableEditor();
+    window.suspendPoll = false; // Will be true to be thread-safe
     // Always have resizable grid items that can have rich text controls
     // This must be init for every new box.
     // Every new box will not have ui-resizable class automatically because they need to init individually
     setInterval(() => {
-        reinitableResizable(true); // isReinit: Boolean = false
-        reinitableEditor();
+        if(!window.suspendPoll) {
+            reinitableResizable(true); // isReinit: Boolean = false
+            reinitableEditor();
+        }
     }, 100);
 })
 
@@ -427,16 +432,26 @@ function changeBorderColor(event) {
 } // changeBorderColor
 
 // TODO: In the future, explore adding an inner contenteditable for the boxes so that the handles can be anchored to the outer box without copying and pasting affecting the handles.
+// However, even if we perform this fix, we may want to keep fixLayoutHandles to force reinitializing on loading and importing.
 function fixLayoutHandles() {
 
+    window.suspendPoll = true;
+    let length = $(".grid").find(".grid-item").length;
     $(".grid").find(".grid-item").each((i,el)=>{
         let $el = $(el);
         $el.find(".medium-editor-element").removeClass("medium-editor-element")
         $el.find(".ui-resizable-handle").removeClass("ui-resizable-handle")
-        $el.find(".ui-resizable").removeClass("ui-resizable");
+        if($el.hasClass("ui-resizable")) {
+            $el.removeClass("ui-resizable");
+        }
 
         if($el.find(".handle-rearrange").length==0) {
             $el.append($(`<span class="handle-rearrange ui-icon ui-icon-arrow-4-diag ui-sortable-handle"></span>`));
+        }
+        if(i==length-1) {
+            setTimeout(()=>{
+                window.suspendPoll = false;
+            }, 200);
         }
     });
     toggleAllClass('.page-controls__controls', 'invisible'); // Menu can close
