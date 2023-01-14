@@ -430,7 +430,6 @@ function fixLayout() {
 
     $(".grid").find(".grid-item").each((i,el)=>{
         let $el = $(el);
-        console.log($el)
         $el.find(".medium-editor-element").removeClass("medium-editor-element")
         $el.find(".ui-resizable-handle").removeClass("ui-resizable-handle")
         $el.find(".ui-resizable").removeClass("ui-resizable")
