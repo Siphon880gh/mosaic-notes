@@ -176,3 +176,50 @@ div[role="dialog"][aria-describedby="command-prompt"] .ui-dialog-buttonset butto
     border: 1px solid blue;
     color: blue;
 }
+
+
+/** Display Message **/
+
+#msg {
+    /* Initially hidden for sliding down */
+    display: none;
+    /* Position */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    /* Shadows */
+    --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+    /* Text */
+    --tw-text-opacity: 1;
+    color: rgb(19 78 74 / var(--tw-text-opacity));
+    /* Background */
+    --tw-bg-opacity: 1;
+    background-color: rgb(204 251 241 / var(--tw-bg-opacity));
+    /** Border **/
+    --tw-border-opacity: 1;
+    border-color: rgb(20 184 166 / var(--tw-border-opacity));
+    border-top-width: 4px;
+    border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
+    /* Spacing */
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+#msg .flex {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: #e5e7eb;
+}
+
+#msg svg {
+    --tw-text-opacity: 1;
+    color: rgb(20 184 166 / var(--tw-text-opacity));
+    fill: currentColor;
+}

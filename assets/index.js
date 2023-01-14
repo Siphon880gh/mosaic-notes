@@ -209,9 +209,17 @@ function toggleAllClass(querySelected, clssName) {
     document.querySelectorAll(querySelected).forEach(el=>el.classList.toggle(clssName))
 }
 
-function displayMessage(message) {
+function displayMessage(heading, message) {
     // TODO: Make it a slide in at the bottom right with success colors.
-    alert(message);
+    $("#msg-heading").text(heading)
+    $("#msg-message").text(message)
+    $("#msg").slideDown("slow", function() {
+        setTimeout(()=>{
+            $("#msg").fadeOut("slow", ()=>{
+                $("#msg").slideUp("slow");
+            });
+        },2000)
+    });
 }
 
 
@@ -509,7 +517,7 @@ function commandPromptProcessor(cmd) {
         if(cmd.includes("save ")) {
             let localStorageKey = "mosaic_notes__" + cmd.split(" ")[1];
             saveBodyHTML(localStorageKey);
-            displayMessage("Saved!");
+            displayMessage("Saved!", `If running commands, next time you can run 'open ${cmd.split(" ")[1]}'`);
         } else if(cmd.includes("load ")) {
             let localStorageKey = "mosaic_notes__" + cmd.split(" ")[1];
             loadBodyHTML(localStorageKey)
@@ -518,6 +526,7 @@ function commandPromptProcessor(cmd) {
             loadBodyHTML(localStorageKey)
         } else if(cmd.indexOf("export")===0) {
             exportBodyHTML();
+            displayMessage("Exported!", `If running  commands, next time you can run 'import {contents}'`);
         } else if(cmd.includes("import ")) {
             const importedContents = cmd.substr(7)
             importBodyHTML(importedContents);

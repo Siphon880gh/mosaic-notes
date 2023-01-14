@@ -33,8 +33,6 @@ loadBodyHTML("mosaic__data1")
 
 function exportBodyHTML() {
     let html = $(".grid").html();
-
-    displayMessage("Open console CTRL/CMD + J for exported contents");
     console.log(html);
 }
 
