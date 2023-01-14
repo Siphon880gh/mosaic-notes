@@ -20,8 +20,10 @@ function saveBodyHTML(localStorageKey) {
 
 function loadBodyHTML(localStorageKey) {
     let html = localStorage.getItem(localStorageKey)
-    if(html)
-        $(".grid").html(html)
+    if(html) {
+        $(".grid").html(html);
+        fixLayoutHandles();
+    }
 }
 
 /**
@@ -45,10 +47,11 @@ function exportBodyHTML() {
     html = html.replaceAll("ui-resizable", "")
     
     displayMessage("Open console CTRL/CMD + J for exported contents");
-    console.log(html)
+    console.log(html);
 }
 
 function importBodyHTML(importedContents) {
-    console.log(importedContents)
-    $(".grid").html(importedContents)
+    console.log(importedContents);
+    $(".grid").html(importedContents);
+    fixLayoutHandles();
 }

@@ -426,17 +426,20 @@ function changeBorderColor(event) {
     }
 } // changeBorderColor
 
-function fixLayout() {
+function fixLayoutHandles() {
 
     $(".grid").find(".grid-item").each((i,el)=>{
         let $el = $(el);
         $el.find(".medium-editor-element").removeClass("medium-editor-element")
         $el.find(".ui-resizable-handle").removeClass("ui-resizable-handle")
-        $el.find(".ui-resizable").removeClass("ui-resizable")
+        $el.find(".ui-resizable").removeClass("ui-resizable");
+
+        if($el.find(".handle-rearrange").length==0) {
+            $el.append($(`<span class="handle-rearrange ui-icon ui-icon-arrow-4-diag ui-sortable-handle"></span>`));
+        }
     });
     toggleAllClass('.page-controls__controls', 'invisible'); // Menu can close
-    
-} // fixLayout
+} // fixLayoutHandles
 
 /**
  * 
