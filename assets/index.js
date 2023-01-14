@@ -381,13 +381,13 @@ function commandPrompt() {
     var cmd = prompt("Enter your command\n\nEg. `save data1` or `load data1`\n")
     if(cmd) {
         if(cmd.includes("save ")) {
-            let localStorageKey = cmd.split(" ")[1];
+            let localStorageKey = "mosaic_notes__" + cmd.split(" ")[1];
             saveBodyHTML(localStorageKey)
         } else if(cmd.includes("load ")) {
-            let localStorageKey = cmd.split(" ")[1];
+            let localStorageKey = "mosaic_notes__" + cmd.split(" ")[1];
             loadBodyHTML(localStorageKey)
         } else if(cmd.includes("open ")) {
-            let localStorageKey = cmd.split(" ")[1];
+            let localStorageKey = "mosaic_notes__" + cmd.split(" ")[1];
             loadBodyHTML(localStorageKey)
         }
     }
