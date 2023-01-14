@@ -134,3 +134,7 @@ body {
     right: -3px !important;
     transform: scale(140%);
 }
+
+.resizable-helper {
+    border: 1px dotted #999;
+}

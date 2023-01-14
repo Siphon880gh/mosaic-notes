@@ -426,6 +426,7 @@ function changeBorderColor(event) {
     }
 } // changeBorderColor
 
+// TODO: In the future, explore adding an inner contenteditable for the boxes so that the handles can be anchored to the outer box without copying and pasting affecting the handles.
 function fixLayoutHandles() {
 
     $(".grid").find(".grid-item").each((i,el)=>{
