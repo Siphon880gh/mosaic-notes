@@ -126,6 +126,10 @@ function toggleAllClass(querySelected, clssName) {
     document.querySelectorAll(querySelected).forEach(el=>el.classList.toggle(clssName))
 }
 
+function displayMessage(message) {
+    alert(message);
+}
+
 
 /**
  * Low level implementation for core methods: Change box mode into resizable|rearrange|plain
@@ -389,6 +393,11 @@ function commandPrompt() {
         } else if(cmd.includes("open ")) {
             let localStorageKey = "mosaic_notes__" + cmd.split(" ")[1];
             loadBodyHTML(localStorageKey)
+        } else if(cmd.indexOf("export")===0) {
+            exportBodyHTML();
+        } else if(cmd.includes("import ")) {
+            const importedContents = cmd.substr(7)
+            importBodyHTML(importedContents);
         }
     }
 }
