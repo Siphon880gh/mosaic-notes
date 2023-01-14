@@ -138,3 +138,41 @@ body {
 .resizable-helper {
     border: 1px dotted #999;
 }
+
+
+/** Command Palette UI **/
+
+#command-prompt-table thead tr th {
+    border-bottom: 1px solid gray;
+}
+
+#command-prompt-table {
+    margin-top: .8rem;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1.2rem;
+    border-spacing: 10px;
+    border-collapse: separate;
+}
+
+#command-prompt-cmd {
+    width: 100%;
+    border: 1px solid gray;
+}
+
+div[role="dialog"][aria-describedby="command-prompt"] .ui-dialog-buttonset button:hover {
+    color: blue;
+    border-color: blue;
+}
+
+div[role="dialog"][aria-describedby="command-prompt"] .ui-dialog-buttonset button:nth-child(1) {
+    margin-right: 30px;
+    border: 1px solid royalblue;
+    color: royalblue;
+    padding: 10px;
+}
+
+div[role="dialog"][aria-describedby="command-prompt"] .ui-dialog-buttonset button:nth-child(1):hover {
+    border: 1px solid blue;
+    color: blue;
+}

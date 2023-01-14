@@ -7,6 +7,7 @@
 delete {
     "Init Process": {
         "Warn user if on mobile":{},
+        "Init Command Palette UI":{},
         "lastBox: Tracks the most recent box for toggling borders, etc settings":{},
         "Init sorting makes items able to rearrange via handle icon":{},
         "Future proof persisting boxes. Would find the last box, however can add more implementations as necessary.":{},
@@ -15,8 +16,7 @@ delete {
     "Init polling required": {
         "Warn user if on mobile":{},
         "Resizable":{},
-        "Rich text editor":{},
-        "Modifier keys to switch between resize/rearrange/plain mode.":{}
+        "Rich text editor":{}
     },
     "Utility functions": {},
     "Low level implementation for core methods: Change box mode into resizable|rearrange|plain": {
@@ -25,13 +25,14 @@ delete {
         "function changeBoxMode": "Low level implementation, resizable|rearrange|plain"
     },
     "Setting methods to change box appearance and behaviors": {},
-    "Command prompt": {}
+    "Command prompt user opens": {}
 
 }
 
 /** 
  * Init Process
  * Warn user if on mobile
+ * Init Command Palette UI
  * lastBox: Tracks the most recent box for toggling borders, etc settings
  * Init sorting makes items able to rearrange via handle icon
  * Future proof persisting boxes. Would find the last box, however can add more implementations as necessary.
@@ -43,6 +44,32 @@ $(()=>{
         alert("Advisory: You are on a small window. The purpose of this app is to create a boxed notes template that prints on a 11 x 8.5 inches paper. Then you would use it for work or school. Please visit on a bigger screen.")
     }
 
+    //  Init Command Palette UI
+    window.cpDialog = $("#command-prompt").dialog({
+        width: 500,
+        autoOpen: false,
+        modal: true,
+        title: "Command Palette",
+        open: function() {
+            $("#command-prompt").keypress(function(e) {
+              if (e.keyCode == $.ui.keyCode.ENTER) {
+                $(this).parent().find("button:eq(1)").trigger("click");
+              }
+            });
+        },
+        buttons: {
+            "OK": function() {
+                commandPromptProcessor($('#command-prompt-cmd').val());
+                $(this).dialog('close');
+            },
+            "Close": function() {
+                $(this).dialog('close');
+            }
+        }
+    });
+    $("#command-prompt").removeClass("hidden");
+    $("button[title='Close']").html(`<span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>`)
+
     // Track last grid item for duplication, deletion, modifying settings: When user clicks a box
     window.lastBox = null;
     $("body").on("click", event => {
@@ -53,7 +80,7 @@ $(()=>{
             console.groupEnd();
             window.lastBox = $(gridItem);
         }
-    })
+    });
 
     // Rearrangeable: Once container is init, can create new boxes and they are automatically rearrangeable
     function initSort() {
@@ -90,11 +117,11 @@ $(()=>{
         // console.log(e.altKey); // alt
         // console.log(e.metaKey); // command/windows (meta) key
         // console.log(e.key); // any letter, number, etc
-        
+
         if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="v")
             setTimeout(fixLayoutHandles, 100);
         else if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p")
-            commandPrompt(e);
+            commandPromptUserOpen(e)
         else if ((e.metaKey || e.ctrlKey) && e.shiftKey)
             changeBoxMode("rearrange")
         else if ((e.metaKey || e.ctrlKey) && !e.shiftKey)
@@ -112,14 +139,18 @@ $(()=>{
  * Init polling required
  * Resizable
  * Rich text editor
- * Modifier keys to switch between resize/rearrange/plain mode
  * 
  */
 function reinitableResizable(isReinit) {
     let nonresizables = $(".grid-item:not(.ui-resizable)");
     if(nonresizables.length) {
-        if(isReinit)
-            nonresizables.resizable("destroy");
+        if(isReinit) {
+            nonresizables.each((i,el)=>{
+                if($(el).resizable( "instance" )) {
+                    $(el).resizable("destroy");
+                }
+            })
+        }
 
         nonresizables.resizable({
             helper: "resizable-helper"
@@ -459,21 +490,21 @@ function fixLayoutHandles() {
 
 /**
  * 
- * Command prompt
- * User enters command like `save data1` or `load data1`
+ * Command prompt user opens
+ * commandPromptUserOpen: User clicks or presses shortcut key for command prompt to open
+ * commandPromptProcessor: User had typed in command, and now we process what the command is, and what to do next
  */
-function commandPrompt(event) {
-     // Prevent the web browser's command pallete from showing up if in Developer's Mode while we are using our app's command palette shortcut
-    event.preventDefault();
+function commandPromptUserOpen(event) {
+    // Prevent the web browser's command palette from showing up if in Developer Mode while we are using our app's command palette shortcut
+   event.preventDefault();
 
-    var cmd = prompt(
-        `Enter your command
-        
- Save/Load on this device: 'save <name>' or 'load <name>'
- Export/Import to different device: 'export' or 'import <contents>'
-        
-        `
-    )
+    // Opem the UI for command palette
+    $("#command-prompt").dialog("open");
+    setTimeout(()=>{
+        $("#command-prompt-cmd").focus();
+    }, 500)
+} // commandPromptUserOpen
+function commandPromptProcessor(cmd) {
     if(cmd) {
         if(cmd.includes("save ")) {
             let localStorageKey = "mosaic_notes__" + cmd.split(" ")[1];
@@ -492,4 +523,4 @@ function commandPrompt(event) {
             importBodyHTML(importedContents);
         }
     }
-}
+} // commandPromptProcessor

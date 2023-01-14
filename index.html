@@ -44,7 +44,7 @@
     <nav class="page-controls text-right">
 
 
-        <button class="fa fa-solid fa-terminal cursor-pointer hover:text-red-600 hover:border-red-600" onclick="commandPrompt()"></button>
+        <button class="fa fa-solid fa-terminal cursor-pointer hover:text-red-600 hover:border-red-600" onclick='commandPromptUserOpen(event)'></button>
 
         <button class="fa fa-solid fa-open cursor-pointer hover:text-red-600 hover:border-red-600" onclick="loadPrompt()"></button>
         <button class="fa fa-solid fa-plus cursor-pointer border-circle-gray hover:text-red-600 hover:border-red-600" onclick="addBox()"></button>
@@ -168,6 +168,48 @@
         </p>
         <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
     </aside>
+
+    <div id="command-prompt" class="hidden">
+        <div>
+            Enter your command
+        </div>
+
+        <table id="command-prompt-table">
+            <thead>
+                <tr>
+                    <th>Save/Load<br>on this device</th>
+                    <th>Export/Import<br/>another device</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        'save {name}'
+                    </td>
+                    <td>
+                        export
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        'load {name}'
+                    </td>
+                    <td>
+                        import {contents}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        'open {name}'
+                    </td>
+                    <td>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <input type="text" id="command-prompt-cmd" />
+    </div>
 
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
