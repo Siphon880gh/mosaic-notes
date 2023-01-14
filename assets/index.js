@@ -113,30 +113,46 @@ $(()=>{
  * Modifier keys to switch between resize/rearrange/plain mode
  * 
  */
+function reinitableResizable(isReinit) {
+    let nonresizables = $(".grid-item:not(.ui-resizable)");
+    if(nonresizables.length) {
+        if(isReinit)
+            nonresizables.resizable("destroy");
+
+        nonresizables.resizable({
+            helper: "resizable-helper"
+        });
+    }
+} // reinitableResizable
+function reinitableEditor() {
+    let newGridsWithoutRichTextControls = document.querySelectorAll('.grid-item:not(.medium-editor-element)');
+    if(newGridsWithoutRichTextControls.length) {
+        editor = new MediumEditor(newGridsWithoutRichTextControls, {
+            targetBlank: true,
+            autoLink: true,
+            imageDragging: true,
+            paste: {
+                /* This was preventing pictures from pasting into box */
+                forcePlainText: false,
+            },
+            toolbar: {
+                buttons: ["bold", "italic", "underline", "strikethrough", "anchor", "image", "quote", "indent", "outdent", "orderedlist", "unorderedlist", "justifyLeft", "justifyCenter", "justifyRight", "h1", "h2", "h3", "h4", "h5", "h6", "html"]
+            }
+        });
+        restyleNewEditorIcons();
+    } // if newGridsWithoutRichTextControls
+} // reinitableResizable
 
 $(()=>{
+    // Must call 
+    reinitableResizable();
+    reinitableEditor();
     // Always have resizable grid items that can have rich text controls
     // This must be init for every new box.
     // Every new box will not have ui-resizable class automatically because they need to init individually
     setInterval(() => {
-        $(".grid-item:not(.ui-resizable)").resizable();
-        
-        let newGridsWithoutRichTextControls = document.querySelectorAll('.grid-item:not(.medium-editor-element)');
-        if(newGridsWithoutRichTextControls.length) {
-            editor = new MediumEditor(newGridsWithoutRichTextControls, {
-                targetBlank: true,
-                autoLink: true,
-                imageDragging: true,
-                paste: {
-                    /* This was preventing pictures from pasting into box */
-                    forcePlainText: false,
-                },
-                toolbar: {
-                    buttons: ["bold", "italic", "underline", "strikethrough", "anchor", "image", "quote", "indent", "outdent", "orderedlist", "unorderedlist", "justifyLeft", "justifyCenter", "justifyRight", "h1", "h2", "h3", "h4", "h5", "h6", "html"]
-                }
-            });
-            restyleNewEditorIcons();
-        }
+        reinitableResizable(true); // isReinit: Boolean = false
+        reinitableEditor();
     }, 100);
 })
 
@@ -243,7 +259,7 @@ function changeBoxMode(mode) {
                     .grid-item .ui-resizable-e,
                     .grid-item .ui-resizable-s,
                     .grid-item .ui-resizable-se {
-                        display: initial !important;
+                        display: block !important;
                     }
                 `
             )
@@ -252,7 +268,7 @@ function changeBoxMode(mode) {
             $("#box-mode").html(
                 `
                     .grid-item .handle-rearrange {
-                        display: initial !important;
+                        display: block !important;
                     }
 
                     .grid-item .ui-resizable-e,
@@ -340,8 +356,10 @@ function resetCanvas(bypassed) {
         $(".grid").html("");
         let html1 = $("#template-starter-box-1").html()
         let html2 = $("#template-starter-box-2").html()
-        addBox("33%", "337px", html1)
-        addBox("33%", "337px", html2)
+        let html3 = $("#template-starter-box-3").html()
+        addBox("33%", "314px", html1)
+        addBox("33%", "314px", html2)
+        addBox("33%", "314px", html3)
         window.lastBox = getLastItemIfExists();
         toggleAllClass('.page-controls__controls', 'invisible'); // Menu can close
     }
@@ -407,6 +425,19 @@ function changeBorderColor(event) {
         alert("Error: You haven't interacted with any current boxes. No box to toggle borders with.")
     }
 } // changeBorderColor
+
+function fixLayout() {
+
+    $(".grid").find(".grid-item").each((i,el)=>{
+        let $el = $(el);
+        console.log($el)
+        $el.find(".medium-editor-element").removeClass("medium-editor-element")
+        $el.find(".ui-resizable-handle").removeClass("ui-resizable-handle")
+        $el.find(".ui-resizable").removeClass("ui-resizable")
+    });
+    toggleAllClass('.page-controls__controls', 'invisible'); // Menu can close
+    
+} // fixLayout
 
 /**
  * 

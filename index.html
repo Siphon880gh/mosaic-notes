@@ -95,12 +95,18 @@
                 <hr/>
             </li>
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="changeBoxModeVisual()">
-                <i class="fa fa-print"></i> Readjust Layout:
+                <i class="fa fa-ruler-combined"></i> Readjust Layout:
                 <section id="indicator-box-mode" class="cursor-pointer hover:text-red-600 inline" data-cycled="0">
                     <span class="icon ui-icon ui-icon-check"></span>
                     <span class="icon ui-icon ui-icon-gripsmall-diagonal-se"></span>
                     <span class="icon ui-icon ui-icon-arrow-4-diag"></span>
                 </section>
+            </li>
+            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="fixLayout();">
+                <i class="fa fa-ruler-combined"></i> Fix Layout Handles
+            </li>
+            <li class="mb-2">
+                <hr/>
             </li>
             <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleAllClass('i:not(.fa)', 'hidden'); $(this).toggleClass('active');">
                 <i class="fa fa-print"></i> Collapse italics
@@ -124,12 +130,17 @@
             <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
         </div>
         <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
-            <p>This is a sample box. Create more mosaic boxes from <i class="fa fa-ellipsis-v"></i>, resize this one, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Design your mosaic notes
-                now!
+            <p>This is a sample box. Create more mosaic boxes. Resize boxes, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Go to &nbsp;<i class="fa fa-ellipsis-v"></i>&nbsp; for more options!
             </p>
             <br>
             <p>
                 Shortcuts:<br> - Resize: Hold CMD/CTRL<br> - Rearrange: Hold CMD/CTRL + Shift<br> - Command Palette: CMD/CTRL + Shift + P
+            </p>
+            <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
+        </div>
+        <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
+            <p>
+                If you copy content from websites and other software that breaks the layout's resize / rearrange icons, you can do a quick fix by clicking "Fix Layout Handles"
             </p>
             <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
         </div>
@@ -143,11 +154,17 @@
         <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
     </aside>
     <aside id="template-starter-box-2" aria-hidden="true" class="hidden">
-        <p>This is a sample box. Create more mosaic boxes from <i class="fa fa-ellipsis-v"></i>, resize this one, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Design your mosaic notes now!
+        <p>This is a sample box. Create more mosaic boxes. Resize boxes, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Go to &nbsp;<i class="fa fa-ellipsis-v"></i>&nbsp; for more options!
         </p>
         <br>
         <p>
             Shortcuts:<br> - Resize: Hold CMD/CTRL<br> - Rearrange: Hold CMD/CTRL + Shift<br> - Command Palette: CMD/CTRL + Shift + P
+        </p>
+        <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
+    </aside>
+    <aside id="template-starter-box-3" aria-hidden="true" class="hidden">
+        <p>
+            If you copy content from websites and other software that breaks the layout's resize / rearrange icons, you can do a quick fix by clicking "Fix Layout Handles"
         </p>
         <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
     </aside>

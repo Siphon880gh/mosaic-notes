@@ -44,6 +44,7 @@ body {
 .grid-item {
     border: 1px solid black;
     overflow: hidden;
+    position: relative;
 }
 
 .page-controls {
@@ -124,7 +125,11 @@ body {
     cursor: move;
 }
 
+.ui-resizable-e,
+.ui-resizable-s,
 .ui-resizable-se {
+    overflow: hidden;
+    position: absolute;
     bottom: -3px !important;
     right: -3px !important;
     transform: scale(140%);
