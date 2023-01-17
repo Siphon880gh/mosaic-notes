@@ -484,14 +484,21 @@ function fixLayoutHandles() {
     let length = $(".grid").find(".grid-item").length;
     $(".grid").find(".grid-item").each((i,el)=>{
         let $el = $(el);
-        $el.find(".medium-editor-element").removeClass("medium-editor-element")
-        $el.find(".ui-resizable-handle").removeClass("ui-resizable-handle")
+        $el.find(".ui-resizable-handle").remove();
         if($el.hasClass("ui-resizable")) {
             $el.removeClass("ui-resizable");
+        }
+        if($el.hasClass("medium-editor-element")) {
+            $el.removeClass("medium-editor-element");
         }
 
         if($el.find(".handle-rearrange").length==0) {
             $el.append($(`<span class="handle-rearrange ui-icon ui-icon-arrow-4-diag ui-sortable-handle"></span>`));
+        }
+        // Remove e/s/se because sometimes they dont get removed even though they share class with ui-resizable-handle, and not having them removed can cause resizing to stop working
+        let $leftoverGlitched = $el.find(".ui-resizable-e, .ui-resizable-s, .ui-resizable-se");
+        if($leftoverGlitched.length>0) {
+            $leftoverGlitched.remove();
         }
         if(i==length-1) {
             setTimeout(()=>{
