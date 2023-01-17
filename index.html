@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-gradient-to-r from-gray-400 to-gray-100">
 
 <head>
     <meta charset="UTF-8">
@@ -40,29 +40,25 @@
     </style>
 </head>
 
-<body>
+<body class="bg-white">
     <nav class="page-controls text-right">
+        <button class="fa fa-solid fa-terminal cursor-pointer hover:text-green-600 hover:border-red-600" onclick='commandPromptUserOpen(event)'></button>
 
-
-        <button class="fa fa-solid fa-terminal cursor-pointer hover:text-red-600 hover:border-red-600" onclick='commandPromptUserOpen(event)'></button>
-
-        <button class="fa fa-solid fa-open cursor-pointer hover:text-red-600 hover:border-red-600" onclick="loadPrompt()"></button>
-        <button class="fa fa-solid fa-plus cursor-pointer border-circle-gray hover:text-red-600 hover:border-red-600" onclick="addBox()"></button>
-        <button class="fa fa-solid fa-ellipsis-v cursor-pointer hover:text-red-600" onclick="toggleAllClass('.page-controls__controls', 'invisible')"></button>
-        <ul class="page-controls__controls invisible bg-gray-200 rounded-md p-2 text-left opacity-75">
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="precheckCanDuplicateBox()">
+        <button class="fa fa-solid fa-ellipsis-v cursor-pointer hover:text-green-600 mr-4" onclick="toggleAllClass('.page-controls__controls', 'hidden')"></button>
+        <ul class="page-controls__controls hidden bg-gray-200 rounded-md p-2 text-left opacity-75">
+            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="precheckCanDuplicateBox()">
                 <i class="fa fa-clone"></i> Duplicate
             </li>
             <li class="mb-2">
                 <hr/>
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="deleteLastBox()">
+            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="deleteLastBox()">
                 <i class="fa fa-times-circle"></i> Delete box
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="clearCanvas()">
+            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="clearCanvas()">
                 <i class="fa fa-trash-alt"></i> Clear Canvas
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="resetCanvas()">
+            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="resetCanvas()">
                 <i class="fa fa-recycle"></i> Reset Canvas
             </li>
             <li class="mb-2">
@@ -81,55 +77,59 @@
             <li class="mb-2">
                 <hr/>
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleLastBoxBorders();">
+            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="toggleLastBoxBorders();">
                 <span class="fa-regular fa-square"></span> Toggle Border
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="changeBorderLength();">
+            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="changeBorderLength();">
                 <span class="fa-regular fa-square"></span> Border Length
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer">
+            <li class="mb-2 hover:text-green-900 cursor-pointer">
                 <span class="fa-regular fa-square"></span> Border Color
                 <input type="color" id="change-border-color" onchange="changeBorderColor(event);">
             </li>
             <li class="mb-2">
                 <hr/>
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="changeBoxModeVisual()">
+            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="changeBoxModeVisual()">
                 <i class="fa fa-ruler-combined"></i> Readjust Layout:
-                <section id="indicator-box-mode" class="cursor-pointer hover:text-red-600 inline" data-cycled="0">
+                <section id="indicator-box-mode" class="cursor-pointer hover:text-green-600 inline" data-cycled="0">
                     <span class="icon ui-icon ui-icon-check"></span>
                     <span class="icon ui-icon ui-icon-gripsmall-diagonal-se"></span>
                     <span class="icon ui-icon ui-icon-arrow-4-diag"></span>
                 </section>
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="fixLayoutHandles(); closeMenu();">
+            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="fixLayoutHandles(); closeMenu();">
                 <i class="fa fa-ruler-combined"></i> Fix Layout Handles
             </li>
             <li class="mb-2">
                 <hr/>
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleAllClass('i:not(.fa)', 'hidden'); $(this).toggleClass('active');">
+            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="toggleAllClass('i:not(.fa)', 'hidden'); $(this).toggleClass('active');">
                 <i class="fa fa-print"></i> Collapse italics
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="toggleAllClass('i:not(.fa)', 'invisible'); $(this).toggleClass('active');">
+            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="toggleAllClass('i:not(.fa)', 'invisible'); $(this).toggleClass('active');">
                 <i class="fa fa-print"></i> Invisible italics
             </li>
-            <li class="mb-2 hover:text-red-900 cursor-pointer" onclick="window.print()">
+            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="window.print()">
                 <i class="fa fa-print"></i> Print
             </li>
         </ul>
+
+        <div style="width:1px; height:1.5rem;"></div>
+
+        <button class="fa fa-solid fa-plus cursor-pointer border-circle-gray hover:text-green-600 hover:border-green-600" onclick="addBox()"></button><br/>
     </nav>
     <!-- Box settings -->
 
     <main class="grid">
-        <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
+        <div class="grid-item unreset rounded-lg" contenteditable="true" style="width:33%">
             <b>Mosaic Notes</b>
             <span>By Weng Fei Fung.</span>
             <p>Create boxes stacked in a mosaic way for you to customize with instructions, then print it out for traditional pencil and pen notetaking. You can resize these boxes, add rich text, even paste pictures into it. In the end, print for your note-taking
                 purposes at school, work, etc. An example use is nursing brainsheets.</p>
             <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
         </div>
-        <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
+        <div class="grid-item unreset rounded-lg" contenteditable="true" style="width:33%">
             <p>This is a sample box. Create more mosaic boxes. Resize boxes, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Go to &nbsp;<i class="fa fa-ellipsis-v"></i>&nbsp; for more options!
             </p>
             <br>
@@ -138,7 +138,7 @@
             </p>
             <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
         </div>
-        <div class="grid-item rounded-sm unreset" contenteditable="true" style="width:33%">
+        <div class="grid-item unreset rounded-lg" contenteditable="true" style="width:33%">
             <p>
                 If you copy content from websites and other software that breaks the layout's resize / rearrange icons, you can do a quick fix by clicking "Fix Layout Handles"
             </p>
@@ -214,10 +214,12 @@
 
     <!-- Success alert -->
     <div id="msg" class="px-4 py-3" role="alert">
-        <div class="flex justify-start">
-            <div class="py-1"><svg class="h-6 w-6 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
+        <div class="flex justify-center text-center text-white">
             <div>
-                <p id="msg-heading" class="font-bold">Heading</p>
+                <span>
+                    <svg class="h-6 w-6 mr-4 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg>
+                </span>
+                <span id="msg-heading" class="font-bold">Heading</span>
                 <p id="msg-message" class="text-sm">Message</p>
             </div>
         </div>

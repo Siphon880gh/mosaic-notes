@@ -357,7 +357,7 @@ function changeBoxMode(mode) {
 
 function addBox(width = "130px", height = "100px", html = "&nbsp;") {
     html = `<span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>` + html;
-    const $box = $(`<div class="grid-item rounded-sm unreset" contenteditable="true" style="width:${width}; height:${height}">${html}</div>`);
+    const $box = $(`<div class="grid-item unreset rounded-lg" contenteditable="true" style="width:${width}; height:${height}">${html}</div>`);
     $(".grid").append($box);
     window.lastBox = $box;
 }

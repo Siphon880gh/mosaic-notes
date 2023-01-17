@@ -13,9 +13,10 @@
 /** General Layout **/
 
 body {
+    padding: 5px;
     width: 8.5in;
-    height: calc(11in - 10px);
-    border-radius: 20px;
+    min-height: 11in;
+    border-radius: .5rem;
     border: 1px solid rgba(125, 125, 125, .5);
     margin: 5px auto;
 }
@@ -62,7 +63,7 @@ body {
 
 .page-controls>button.fa-ellipsis-v {
     font-size: 150%;
-    margin-right: 1.5ch;
+    margin-right: 25px;
 }
 
 .page-controls>button.fa-terminal {
@@ -197,7 +198,8 @@ div[role="dialog"][aria-describedby="command-prompt"] .ui-dialog-buttonset butto
     color: rgb(19 78 74 / var(--tw-text-opacity));
     /* Background */
     --tw-bg-opacity: 1;
-    background-color: rgb(204 251 241 / var(--tw-bg-opacity));
+    /* background-color: rgb(204 251 241 / var(--tw-bg-opacity)); */
+    background-color: rgb(148, 196, 156, 1);
     /** Border **/
     --tw-border-opacity: 1;
     border-color: rgb(20 184 166 / var(--tw-border-opacity));
