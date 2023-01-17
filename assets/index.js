@@ -162,19 +162,25 @@ function reinitableResizable(isReinit) {
 function reinitableEditor() {
     let newGridsWithoutRichTextControls = document.querySelectorAll('.grid-item:not(.medium-editor-element)');
     if(newGridsWithoutRichTextControls.length) {
-        editor = new MediumEditor(newGridsWithoutRichTextControls, {
-            targetBlank: true,
-            autoLink: true,
-            imageDragging: true,
-            paste: {
-                /* This was preventing pictures from pasting into box */
-                forcePlainText: false,
-            },
-            toolbar: {
-                buttons: ["bold", "italic", "underline", "strikethrough", "anchor", "image", "quote", "indent", "outdent", "orderedlist", "unorderedlist", "justifyLeft", "justifyCenter", "justifyRight", "h1", "h2", "h3", "h4", "h5", "h6", "html"]
-            }
+        newGridsWithoutRichTextControls.forEach(gridbox=>{ 
+            $(gridbox).removeAttr("data-medium-editor-element")
+            $(gridbox).removeAttr("data-medium-editor-editor-index")
+            $(gridbox).removeAttr("medium-editor-index")
+
+            editor = new MediumEditor(gridbox, {
+                targetBlank: true,
+                autoLink: true,
+                imageDragging: true,
+                paste: {
+                    /* This was preventing pictures from pasting into box */
+                    forcePlainText: false,
+                },
+                toolbar: {
+                    buttons: ["bold", "italic", "underline", "strikethrough", "anchor", "image", "quote", "indent", "outdent", "orderedlist", "unorderedlist", "justifyLeft", "justifyCenter", "justifyRight", "h1", "h2", "h3", "h4", "h5", "h6", "html"]
+                }
+            }); // forEach
+            restyleNewEditorIcons();
         });
-        restyleNewEditorIcons();
     } // if newGridsWithoutRichTextControls
 } // reinitableResizable
 
