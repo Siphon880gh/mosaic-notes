@@ -1,3 +1,7 @@
+var PERSIST = {
+    pollFile: ""
+}
+
 /**
  * 
  * TODO: Implement saving a list of local storage keys you can access

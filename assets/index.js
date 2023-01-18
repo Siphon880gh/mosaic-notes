@@ -8,6 +8,7 @@ delete {
     "Init Process": {
         "Warn user if on mobile":{},
         "Init Command Palette UI":{},
+        "Load last saved page view":{},
         "lastBox: Tracks the most recent box for toggling borders, etc settings":{},
         "Init sorting makes items able to rearrange via handle icon":{},
         "Future proof persisting boxes. Would find the last box, however can add more implementations as necessary.":{},
@@ -71,6 +72,11 @@ $(()=>{
     });
     $("#command-prompt").removeClass("hidden");
     $("button[title='Close']").html(`<span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>`)
+
+
+    // Load last saved page view
+    const hasSavedPageView = localStorage.getItem("mosaic_notes___page_view");
+    if(hasSavedPageView) changePageView(hasSavedPageView)
 
     // Track last grid item for duplication, deletion, modifying settings: When user clicks a box
     window.lastBox = null;
@@ -363,8 +369,10 @@ function changeBoxMode(mode) {
  */
 
 window.pageView = 0;
-function changePageView() {
-    window.pageView++;
+function changePageView(at=-1) {
+    if(at===-1) window.pageView++;
+    else window.pageView = parseInt(at);
+
     switch(window.pageView) {
         case 0:
             $("body").css("width", "8.5in")
@@ -373,6 +381,7 @@ function changePageView() {
             $(".grid").css("max-height", "11in")
             $(".grid").css("flex-flow", "row wrap")
             console.log("Changed view to: Printing Paper")
+            localStorage.setItem("mosaic_notes___page_view", 0)
             break;
         case 1:
             $("body").css("width", "8.5in")
@@ -382,6 +391,7 @@ function changePageView() {
             $(".grid").css("max-height", "11in")
             $(".grid").css("flex-flow", "column wrap")
             console.log("Changed view to: Mosaic Paper")
+            localStorage.setItem("mosaic_notes___page_view", 1)
             break;
         case 2:
             $("body").css("width", "100vw")
@@ -391,12 +401,14 @@ function changePageView() {
             $(".grid").css("max-height", "100vh")
             $(".grid").css("flex-flow", "column wrap")
             console.log("Changed view to: Mosaic Screen")
+            localStorage.setItem("mosaic_notes___page_view", 2)
             break;
         default:
             window.pageView = -1;
             changePageView()
     }
 }
+
 function toggleEditPreview() {
     $('[contenteditable]').attr('contenteditable', $('[contenteditable]').eq(0).attr('contenteditable')==="false"?true:false)
     if($("#btn-toggle-edit-preview").hasClass("fa-pencil")) {
@@ -449,11 +461,12 @@ function clearCanvas() {
         $(".grid").html("");
         window.lastBox = null;
         closeMenu();
+        window.PERSIST.pollFile = "";
     }
 }
 
-function resetCanvas(bypassed) {
-    if (bypassed || confirm("Reset canvas. Are you sure?")) {
+function resetCanvas(force) {
+    if (force || confirm("Reset canvas. Are you sure?")) {
         $(".grid").html("");
         let html1 = $("#template-starter-box-1").html()
         let html2 = $("#template-starter-box-2").html()
@@ -463,6 +476,7 @@ function resetCanvas(bypassed) {
         addBox("33%", "338px", html3)
         window.lastBox = getLastItemIfExists();
         closeMenu();
+        window.PERSIST.pollFile = "";
     }
 }
 
