@@ -121,7 +121,9 @@ $(()=>{
         // console.log(e.key); // any letter, number, etc
 
         if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="v")
-            setTimeout(fixLayoutHandles, 100);
+            setTimeout(fixLayoutHandles, 100); // Check for and fix broken handles after copying/pasting
+        else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="e")
+            toggleEditPreview();
         else if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p")
             commandPromptUserOpen(e)
         else if ((e.metaKey || e.ctrlKey) && e.shiftKey)
@@ -456,9 +458,9 @@ function resetCanvas(bypassed) {
         let html1 = $("#template-starter-box-1").html()
         let html2 = $("#template-starter-box-2").html()
         let html3 = $("#template-starter-box-3").html()
-        addBox("33%", "314px", html1)
-        addBox("33%", "314px", html2)
-        addBox("33%", "314px", html3)
+        addBox("33%", "338px", html1)
+        addBox("33%", "338px", html2)
+        addBox("33%", "338px", html3)
         window.lastBox = getLastItemIfExists();
         closeMenu();
     }
