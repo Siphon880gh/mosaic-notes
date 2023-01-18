@@ -54,17 +54,22 @@ body {
     right: 15px;
     width: 170px;
     height: 100px;
-    position: absolute;
-}
-
-.page-controls>button.fa-plus {
-    font-size: 125%;
-    margin-right: 1.5ch;
+    position: fixed;
 }
 
 .page-controls>button.fa-ellipsis-v {
     font-size: 150%;
     margin-right: 25px;
+}
+
+.page-controls>button.fa-television {
+    font-size: 120%;
+    margin-right: 15px;
+}
+
+.page-controls>button.fa-plus {
+    font-size: 125%;
+    margin-right: 1.5ch;
 }
 
 .page-controls>button.fa-terminal {

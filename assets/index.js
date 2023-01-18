@@ -360,6 +360,41 @@ function changeBoxMode(mode) {
  * Setting methods to change box appearance and behaviors
  */
 
+window.pageView = 0;
+function changePageView() {
+    window.pageView++;
+    switch(window.pageView) {
+        case 0:
+            $("body").css("width", "8.5in")
+            $("body").css("max-height", "11in")
+            $(".grid").css("min-width", "8.5in")
+            $(".grid").css("max-height", "11in")
+            $(".grid").css("flex-flow", "row wrap")
+            console.log("Changed view to: Printing Paper")
+            break;
+        case 1:
+            $("body").css("width", "8.5in")
+            $("body").css("max-height", "11in")
+            $(".grid").css("min-width", "8.5in")
+            $(".grid").css("min-height", "11in")
+            $(".grid").css("max-height", "11in")
+            $(".grid").css("flex-flow", "column wrap")
+            console.log("Changed view to: Mosaic Paper")
+            break;
+        case 2:
+            $("body").css("width", "100vw")
+            $("body").css("max-height", "100vh")
+            $(".grid").css("min-width", "100vw")
+            $(".grid").css("min-height", "100vh")
+            $(".grid").css("max-height", "100vh")
+            $(".grid").css("flex-flow", "column wrap")
+            console.log("Changed view to: Mosaic Screen")
+            break;
+        default:
+            window.pageView = -1;
+            changePageView()
+    }
+}
 
 function addBox(width = "130px", height = "100px", html = "&nbsp;") {
     html = `<span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>` + html;
