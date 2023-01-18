@@ -218,7 +218,7 @@ function toggleAllClass(querySelected, clssName) {
 }
 
 function closeMenu() {
-    toggleAllClass('.page-controls__controls', 'invisible');
+    toggleAllClass('.page-controls__controls', 'hidden');
 }
 
 function displayMessage(heading, message) {
