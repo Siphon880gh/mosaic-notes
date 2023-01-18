@@ -50,11 +50,14 @@ body {
 }
 
 .page-controls {
+    height: 100px;
+    min-width: 50px;
+    max-width: 170px;
+    position: fixed;
     top: 10px;
     right: 15px;
-    width: 170px;
-    height: 100px;
-    position: fixed;
+    z-index: 91;
+    overflow: visible;
 }
 
 .page-controls>button.fa-ellipsis-v {
