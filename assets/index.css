@@ -65,6 +65,11 @@ body {
     margin-right: 25px;
 }
 
+.page-controls>button#btn-toggle-edit-preview {
+    font-size: 120%;
+    margin-right: 17px;
+}
+
 .page-controls>button.fa-television {
     font-size: 120%;
     margin-right: 15px;

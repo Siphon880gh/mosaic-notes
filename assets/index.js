@@ -395,6 +395,14 @@ function changePageView() {
             changePageView()
     }
 }
+function toggleEditPreview() {
+    $('[contenteditable]').attr('contenteditable', $('[contenteditable]').eq(0).attr('contenteditable')==="false"?true:false)
+    if($("#btn-toggle-edit-preview").hasClass("fa-pencil")) {
+        $("#btn-toggle-edit-preview").removeClass("fa-pencil").addClass("fa-book");
+    } else {
+        $("#btn-toggle-edit-preview").addClass("fa-pencil").removeClass("fa-book");
+    }
+}
 
 function addBox(width = "130px", height = "100px", html = "&nbsp;") {
     html = `<span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>` + html;
