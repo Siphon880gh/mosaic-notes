@@ -216,6 +216,14 @@ function reinitableEditor() {
     } // if newGridsWithoutRichTextControls
 } // reinitableResizable
 
+function newLinksOpenNewTab() {
+    let missedLinks = $("a[target!=_blank]").length;
+    if(missedLinks) {
+        $("a[target!=_blank]").attr("target", "_blank")
+    }
+
+} // newLinksOpenNewTab
+
 $(()=>{
     // Must call 
     reinitableResizable();
@@ -223,11 +231,15 @@ $(()=>{
     window.suspendPoll = false; // Will be true to be thread-safe
     // Always have resizable grid items that can have rich text controls
     // This must be init for every new box.
-    // Every new box will not have ui-resizable class automatically because they need to init individually
+
+    // Every new box will NOT have ui-resizable class because the class is added after initializing
+    // When the new box is init with resizing, it will be init with rich text controls too
+    // Every new link will open in new tab (Links open in new window)
     setInterval(() => {
         if(!window.suspendPoll) {
             reinitableResizable(true); // isReinit: Boolean = false
             reinitableEditor();
+            newLinksOpenNewTab();
         }
     }, 100);
 })
