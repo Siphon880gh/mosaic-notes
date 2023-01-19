@@ -14,6 +14,7 @@ function saveBodyHTML(localStorageKey) {
     
     console.log(html)
     localStorage.setItem(localStorageKey, html)
+    window.PERSIST.pollFile = "mosaic_notes__" + localStorageKey;
 }
 
 function loadBodyHTML(localStorageKey) {
@@ -21,6 +22,7 @@ function loadBodyHTML(localStorageKey) {
     if(html) {
         $(".grid").html(html);
         fixLayoutHandles();
+        window.PERSIST.pollFile = "mosaic_notes__" + localStorageKey;
     }
 }
 

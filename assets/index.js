@@ -4,6 +4,24 @@
  * Jump to that section's exact comment or function name: Copy -> Search
  * 
  * */
+
+$(()=>{
+    // Autosave when user stops typing
+
+    window.lastPressedTime = 0;
+    $(".grid").on("keyup click blur", ()=>{
+        const currentTime = parseInt(Date.now()/1000);
+        if(currentTime - window.lastPressedTime >= 2) {
+            window.lastPressedTime = currentTime;
+            if(window.PERSIST.pollFile.length>0) {
+                let [prefix, rootLocalStorageKey] = PERSIST.pollFile.split("mosaic_notes__");
+                saveBodyHTML(rootLocalStorageKey);
+                console.log("Saved " + window.lastPressedTime);
+            }
+        }
+    })
+})
+
 delete {
     "Init Process": {
         "Warn user if on mobile":{},
@@ -17,7 +35,8 @@ delete {
     "Init polling required": {
         "Warn user if on mobile":{},
         "Resizable":{},
-        "Rich text editor":{}
+        "Rich text editor":{},
+        "Autosave":{}
     },
     "Utility functions": {},
     "Low level implementation for core methods: Change box mode into resizable|rearrange|plain": {
@@ -152,6 +171,7 @@ $(()=>{
  * Init polling required
  * Resizable
  * Rich text editor
+ * Autosave
  * 
  */
 function reinitableResizable(isReinit) {
@@ -233,7 +253,6 @@ function closeMenu() {
 }
 
 function displayMessage(heading, message) {
-    // TODO: Make it a slide in at the bottom right with success colors.
     $("#msg-heading").text(heading)
     $("#msg-message").text(message)
     $("#msg").slideDown("slow", function() {
@@ -544,8 +563,6 @@ function changeBorderColor(event) {
     }
 } // changeBorderColor
 
-// TODO: In the future, explore adding an inner contenteditable for the boxes so that the handles can be anchored to the outer box without copying and pasting affecting the handles.
-// However, even if we perform this fix, we may want to keep fixLayoutHandles to force reinitializing on loading and importing.
 function fixLayoutHandles() {
 
     window.suspendPoll = true;
@@ -595,14 +612,14 @@ function commandPromptUserOpen(event) {
 function commandPromptProcessor(cmd) {
     if(cmd) {
         if(cmd.includes("save ")) {
-            let localStorageKey = "mosaic_notes__" + cmd.split(" ")[1];
+            let localStorageKey = cmd.split(" ")[1];
             saveBodyHTML(localStorageKey);
             displayMessage("Saved!", `If running commands, next time you can run 'open ${cmd.split(" ")[1]}'`);
         } else if(cmd.includes("load ")) {
-            let localStorageKey = "mosaic_notes__" + cmd.split(" ")[1];
+            let localStorageKey = cmd.split(" ")[1];
             loadBodyHTML(localStorageKey)
         } else if(cmd.includes("open ")) {
-            let localStorageKey = "mosaic_notes__" + cmd.split(" ")[1];
+            let localStorageKey = cmd.split(" ")[1];
             loadBodyHTML(localStorageKey)
         } else if(cmd.indexOf("export")===0) {
             exportBodyHTML();
