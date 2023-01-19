@@ -12,6 +12,11 @@
 
 /** General Layout **/
 
+html {
+    opacity: 0;
+    /* JS Controlled */
+}
+
 body {
     padding: 5px;
     width: 8.5in;
@@ -31,6 +36,10 @@ body {
     body {
         border: 0;
     }
+}
+
+html {
+    transition: opacity 1s ease;
 }
 
 

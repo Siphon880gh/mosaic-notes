@@ -77,6 +77,9 @@ $(()=>{
     // Load last saved page view
     const hasSavedPageView = localStorage.getItem("mosaic_notes___page_view");
     if(hasSavedPageView) changePageView(hasSavedPageView)
+    // $("body").css("border", "1px solid rgba(125, 125, 125, .5);");
+    // $("html").addClass("bg-gradient-to-r from-gray-400 to-gray-100");
+    $("html").css("opacity", 1);
 
     // Track last grid item for duplication, deletion, modifying settings: When user clicks a box
     window.lastBox = null;
