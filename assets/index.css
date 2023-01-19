@@ -49,7 +49,6 @@ html {
     display: flex;
     justify-content: flex-start;
     flex-flow: row wrap;
-    overflow: scroll;
 }
 
 .grid-item {

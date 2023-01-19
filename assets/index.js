@@ -399,9 +399,12 @@ function changePageView(at=-1) {
         case 0:
             $("body").css("width", "8.5in")
             $("body").css("max-height", "11in")
+            $("body").css("max-height", "1200vh")
             $(".grid").css("min-width", "8.5in")
-            $(".grid").css("max-height", "11in")
+            $(".grid").css("min-height", "11in")
+            $(".grid").css("max-height", "1200vh")
             $(".grid").css("flex-flow", "row wrap")
+            $(".grid").css("overflow", "scroll")
             console.log("Changed view to: Printing Paper")
             localStorage.setItem("mosaic_notes___page_view", 0)
             break;
@@ -412,16 +415,19 @@ function changePageView(at=-1) {
             $(".grid").css("min-height", "11in")
             $(".grid").css("max-height", "11in")
             $(".grid").css("flex-flow", "column wrap")
+            $(".grid").css("overflow", "scroll");
             console.log("Changed view to: Mosaic Paper")
             localStorage.setItem("mosaic_notes___page_view", 1)
             break;
         case 2:
             $("body").css("width", "100vw")
-            $("body").css("max-height", "100vh")
+            $("body").css("min-height", "100vh")
+            $("body").css("max-height", "150vh")
             $(".grid").css("min-width", "100vw")
             $(".grid").css("min-height", "100vh")
-            $(".grid").css("max-height", "100vh")
+            $(".grid").css("max-height", "150vh")
             $(".grid").css("flex-flow", "column wrap")
+            $(".grid").css("overflow", "scroll")
             console.log("Changed view to: Mosaic Screen")
             localStorage.setItem("mosaic_notes___page_view", 2)
             break;
