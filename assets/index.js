@@ -5,27 +5,12 @@
  * 
  * */
 
-$(()=>{
-    // Autosave when user stops typing
-
-    window.lastPressedTime = 0;
-    $(".grid").on("keyup click blur", ()=>{
-        const currentTime = parseInt(Date.now()/1000);
-        if(currentTime - window.lastPressedTime >= 2) {
-            window.lastPressedTime = currentTime;
-            if(window.PERSIST.pollFile.length>0) {
-                let [prefix, rootLocalStorageKey] = PERSIST.pollFile.split("mosaic_notes__");
-                saveBodyHTML(rootLocalStorageKey);
-                console.log("Saved " + window.lastPressedTime);
-            }
-        }
-    })
-})
 
 delete {
     "Init Process": {
         "Warn user if on mobile":{},
         "Init Command Palette UI":{},
+        "Autosave when user stops typing":{},
         "Load last saved page view":{},
         "lastBox: Tracks the most recent box for toggling borders, etc settings":{},
         "Init sorting makes items able to rearrange via handle icon":{},
@@ -36,7 +21,7 @@ delete {
         "Warn user if on mobile":{},
         "Resizable":{},
         "Rich text editor":{},
-        "Autosave":{}
+        "Links open in new window":{}
     },
     "Utility functions": {},
     "Low level implementation for core methods: Change box mode into resizable|rearrange|plain": {
@@ -92,6 +77,22 @@ $(()=>{
     $("#command-prompt").removeClass("hidden");
     $("button[title='Close']").html(`<span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>`)
 
+    $(()=>{
+        // Autosave when user stops typing
+    
+        window.lastPressedTime = 0;
+        $(".grid").on("keyup click blur", ()=>{
+            const currentTime = parseInt(Date.now()/1000);
+            if(currentTime - window.lastPressedTime >= 2) {
+                window.lastPressedTime = currentTime;
+                if(window.PERSIST.pollFile.length>0) {
+                    let [prefix, rootLocalStorageKey] = PERSIST.pollFile.split("mosaic_notes__");
+                    saveBodyHTML(rootLocalStorageKey);
+                    console.log("Saved " + window.lastPressedTime);
+                }
+            }
+        })
+    })
 
     // Load last saved page view
     const hasSavedPageView = localStorage.getItem("mosaic_notes___page_view");
