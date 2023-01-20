@@ -15,7 +15,8 @@ delete {
         "lastBox: Tracks the most recent box for toggling borders, etc settings":{},
         "Init sorting makes items able to rearrange via handle icon":{},
         "Future proof persisting boxes. Would find the last box, however can add more implementations as necessary.":{},
-        "Init modifier keys for changing resizing/rearranging/plain boxes.":{}
+        "Init modifier keys for changing resizing/rearranging/plain boxes.":{},
+        "Init page controls menu showing and hiding.":{}
     },
     "Init polling required": {
         "Warn user if on mobile":{},
@@ -167,6 +168,45 @@ $(()=>{
     });
 });
 
+// Init page controls menu showing and hiding
+function slideInPageControls() {
+    $(".page-controls").show("slide", {
+        direction: "right"
+    }, 200);
+}
+
+function slideOutPageControls() {
+    $(".page-controls").hide("slide", {
+        direction: "right"
+    }, 200);
+    closeMenu();
+}
+function setSlideOutPageControls() {
+    $(".page-controls").hide("slide", {
+        direction: "right"
+    }, 0);
+}
+$(() => {
+    // Initially hide menu / page controls
+    setSlideOutPageControls();
+
+    // Make sure to slide in menu when in general area
+    $(".show-menu-hotarea, .page-controls").mouseenter(() => {
+        slideInPageControls();
+    })
+
+    // Clicking outside general area of page controls will hide controls
+    $("body").on("click", (event) => {
+        if (event.clientX < window.outerWidth - 66 || event.clientY > window.outerWidth - 205) {
+            slideOutPageControls();
+        }
+    })
+
+    // On mobile you can't just move a mouse in general area, so there's a reveal menu icon
+    $(".show-menu-icon").on("click", () => {
+        slideInPageControls();
+    });
+});
 
 /**
  * Init polling required
