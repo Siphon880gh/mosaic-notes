@@ -176,10 +176,10 @@ function slideInPageControls() {
 }
 
 function slideOutPageControls() {
+    closeMenu();
     $(".page-controls").hide("slide", {
         direction: "right"
     }, 200);
-    closeMenu();
 }
 function setSlideOutPageControls() {
     $(".page-controls").hide("slide", {

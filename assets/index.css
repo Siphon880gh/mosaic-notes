@@ -62,14 +62,17 @@ html {
     position: fixed;
     top: 0;
     right: 0;
-    width: 250px;
-    height: 300px;
+    /* width: 250px;
+    height: 300px; */
+    width: 100px;
+    height: 100px;
 }
 
 .show-menu-icon-wrapper {
     position: fixed;
     top: 10px;
     right: 10px;
+    z-index: 90;
 }
 
 .show-menu-icon {
