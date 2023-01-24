@@ -243,10 +243,12 @@ div[role="dialog"][aria-describedby="command-prompt"] .ui-dialog-buttonset butto
     /* Initially hidden for sliding down */
     display: none;
     /* Position */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
+    /* position: fixed; */
+    /* top: 0; */
+    /* left: 0; */
+    /* width: 100vw; */
+    width: 100%;
+    margin-bottom: 7px;
     /* Shadows */
     --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);

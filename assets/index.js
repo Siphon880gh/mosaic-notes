@@ -306,6 +306,7 @@ function closeMenu() {
 }
 
 function displayMessage(heading, message) {
+    $("html, body").animate({ scrollTop: 0 }, "fast");
     $("#msg-heading").text(heading)
     $("#msg-message").text(message)
     $("#msg").slideDown("slow", function() {
