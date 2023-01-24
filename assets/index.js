@@ -305,8 +305,31 @@ function closeMenu() {
     toggleAllClass('.page-controls__controls', 'hidden');
 }
 
-function displayMessage(heading, message) {
+/**
+ * 
+ * displayMessage("Success", "This passes", "green")
+ * displayMessage("Error", "This is error information", "red")
+ * displayMessage("Info", "This is information", "info")
+ * 
+ */
+function displayMessage(heading, message, colorTheme = "green") {
+    colorTheme = colorTheme.toLowerCase();
     $("html, body").animate({ scrollTop: 0 }, "fast");
+
+    switch(colorTheme) {
+        case "green":
+            $("#msg").removeClass("green red info").addClass("green")
+            break;
+        case "red":
+            $("#msg").removeClass("green red info").addClass("red")    
+            break;
+        case "info":
+            $("#msg").removeClass("green red info").addClass("info")    
+            break;
+        default:
+            $("#msg").removeClass("green red info").addClass("green")    
+    } // color Theme
+
     $("#msg-heading").text(heading)
     $("#msg-message").text(message)
     $("#msg").slideDown("slow", function() {
