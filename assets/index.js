@@ -5,7 +5,6 @@
  * 
  * */
 
-
 delete {
     "Init Process": {
         "Warn user if on mobile":{},
@@ -13,6 +12,7 @@ delete {
         "Autosave when user stops typing":{},
         "Load last saved page view":{},
         "lastBox: Tracks the most recent box for toggling borders, etc settings":{},
+        "Track if an image is clicked when you are in Resize Image Mode": {},
         "Init sorting makes items able to rearrange via handle icon":{},
         "Future proof persisting boxes. Would find the last box, however can add more implementations as necessary.":{},
         "Init modifier keys for changing resizing/rearranging/plain boxes.":{},
@@ -102,8 +102,10 @@ $(()=>{
     // $("html").addClass("bg-gradient-to-r from-gray-400 to-gray-100");
     $("html").css("opacity", 1);
 
-    // Track last grid item for duplication, deletion, modifying settings: When user clicks a box
+    // lastBox: Tracks the most recent box for toggling borders, etc settings (includes duplicating and deleting the most recently used or created box)
+    // Track if an image is clicked when you are in Resize Image Mode
     window.lastBox = null;
+    window.resizingImg = false;
     $("body").on("click", event => {
         const gridItem = event.target.matches(".grid-item") ? event.target : event.target.closest(".grid-item");
         if (gridItem) {
@@ -112,7 +114,18 @@ $(()=>{
             console.groupEnd();
             window.lastBox = $(gridItem);
         }
-    });
+
+        if(event.target.matches("img")) {
+            if(window.resizingImg) {
+                const w = prompt("Img width in css:", event.target.style.width?event.target.style.width:event.target.width+"px");
+                const h = prompt("Img height in css:", event.target.style.height?event.target.style.height:event.target.height+"px");
+                event.target.style.width = w;
+                event.target.style.height = h;
+
+                resizeImgMode(false)
+            }
+        }
+    }); // body
 
     // Rearrangeable: Once container is init, can create new boxes and they are automatically rearrangeable
     function initSort() {
@@ -312,7 +325,7 @@ function closeMenu() {
  * displayMessage("Info", "This is information", "info")
  * 
  */
-function displayMessage(heading, message, colorTheme = "green") {
+function displayMessage(heading, message, colorTheme = "green", duration = 2000) {
     colorTheme = colorTheme.toLowerCase();
     $("html, body").animate({ scrollTop: 0 }, "fast");
 
@@ -337,9 +350,18 @@ function displayMessage(heading, message, colorTheme = "green") {
             $("#msg").fadeOut("slow", ()=>{
                 $("#msg").slideUp("slow");
             });
-        }, 2000)
+        }, duration)
     });
 }
+$("#msg").on("click", function() {
+    $("#msg").slideDown("fast", function() {
+        setTimeout(()=>{
+            $("#msg").fadeOut("slow", ()=>{
+                $("#msg").slideUp("slow");
+            });
+        }, 10)
+    });
+});
 
 
 /**
@@ -676,6 +698,20 @@ function fixLayoutHandles() {
     });
 } // fixLayoutHandles
 
+function resizeImgMode(willResize) {
+    if(willResize) {
+        $("#dynamic-style-img")[0].innerHTML = `
+            img {
+                cursor: alias;
+            }
+        `;
+        window.resizingImg = true;
+    } else {
+        $("#dynamic-style-img")[0].innerHTML = ``
+        window.resizingImg = false;
+    }
+} // resizeImgMode
+
 /**
  * 
  * Command prompt user opens
@@ -710,6 +746,9 @@ function commandPromptProcessor(cmd) {
         } else if(cmd.includes("import ")) {
             const importedContents = cmd.substr(7)
             importBodyHTML(importedContents);
+        } else if(cmd.includes("resize img")) {
+            displayMessage("Instructions", "Click an image you want to resize. Future version will allow click and dragging to resize.", "info", 5000)
+            resizeImgMode(true);
         }
     }
 } // commandPromptProcessor

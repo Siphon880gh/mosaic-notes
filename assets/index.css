@@ -124,9 +124,9 @@ html {
     margin-right: 1.5ch;
 }
 
-.page-controls>button.fa-terminal {
+button.fa-terminal {
     position: fixed;
-    bottom: 10px;
+    bottom: 20px;
     right: 2ch;
     font-size: 125%;
 }

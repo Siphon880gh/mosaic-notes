@@ -26,6 +26,9 @@
             padding: 10px;
         }
     </style>
+    <style id="dynamic-style-img">
+
+    </style>
 
     <style id="box-mode">
         .grid-item .handle-rearrange {
@@ -60,10 +63,7 @@
         <img class="show-menu-icon" src="assets/icons/menu.png" />
     </div>
     <nav class="page-controls text-right">
-        <div class="page-controls__white_bg">
-
-        </div>
-        <button class="fa fa-solid fa-terminal cursor-pointer hover:text-green-600 hover:border-red-600" onclick='commandPromptUserOpen(event)'></button>
+        <div class="page-controls__white_bg"></div>
 
         <button class="fa fa-solid fa-ellipsis-v cursor-pointer hover:text-green-600 mr-4" onclick="toggleAllClass('.page-controls__controls', 'hidden')"></button>
         <ul class="page-controls__controls hidden bg-gray-200 rounded-md p-2 text-left">
@@ -145,6 +145,8 @@
         <div style="width:1px; height:1.5rem;"></div>
         <button class="fa fa-solid fa-plus cursor-pointer border-circle-gray hover:text-green-600 hover:border-green-600" onclick="addBox()"></button><br/>
     </nav>
+
+    <button class="fa fa-solid fa-terminal cursor-pointer hover:text-green-600 hover:border-red-600" onclick='commandPromptUserOpen(event)'></button>
     <!-- Box settings -->
 
     <main class="grid">
@@ -230,6 +232,16 @@
                     </td>
                     <td>
                     </td>
+                </tr>
+            </tbody>
+            <thead>
+                <tr>
+                    <th colspan="2" style="text-align:center">Other commands</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>resize img</td>
                 </tr>
             </tbody>
         </table>
