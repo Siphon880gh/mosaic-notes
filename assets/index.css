@@ -321,3 +321,10 @@ div[role="dialog"][aria-describedby="command-prompt"] .ui-dialog-buttonset butto
 #msg-message {
     margin-top: 10px;
 }
+
+
+/* Bug Fix: Command Palette sometimes overshadowed by shadow overlay */
+
+[describedby="command-prompt"] {
+    z-index: 9999;
+}
