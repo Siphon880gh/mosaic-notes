@@ -742,7 +742,7 @@ function commandPromptProcessor(cmd) {
             loadBodyHTML(localStorageKey)
         } else if(cmd.indexOf("export")===0) {
             exportBodyHTML();
-            displayMessage("Exported!", `If running  commands, next time you can run 'import {contents}'`);
+            displayMessage("Exported!", `Open <a href='https://developer.chrome.com/docs/devtools/open/' target='_blank'>DevTools console</a> for the content text. On a separate device or browser, you can 'import {contents}'`, "green", 5000);
         } else if(cmd.includes("import ")) {
             const importedContents = cmd.substr(7)
             importBodyHTML(importedContents);
