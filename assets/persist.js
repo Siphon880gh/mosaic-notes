@@ -10,19 +10,21 @@ var PERSIST = {
  * 
  */
 function saveBodyHTML(localStorageKey) {
+    const prepend = "mosaic_notes__"
     let html = $(".grid").html();
     
     console.log(html)
-    localStorage.setItem(localStorageKey, html)
-    window.PERSIST.pollFile = "mosaic_notes__" + localStorageKey;
+    localStorage.setItem(prepend+localStorageKey, html)
+    window.PERSIST.pollFile = localStorageKey;
 }
 
 function loadBodyHTML(localStorageKey) {
-    let html = localStorage.getItem(localStorageKey)
+    const prepend = "mosaic_notes__"
+    let html = localStorage.getItem(prepend+localStorageKey)
     if(html) {
         $(".grid").html(html);
         fixLayoutHandles();
-        window.PERSIST.pollFile = "mosaic_notes__" + localStorageKey;
+        window.PERSIST.pollFile = localStorageKey;
     }
 }
 

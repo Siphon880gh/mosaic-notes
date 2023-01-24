@@ -87,8 +87,8 @@ $(()=>{
             if(currentTime - window.lastPressedTime >= 2) {
                 window.lastPressedTime = currentTime;
                 if(window.PERSIST.pollFile.length>0) {
-                    let [prefix, rootLocalStorageKey] = PERSIST.pollFile.split("mosaic_notes__");
-                    saveBodyHTML(rootLocalStorageKey);
+                    let previouslyAccessedFile = PERSIST.pollFile
+                    saveBodyHTML(previouslyAccessedFile);
                     console.log("Saved " + window.lastPressedTime);
                 }
             }
@@ -746,9 +746,19 @@ function commandPromptProcessor(cmd) {
         } else if(cmd.includes("import ")) {
             const importedContents = cmd.substr(7)
             importBodyHTML(importedContents);
-        } else if(cmd.includes("resize img")) {
+        } else if(cmd.indexOf("resize img")===0) {
             displayMessage("Instructions", "Click an image you want to resize. Future version will allow click and dragging to resize.", "info", 5000)
             resizeImgMode(true);
+        } else if(cmd.indexOf("list files")===0) {
+            displayMessage("Instructions", "Open DevTools console for a list of saved files.", "info", 5000)
+            var savedFiles = [];
+            var prependKey = "mosaic_notes__"
+            for(key in localStorage) {
+                if(key.indexOf(prependKey)===0 && key.indexOf(prependKey+"_page_view")===-1) {
+                    savedFiles.push(key.substr(prependKey.length)) 
+                }
+            }
+            console.info({savedFiles});
         }
     }
 } // commandPromptProcessor
