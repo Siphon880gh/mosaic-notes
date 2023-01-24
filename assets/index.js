@@ -343,8 +343,8 @@ function displayMessage(heading, message, colorTheme = "green", duration = 2000)
             $("#msg").removeClass("green red info").addClass("green")    
     } // color Theme
 
-    $("#msg-heading").text(heading)
-    $("#msg-message").text(message)
+    $("#msg-heading").html(heading)
+    $("#msg-message").html(message)
     $("#msg").slideDown("slow", function() {
         setTimeout(()=>{
             $("#msg").fadeOut("slow", ()=>{
@@ -750,7 +750,7 @@ function commandPromptProcessor(cmd) {
             displayMessage("Instructions", "Click an image you want to resize. Future version will allow click and dragging to resize.", "info", 5000)
             resizeImgMode(true);
         } else if(cmd.indexOf("list files")===0) {
-            displayMessage("Instructions", "Open DevTools console for a list of saved files.", "info", 5000)
+            displayMessage("Instructions", "Open <a href='https://developer.chrome.com/docs/devtools/open/' target='_blank'>DevTools console</a> for a list of saved files. Future version will show inside the webpage.", "info", 5000)
             var savedFiles = [];
             var prependKey = "mosaic_notes__"
             for(key in localStorage) {
@@ -758,7 +758,7 @@ function commandPromptProcessor(cmd) {
                     savedFiles.push(key.substr(prependKey.length)) 
                 }
             }
-            console.info({savedFiles});
+            console.log(JSON.stringify(savedFiles));
         }
     }
 } // commandPromptProcessor
