@@ -332,10 +332,9 @@ function closeMenu() {
  * 
  */
 function displayMessage(heading, message, colorTheme = "green", duration = 2000) {
-    colorTheme = colorTheme.toLowerCase();
     $("html, body").animate({ scrollTop: 0 }, "fast");
 
-    switch(colorTheme) {
+    switch(colorTheme.toLowerCase()) {
         case "green":
             $("#msg").removeClass("green red info").addClass("green")
             break;
@@ -736,10 +735,18 @@ function commandPromptUserOpen(event) {
 } // commandPromptUserOpen
 function commandPromptProcessor(cmd) {
     if(cmd) {
-        if(cmd.includes("save ")) {
+        if(cmd==="save") {
+            let localStorageKey = PERSIST.pollFile;
+            if(localStorageKey) {
+                saveBodyHTML(localStorageKey);
+                displayMessage("Saved!", `Saved '${localStorageKey}'. Next session you can revisit with either load or open: 'open ${localStorageKey}'`, "green", 5000);
+            } else {
+                displayMessage("Error", `No recently opened or saved file to refer to. Please type the save command followed by a filename. Then you may run the shorter \`save\` command on the same session.`, "red", 7000);
+            }
+        } else if(cmd.includes("save ")) {
             let localStorageKey = cmd.split(" ")[1];
             saveBodyHTML(localStorageKey);
-            displayMessage("Saved!", `If running commands, next time you can run 'open ${cmd.split(" ")[1]}'`);
+            displayMessage("Saved!", `Saved '${cmd.split(" ")[1]}'. Next session you can revisit with either load or open: 'open ${cmd.split(" ")[1]}'`, "green", 5000);
         } else if(cmd.includes("load ")) {
             let localStorageKey = cmd.split(" ")[1];
             loadBodyHTML(localStorageKey)

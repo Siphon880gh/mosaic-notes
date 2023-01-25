@@ -16,6 +16,7 @@ function saveBodyHTML(localStorageKey) {
     console.log(html)
     localStorage.setItem(prepend+localStorageKey, html)
     window.PERSIST.pollFile = localStorageKey;
+    window.history.pushState("","", "#"+localStorageKey);
 }
 
 function loadBodyHTML(localStorageKey) {
