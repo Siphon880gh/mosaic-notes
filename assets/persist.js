@@ -25,6 +25,7 @@ function loadBodyHTML(localStorageKey) {
         $(".grid").html(html);
         fixLayoutHandles();
         window.PERSIST.pollFile = localStorageKey;
+        window.history.pushState("","", "#"+localStorageKey);
     } else {
         displayMessage("Error", `No such saved file: ${localStorageKey}.`, "red")
     }
