@@ -7,6 +7,7 @@
 
 delete {
     "Init Process": {
+        "Load file if in URL":{},
         "Warn user if on mobile":{},
         "Init Command Palette UI":{},
         "Autosave when user stops typing":{},
@@ -19,7 +20,6 @@ delete {
         "Init page controls menu showing and hiding.":{}
     },
     "Init polling required": {
-        "Warn user if on mobile":{},
         "Resizable":{},
         "Rich text editor":{},
         "Links open in new window":{}
@@ -37,6 +37,7 @@ delete {
 
 /** 
  * Init Process
+ * Load file if in URL
  * Warn user if on mobile
  * Init Command Palette UI
  * lastBox: Tracks the most recent box for toggling borders, etc settings
@@ -45,6 +46,11 @@ delete {
  * Init modifier keys for changing resizing/rearranging/plain boxes
  */
 $(()=>{
+
+    let hash = window.location.hash.length?window.location.hash.substr(1):"";
+    if(hash) {
+        loadBodyHTML(hash)
+    }
     // Warn user if on mobile that this is a Desktop app
     if(window.innerWidth < 816) {
         alert("Advisory: You are on a small window. The purpose of this app is to create a boxed notes template that prints on a 11 x 8.5 inches paper. Then you would use it for work or school. Please visit on a bigger screen.")

@@ -26,7 +26,7 @@ function loadBodyHTML(localStorageKey) {
         fixLayoutHandles();
         window.PERSIST.pollFile = localStorageKey;
     } else {
-        displayMessage("Error", "No such saved file.", "red")
+        displayMessage("Error", `No such saved file: ${localStorageKey}.`, "red")
     }
 }
 
