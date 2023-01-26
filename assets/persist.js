@@ -17,6 +17,7 @@ function saveBodyHTML(localStorageKey) {
     localStorage.setItem(prepend+localStorageKey, html)
     window.PERSIST.pollFile = localStorageKey;
     window.history.pushState("","", "#"+localStorageKey);
+    window.document.title = "MN - "+localStorageKey
 }
 
 function loadBodyHTML(localStorageKey) {
@@ -27,6 +28,7 @@ function loadBodyHTML(localStorageKey) {
         fixLayoutHandles();
         window.PERSIST.pollFile = localStorageKey;
         window.history.pushState("","", "#"+localStorageKey);
+        window.document.title = "MN - "+localStorageKey
     } else {
         displayMessage("Error", `No such saved file: ${localStorageKey}.`, "red")
     }
