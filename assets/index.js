@@ -215,6 +215,7 @@ $(()=>{
 
         // [Special + ?]
         } else if((e.metaKey || e.ctrlKey) && !e.shiftKey && e.key.length) {
+
             // After copying/pasting, check for and fix broken handles
             if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="v")
                 setTimeout(fixLayoutHandles, 100);
@@ -614,6 +615,7 @@ function addBox(width = "130px", height = "100px", html = "&nbsp;") {
     const $box = $(`<div class="grid-item unreset rounded-lg" contenteditable="true" style="width:${width}; height:${height}">${html}</div>`);
     $(".grid").append($box);
     window.lastBox = $box;
+    $box.trigger("focus")
 }
 
 function precheckCanDuplicateBox() {
