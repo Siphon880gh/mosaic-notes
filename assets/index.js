@@ -166,52 +166,45 @@ $(()=>{
 
     // Init modifier keys for changing resizing/rearranging/plain boxes
     document.body.addEventListener('keydown', function(e) {
-        // console.log(e.shiftKey); // shift
-        // console.log(e.ctrlKey); // ctrl
-        // console.log(e.altKey); // alt or option
-        // console.log(e.metaKey); // command/windows (meta) key
-        // console.log(e.key); // any letter, number, etc including "backspace"
-        // console.log(e.altKey);
 
-
+        // These three should not be in an if-else
+        // Resizing vs Rearranging vs Plain
+        if ((e.metaKey || e.ctrlKey) && !e.shiftKey && (!e.altKey && !e.key))
+            changeBoxMode("resizable")
+        else if ((e.metaKey || e.ctrlKey) && e.shiftKey && (!e.altKey && !e.key))
+            changeBoxMode("rearrange")
+        else // resets in other cases
+            changeBoxMode("plain")
 
         // [Special + Alt + ?]
-        if((e.metaKey || e.ctrlKey) && e.altKey && e.key.length) {
+        if((e.metaKey || e.ctrlKey) && e.altKey && e.key.length && (!e.shiftKey)) {
             console.log(e.metaKey || e.ctrlKey)
             console.log(e.altKey)
             console.log(e.key)
 
-            if ((e.metaKey || e.ctrlKey) && e.altKey && (e.key.toLowerCase()==="dead"||e.key.toLowerCase()==="n")) { // Opt+n is a special character on Mac
-                e.preventDefault();
-                e.stopPropagation();
+            if ((e.metaKey || e.ctrlKey) && e.altKey && (e.key.toLowerCase()==="n"||e.key.toLowerCase()==="dead")) { // Opt+n is a special character on Mac
                 addBox();
             } else if ((e.metaKey || e.ctrlKey) && e.altKey && e.key.toLowerCase()==="backspace") {
-                e.preventDefault();
-                e.stopPropagation();
                 deleteLastBox();
+            } else {
+                return;
             }
+
+            e.preventDefault();
+            e.stopPropagation();
+            
         // [Special + Shift + ?]
-        } else if((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.length) {
+        } else if((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.length && (!e.altKey)) {
             // These can't be simply SPECIAL+P because that usually has other commands
-            // Prevent default only on these even though redundant or else it may stop other shortcuts like hard reloading from working
 
             // Command Palette. 
             if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p") {
-                e.preventDefault();
-                e.stopPropagation();
                 commandPromptUserOpen(e);
+            } else {
+                return;
             }
-        // [Special + Shift + ?]
-        } else if((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.length) {
-            // These can't be simply SPECIAL+P because that usually has other commands
-            // Prevent default only on these even though redundant or else it may stop other shortcuts like hard reloading from working
-
-            // Command Palette. 
-            if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p") {
-                e.preventDefault();
-                e.stopPropagation();
-                commandPromptUserOpen(e);
-            }
+            e.preventDefault();
+            e.stopPropagation();
 
         // [Special + ?]
         } else if((e.metaKey || e.ctrlKey) && !e.shiftKey && e.key.length) {
@@ -222,21 +215,14 @@ $(()=>{
             else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="e") {
                 slideInPageControls();
                 toggleEditPreview();
+                $("#btn-toggle-edit-preview").animate({color:"white"}, 500, "easeInBounce", function() {
+                    $("#btn-toggle-edit-preview").css("color", "")
+                })
                 setTimeout(()=>{
                     slideOutPageControls();
                 }, 4500)
             }
 
-        } else {
-            
-            // These three should not be in an if-else
-            // Resizing vs Rearranging vs Plain
-            if ((e.metaKey || e.ctrlKey) && !e.shiftKey)
-                changeBoxMode("resizable")
-            if ((e.metaKey || e.ctrlKey) && e.shiftKey)
-                changeBoxMode("rearrange")
-            if (!e.metaKey && !e.ctrlKey && !e.shiftKey) // resets in other cases
-                changeBoxMode("plain")
         }
         
     });
