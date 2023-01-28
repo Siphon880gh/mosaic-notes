@@ -168,19 +168,42 @@ $(()=>{
         // console.log(e.altKey); // alt
         // console.log(e.metaKey); // command/windows (meta) key
         // console.log(e.key); // any letter, number, etc
+        console.log(e.key);
 
-        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="v")
-            setTimeout(fixLayoutHandles, 100); // Check for and fix broken handles after copying/pasting
-        else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="e")
-            toggleEditPreview();
-        else if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p")
-            commandPromptUserOpen(e)
-        else if ((e.metaKey || e.ctrlKey) && e.shiftKey)
-            changeBoxMode("rearrange")
-        else if ((e.metaKey || e.ctrlKey) && !e.shiftKey)
-            changeBoxMode("resizable")
-        else if (!e.metaKey && !e.ctrlKey && !e.shiftKey)
-            changeBoxMode("plain")
+        // [Special + Shift + ?]
+        if((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.length==1) {
+            // These can't be simply SPECIAL+P because that usually has other commands
+            e.preventDefault();
+
+            // Command Palette. 
+            if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p")
+                commandPromptUserOpen(e);
+
+        // [Special + ?]
+        } else if((e.metaKey || e.ctrlKey) && !e.shiftKey && e.key.length==1) {
+            // After copying/pasting, check for and fix broken handles
+            if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="v")
+                setTimeout(fixLayoutHandles, 100);
+            else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="e") {
+                slideInPageControls();
+                toggleEditPreview();
+                setTimeout(()=>{
+                    slideOutPageControls();
+                }, 4500)
+            }
+
+        } else {
+            
+            // These three should not be in an if-else
+            // Resizing vs Rearranging vs Plain
+            if ((e.metaKey || e.ctrlKey) && !e.shiftKey)
+                changeBoxMode("resizable")
+            if ((e.metaKey || e.ctrlKey) && e.shiftKey)
+                changeBoxMode("rearrange")
+            if (!e.metaKey && !e.ctrlKey && !e.shiftKey) // resets in other cases
+                changeBoxMode("plain")
+        }
+        
     });
     document.body.addEventListener('keyup', function(e) {
         reassertBoxModeVisual();
@@ -195,7 +218,9 @@ function slideInPageControls() {
 }
 
 function slideOutPageControls() {
-    closeMenu();
+    if(!$(".page-controls__controls").hasClass("hidden"))
+        closeMenu();
+
     $(".page-controls").hide("slide", {
         direction: "right"
     }, 200);
@@ -674,6 +699,7 @@ function changeBorderColor(event) {
 } // changeBorderColor
 
 function fixLayoutHandles() {
+    console.log("fixLayoutHandles")
 
     window.suspendPoll = true;
     let length = $(".grid").find(".grid-item").length;
