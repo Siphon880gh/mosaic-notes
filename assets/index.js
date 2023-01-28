@@ -165,22 +165,53 @@ $(()=>{
     document.body.addEventListener('keydown', function(e) {
         // console.log(e.shiftKey); // shift
         // console.log(e.ctrlKey); // ctrl
-        // console.log(e.altKey); // alt
+        // console.log(e.altKey); // alt or option
         // console.log(e.metaKey); // command/windows (meta) key
-        // console.log(e.key); // any letter, number, etc
-        console.log(e.key);
+        // console.log(e.key); // any letter, number, etc including "backspace"
+        // console.log(e.altKey);
 
+
+
+        // [Special + Alt + ?]
+        if((e.metaKey || e.ctrlKey) && e.altKey && e.key.length) {
+            console.log(e.metaKey || e.ctrlKey)
+            console.log(e.altKey)
+            console.log(e.key)
+
+            if ((e.metaKey || e.ctrlKey) && e.altKey && (e.key.toLowerCase()==="dead"||e.key.toLowerCase()==="n")) { // Opt+n is a special character on Mac
+                e.preventDefault();
+                e.stopPropagation();
+                addBox();
+            } else if ((e.metaKey || e.ctrlKey) && e.altKey && e.key.toLowerCase()==="backspace") {
+                e.preventDefault();
+                e.stopPropagation();
+                deleteLastBox();
+            }
         // [Special + Shift + ?]
-        if((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.length==1) {
+        } else if((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.length) {
             // These can't be simply SPECIAL+P because that usually has other commands
-            e.preventDefault();
+            // Prevent default only on these even though redundant or else it may stop other shortcuts like hard reloading from working
 
             // Command Palette. 
-            if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p")
+            if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p") {
+                e.preventDefault();
+                e.stopPropagation();
                 commandPromptUserOpen(e);
+            }
+        // [Special + Shift + ?]
+        } else if((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.length) {
+            // These can't be simply SPECIAL+P because that usually has other commands
+            // Prevent default only on these even though redundant or else it may stop other shortcuts like hard reloading from working
+
+            // Command Palette. 
+            if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p") {
+                e.preventDefault();
+                e.stopPropagation();
+                commandPromptUserOpen(e);
+            }
 
         // [Special + ?]
-        } else if((e.metaKey || e.ctrlKey) && !e.shiftKey && e.key.length==1) {
+        } else if((e.metaKey || e.ctrlKey) && !e.shiftKey && e.key.length) {
             // After copying/pasting, check for and fix broken handles
             if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="v")
                 setTimeout(fixLayoutHandles, 100);
