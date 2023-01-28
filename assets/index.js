@@ -50,7 +50,10 @@ $(()=>{
     let hash = window.location.hash.length?window.location.hash.substr(1):"";
     if(hash) {
         loadBodyHTML(hash)
+    } else {
+        resetCanvas(true); // Reset to starter boxes, so not empty
     }
+
     // Warn user if on mobile that this is a Desktop app
     if(window.innerWidth < 816) {
         alert("Advisory: You are on a small window. The purpose of this app is to create a boxed notes template that prints on a 11 x 8.5 inches paper. Then you would use it for work or school. Please visit on a bigger screen.")
