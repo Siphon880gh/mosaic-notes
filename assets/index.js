@@ -167,47 +167,45 @@ $(()=>{
     // Init modifier keys for changing resizing/rearranging/plain boxes
     document.body.addEventListener('keydown', function(e) {
 
-        // These three should not be in an if-else
+        // console.log({key:e.key});
+        function hasKey(key) {
+            return key.length===1;
+        }
+    
         // Resizing vs Rearranging vs Plain
-        if ((e.metaKey || e.ctrlKey) && !e.shiftKey && (!e.altKey && !e.key))
+        if ((e.metaKey || e.ctrlKey) && (!e.shiftKey && !e.altKey && !hasKey(e.key))) {
             changeBoxMode("resizable")
-        else if ((e.metaKey || e.ctrlKey) && e.shiftKey && (!e.altKey && !e.key))
+            console.log("Try resizing mode")
+        } else if ((e.metaKey || e.ctrlKey) && e.shiftKey && (!e.altKey && !hasKey(e.key))) {
             changeBoxMode("rearrange")
-        else // resets in other cases
+            console.log("Try rearranging mode")
+        } else { // resets in other cases
             changeBoxMode("plain")
+            console.log("Try plain mode")
+        }
 
-        // [Special + Alt + ?]
-        if((e.metaKey || e.ctrlKey) && e.altKey && e.key.length && (!e.shiftKey)) {
-            console.log(e.metaKey || e.ctrlKey)
-            console.log(e.altKey)
-            console.log(e.key)
-
-            if ((e.metaKey || e.ctrlKey) && e.altKey && (e.key.toLowerCase()==="n"||e.key.toLowerCase()==="dead")) { // Opt+n is a special character on Mac
-                addBox();
-            } else if ((e.metaKey || e.ctrlKey) && e.altKey && e.key.toLowerCase()==="backspace") {
-                deleteLastBox();
-            } else {
-                return;
-            }
-
-            e.preventDefault();
-            e.stopPropagation();
-            
+        // [Special + Alt + n]
+        if ((e.metaKey || e.ctrlKey) && e.altKey && (e.key.toLowerCase()==="n"||e.key.toLowerCase()==="dead")) { // Opt+n is a special character on Mac
+            addBox();
+        // [Special + Alt + Backspace]
+        } else if ((e.metaKey || e.ctrlKey) && e.altKey && e.key.toLowerCase()==="backspace") {
+            deleteLastBox();
+         
         // [Special + Shift + ?]
-        } else if((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.length && (!e.altKey)) {
+        } else if((e.metaKey || e.ctrlKey) && e.shiftKey && hasKey(e.key) && (!e.altKey)) {
             // These can't be simply SPECIAL+P because that usually has other commands
 
             // Command Palette. 
             if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key.toLowerCase()==="p") {
                 commandPromptUserOpen(e);
             } else {
-                return;
+                // return;
             }
-            e.preventDefault();
-            e.stopPropagation();
+            // e.preventDefault();
+            // e.stopPropagation();
 
         // [Special + ?]
-        } else if((e.metaKey || e.ctrlKey) && !e.shiftKey && e.key.length) {
+        } else if((e.metaKey || e.ctrlKey) && !e.shiftKey && hasKey(e.key)) {
 
             // After copying/pasting, check for and fix broken handles
             if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="v")
