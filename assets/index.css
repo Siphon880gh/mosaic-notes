@@ -9,6 +9,10 @@
     border-radius: 33%;
 }
 
+.gray {
+    color: gray;
+}
+
 
 /** General Layout **/
 
@@ -18,7 +22,7 @@ html {
 }
 
 body {
-    padding: 5px;
+    /* padding: 5px; */
     width: 8.5in;
     min-height: 11in;
     border-radius: .5rem;

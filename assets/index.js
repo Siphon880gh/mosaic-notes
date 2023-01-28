@@ -167,7 +167,7 @@ $(()=>{
     // Init modifier keys for changing resizing/rearranging/plain boxes
     document.body.addEventListener('keydown', function(e) {
 
-        // console.log({key:e.key});
+        console.log({key:e.key});
         function hasKey(key) {
             return key.length===1;
         }
@@ -187,6 +187,9 @@ $(()=>{
         // [Special + Alt + n]
         if ((e.metaKey || e.ctrlKey) && e.altKey && (e.key.toLowerCase()==="n"||e.key.toLowerCase()==="dead")) { // Opt+n is a special character on Mac
             addBox();
+        // [Special + Alt + t]
+        } else if ((e.metaKey || e.ctrlKey) && e.altKey && (e.key.toLowerCase()==="t"||e.key.toLowerCase()==="†")) { // Opt+n is a special character on Mac
+            precheckCanDuplicateBox()();
         // [Special + Alt + Backspace]
         } else if ((e.metaKey || e.ctrlKey) && e.altKey && e.key.toLowerCase()==="backspace") {
             deleteLastBox();
@@ -808,6 +811,19 @@ function commandPromptProcessor(cmd) {
         } else if(cmd.indexOf("resize img")===0) {
             displayMessage("Instructions", "Click an image you want to resize. Future version will allow click and dragging to resize.", "info", 5000)
             resizeImgMode(true);
+        } else if(cmd.indexOf("expand")===0) {
+            let w = prompt("Add width in px?");
+            let h = prompt("Add height in px?");
+            w=parseInt(w);
+            h=parseInt(h);
+
+            $("#grid-dynamically-expand").html(`
+                .grid-dynamically-expand {
+                    width: ${ $("body").width()+w+"px" } !important;
+                    height: ${ $("body").height()+h+"px" } !important;
+                }
+            `);
+
         } else if(cmd.indexOf("list files")===0) {
             displayMessage("Instructions", "Open <a href='https://developer.chrome.com/docs/devtools/open/' target='_blank'>DevTools console</a> for a list of saved files. Future version will show inside the webpage.", "info", 5000)
             var savedFiles = [];

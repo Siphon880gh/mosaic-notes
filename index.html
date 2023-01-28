@@ -29,6 +29,9 @@
     <style id="dynamic-style-img">
 
     </style>
+    <style id="grid-dynamically-expand">
+
+    </style>
 
     <style id="box-mode">
         .grid-item .handle-rearrange {
@@ -44,7 +47,7 @@
 </head>
 
 
-<body class="bg-white">
+<body class="bg-white grid-dynamically-expand">
     <!-- Success alert -->
     <figure id="msg" class="px-4 py-3" role="alert">
         <div class="flex justify-center text-center text-white">
@@ -170,6 +173,7 @@
             <div>- Command Palette: CMD/CTRL + Shift + P</div>
             <div>- Edit/Preview: CMD/CTRL + E</div>
             <div>- New box: CMD/CTRL + ALT/OPT + N</div>
+            <div>- Duplicate box: CMD/CTRL + ALT/OPT + T</div>
             <div>- Delete box: CMD/CTRL + ALT/OPTION + Backspace</div>
         </div>
         <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
@@ -231,6 +235,9 @@
             <tbody>
                 <tr>
                     <td>resize img</td>
+                </tr>
+                <tr>
+                    <td>expand <span class='gray'>(expands canvas)</span></td>
                 </tr>
                 <tr>
                     <td>list files</td>
