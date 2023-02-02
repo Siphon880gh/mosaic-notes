@@ -115,6 +115,7 @@ $(()=>{
     // Track if an image is clicked when you are in Resize Image Mode
     window.lastBox = null;
     window.resizingImg = false;
+    window.alignImg = "";
     $("body").on("click", event => {
         const gridItem = event.target.matches(".grid-item") ? event.target : event.target.closest(".grid-item");
         if (gridItem) {
@@ -125,13 +126,18 @@ $(()=>{
         }
 
         if(event.target.matches("img")) {
-            if(window.resizingImg) {
-                const w = prompt("Img width in css:", event.target.style.width?event.target.style.width:event.target.width+"px");
-                const h = prompt("Img height in css:", event.target.style.height?event.target.style.height:event.target.height+"px");
-                event.target.style.width = w;
-                event.target.style.height = h;
-
-                resizeImgMode(false)
+            if(window.alignImg.length) {
+                if(window.alignImg==="left") {
+                    event.target.style.float = "left";
+                    event.target.style.margin = "inherit";
+                } else if(window.alignImg==="right") {
+                    event.target.style.float = "right";
+                    event.target.style.margin = "inherit";
+                } else if(window.alignImg==="center") {
+                    event.target.style.float = "none";
+                    event.target.style.margin = "0 auto";
+                }
+                alignImgMode(false)
             }
         }
     }); // body
@@ -773,6 +779,23 @@ function resizeImgMode(willResize) {
     }
 } // resizeImgMode
 
+function alignImgMode(alignment) {
+    if(alignment && alignment.length) {
+        $("#dynamic-style-img")[0].innerHTML = `
+            img {
+                cursor: alias;
+            }
+        `;
+        window.alignImg = alignment;
+    } else {
+        $("#dynamic-style-img")[0].innerHTML = ``
+        window.alignImg = "";
+    }
+} // alignImgMode
+
+
+
+
 /**
  * 
  * Command prompt user opens
@@ -818,6 +841,19 @@ function commandPromptProcessor(cmd) {
         } else if(cmd.indexOf("resize img")===0) {
             displayMessage("Instructions", "Click an image you want to resize. Future version will allow click and dragging to resize.", "info", 5000)
             resizeImgMode(true);
+        } else if(cmd.indexOf(" img")!=-1 && (cmd.indexOf("center")!=-1 | cmd.indexOf("left")!=-1 | cmd.indexOf("right")!=-1)) {
+            let alignment = (()=>{
+                if(cmd.indexOf("center")!=-1) return "center"
+                else if(cmd.indexOf("left")!=-1) return "left"
+                else if(cmd.indexOf("right")!=-1) return "right"
+                else return "error"
+            })()
+            if(alignment!=="error") {
+                displayMessage("Instructions", `Click an image you want to align ${alignment}`, "info", 2000)
+                alignImgMode(alignment);
+            } else {
+                displayMessage("Error", `Something went wrong. Alignment unable to set.`, "error", 2500)
+            }
         } else if(cmd.indexOf("expand")===0) {
             let w = prompt("Add width in px?");
             let h = prompt("Add height in px?");
