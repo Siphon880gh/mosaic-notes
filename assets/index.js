@@ -317,6 +317,13 @@ function reinitableEditor() {
                     buttons: ["bold", "italic", "underline", "strikethrough", "anchor", "image", "quote", "indent", "outdent", "orderedlist", "unorderedlist", "justifyLeft", "justifyCenter", "justifyRight", "h1", "h2", "h3", "h4", "h5", "h6", "html"]
                 }
             }); // forEach
+            editor.subscribe("showToolbar", (data,editable)=>{
+                var top = $(".medium-editor-toolbar-active").css("top");
+                top = parseFloat(top);
+                if(top<0) {$(".medium-editor-toolbar-active").css("top", 0);
+
+                }
+            })
             restyleNewEditorIcons();
         });
     } // if newGridsWithoutRichTextControls
