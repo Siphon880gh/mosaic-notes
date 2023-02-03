@@ -17,7 +17,8 @@ delete {
         "Init sorting makes items able to rearrange via handle icon":{},
         "Future proof persisting boxes. Would find the last box, however can add more implementations as necessary.":{},
         "Init modifier keys for changing resizing/rearranging/plain boxes.":{},
-        "Init page controls menu showing and hiding.":{}
+        "Init page controls menu showing and hiding.":{},
+        "Autocomplete feature": {}
     },
     "Init polling required": {
         "Resizable":{},
@@ -278,6 +279,42 @@ $(() => {
     $(".show-menu-icon").on("click", () => {
         slideInPageControls();
     });
+});
+
+// Autocomplete feature
+window.lastTyped = "["
+$("body").keypress(function (e) {
+    const tokenMaxLength = 2;
+   window.lastTyped+=String.fromCharCode(e.which);
+   // Memory cleanup 
+   if(window.lastTyped.length>2) {
+        window.lastTyped = window.lastTyped.slice(- tokenMaxLength)
+    } 
+
+    if(window.lastTyped==="[]") {
+        if(confirm("You typed: []\nReplace with checkbox?")) {
+            e.preventDefault();
+            var sel = window.getSelection();
+                if (sel.rangeCount > 0) {
+                    // First, delete the existing selection
+                    // debugger;
+                    var range = sel.getRangeAt(0);
+                    range.setStart(window.getSelection().focusNode, window.getSelection().focusNode.length-1);
+                    range.deleteContents();
+
+                    // Insert a text node with the braces/parents
+
+                    var elNode = document.createElement("input");
+                    elNode.type = "checkbox";
+                    range.insertNode(elNode);
+        
+                    range.setStartAfter(elNode);
+                    range.setEndAfter(elNode); 
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+                }
+            }
+        }
 });
 
 /**
