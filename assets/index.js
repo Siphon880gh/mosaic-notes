@@ -283,38 +283,51 @@ $(() => {
 
 // Autocomplete feature
 window.lastTyped = "["
+window.selLastFocused = null;
+window.selBaseOffset = -1;
 $("body").keypress(function (e) {
-    const tokenMaxLength = 2;
-   window.lastTyped+=String.fromCharCode(e.which);
-   // Memory cleanup 
+    const token = "[]";
+    window.lastTyped+=String.fromCharCode(e.which);
+   // Always memory cleanup 
    if(window.lastTyped.length>2) {
-        window.lastTyped = window.lastTyped.slice(- tokenMaxLength)
+        window.lastTyped = window.lastTyped.slice(- token.length) // Right
     } 
+    var sel = window.getSelection();
 
-    if(window.lastTyped==="[]") {
+    // Always track if clicked away or arrowed away
+    // console.log("Previous offset: "+window.selBaseOffset)
+    // console.log("Current offset: "+(sel.baseOffset - token.length + 1))
+
+    if(window.lastTyped==="[]" && window.selBaseOffset == sel.baseOffset - token.length + 1) {
         if(confirm("You typed: []\nReplace with checkbox?")) {
             e.preventDefault();
-            var sel = window.getSelection();
+            
                 if (sel.rangeCount > 0) {
                     // First, delete the existing selection
-                    // debugger;
                     var range = sel.getRangeAt(0);
+                    console.log(range)
                     range.setStart(window.getSelection().focusNode, window.getSelection().focusNode.length-1);
                     range.deleteContents();
 
-                    // Insert a text node with the braces/parents
-
+                    // After typed text deleted, add element in place
                     var elNode = document.createElement("input");
                     elNode.type = "checkbox";
                     range.insertNode(elNode);
         
+                    // Move editing cursor to after added element
                     range.setStartAfter(elNode);
                     range.setEndAfter(elNode); 
                     sel.removeAllRanges();
                     sel.addRange(range);
                 }
             }
-        }
+        } // if typed token
+
+
+    console.log(window.selBaseOffset)
+    console.log(sel.baseOffset)
+    window.selLastFocused = sel.baseNode.parentElement;
+    window.selBaseOffset = sel.baseOffset;
 });
 
 /**
