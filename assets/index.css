@@ -55,6 +55,7 @@ html {
     justify-content: flex-start;
     align-items: flex-start;
     align-content: flex-start;
+    padding-right: 60px;
 }
 
 .grid-item {
