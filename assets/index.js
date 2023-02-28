@@ -92,7 +92,8 @@ $(()=>{
         // Autosave when user stops typing
     
         window.lastPressedTime = 0;
-        $(".grid").on("keyup click blur", ()=>{
+        // $(".grid").on("keyup click blur", ()=>{
+        $(".grid-item").on("change", ()=>{
             const currentTime = parseInt(Date.now()/1000);
             if(currentTime - window.lastPressedTime >= 2) {
                 window.lastPressedTime = currentTime;
@@ -173,6 +174,9 @@ $(()=>{
 
     // Init modifier keys for changing resizing/rearranging/plain boxes
     document.body.addEventListener('keydown', function(e) {
+        if(!e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey) {
+            return;
+        }
 
         console.log({key:e.key});
         function hasKey(key) {
@@ -188,7 +192,7 @@ $(()=>{
             console.log("Try rearranging mode")
         } else { // resets in other cases
             changeBoxMode("plain")
-            console.log("Try plain mode")
+            // console.log("Try plain mode")
         }
 
         // [Special + Alt + n]
