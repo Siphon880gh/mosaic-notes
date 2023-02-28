@@ -106,7 +106,7 @@ $(()=>{
     
         window.lastPressedTime = 0;
         // $(".grid").on("keyup click blur", ()=>{
-        $(".grid-item").on("change", ()=>{
+        $(".grid-item").on("blur", ()=>{
             const currentTime = parseInt(Date.now()/1000);
             if(currentTime - window.lastPressedTime >= 2) {
                 window.lastPressedTime = currentTime;
