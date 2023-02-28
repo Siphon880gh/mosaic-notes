@@ -88,6 +88,19 @@ $(()=>{
     $("#command-prompt").removeClass("hidden");
     $("button[title='Close']").html(`<span class="ui-button-icon ui-icon ui-icon-closethick"></span><span class="ui-button-icon-space"> </span>`)
 
+    function animateBorderImplyingSaving() {
+        $('.grid').css("border", "5px solid transparent");
+            $('.grid').animate({
+                borderColor: "rgba(152,251,152,.8)"
+            },500)
+
+            setTimeout(()=>{
+                $('.grid').animate({
+                    borderColor: "transparent"
+                },500)
+            }, 500);
+    }
+
     $(()=>{
         // Autosave when user stops typing
     
@@ -100,6 +113,8 @@ $(()=>{
                 if(window.PERSIST.pollFile.length>0) {
                     let previouslyAccessedFile = PERSIST.pollFile
                     saveBodyHTML(previouslyAccessedFile);
+
+                    animateBorderImplyingSaving();
                     console.log("Saved " + window.lastPressedTime);
                 }
             }
@@ -289,6 +304,8 @@ $(() => {
 window.lastTyped = "["
 window.selLastFocused = null;
 window.selBaseOffset = -1;
+
+// Checked if user typed [], etc
 $("body").keypress(function (e) {
     const token = "[]";
     window.lastTyped+=String.fromCharCode(e.which);
@@ -328,8 +345,8 @@ $("body").keypress(function (e) {
         } // if typed token
 
 
-    console.log(window.selBaseOffset)
-    console.log(sel.baseOffset)
+    // console.log(window.selBaseOffset)
+    // console.log(sel.baseOffset)
     window.selLastFocused = sel.baseNode.parentElement;
     window.selBaseOffset = sel.baseOffset;
 });
