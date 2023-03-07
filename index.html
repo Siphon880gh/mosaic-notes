@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="assets/themes/tailwindcss/unreset.css">
     <link rel="stylesheet" href="assets/index.css"></link>
 
+
+
     <style id="dynamic-style-block--gap">
         .grid {
             gap: 3px;
@@ -118,20 +120,20 @@
             <li class="mb-2">
                 <hr/>
             </li>
-            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="changeBoxModeVisual()">
+            <!-- <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="changeBoxModeVisual()">
                 <i class="fa fa-ruler-combined"></i> Readjust Layout:
                 <section id="indicator-box-mode" class="cursor-pointer hover:text-green-600 inline" data-cycled="0">
                     <span class="icon ui-icon ui-icon-check"></span>
                     <span class="icon ui-icon ui-icon-gripsmall-diagonal-se"></span>
                     <span class="icon ui-icon ui-icon-arrow-4-diag"></span>
                 </section>
-            </li>
-            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="fixLayoutHandles(); closeMenu();">
+            </li> -->
+            <!-- <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="fixLayoutHandles(); closeMenu();">
                 <i class="fa fa-ruler-combined"></i> Fix Layout Handles
-            </li>
-            <li class="mb-2">
+            </li> -->
+            <!-- <li class="mb-2">
                 <hr/>
-            </li>
+            </li> -->
             <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="toggleAllClass('i:not(.fa)', 'hidden'); $(this).toggleClass('active');">
                 <i class="fa fa-print"></i> Collapse italics
             </li>
@@ -148,6 +150,15 @@
 
         <div style="width:1px; height:1.5rem;"></div>
         <button class="fa fa-television cursor-pointer hover:text-green-600 hover:border-green-600" onclick="changePageView()"></button><br/>
+
+        <div style="width:1px; height:1.5rem;"></div>
+        <button class="cursor-pointer hover:text-green-600 hover:border-green-600" onclick="changeBoxModeVisual()">
+            <div style="width:30px;height:30px;position:relative; border:1px solid rgba(255,255,255,.8);">
+                <span class="icon ui-icon ui-icon-check" style="position:absolute;left:0; top:0;"></span>
+                <span class="icon ui-icon ui-icon-gripsmall-diagonal-se" style="position:absolute;left:-12px; top:0;"></span>
+                <span class="icon ui-icon ui-icon-arrow-4-diag" style="position:absolute;left:-6px; top:13px;"></span>
+            </div>
+        </button><br/>
 
         <div style="width:1px; height:1.5rem;"></div>
         <button class="fa fa-solid fa-plus cursor-pointer border-circle-gray hover:text-green-600 hover:border-green-600" onclick="addBox()"></button><br/>

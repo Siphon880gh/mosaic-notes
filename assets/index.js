@@ -512,24 +512,32 @@ $("#msg").on("click", function() {
  * @param {string} mode resizable|rearrange|plain  
  * 
  */
+window.cycledCornerMode = 0;
 function changeBoxModeVisual() {
-    let $indicator = $("#indicator-box-mode")
-    let cycled = $indicator.attr("data-cycled");
+    console.log("changeBoxModeVisual")
+
+    // let $indicator = $("#indicator-box-mode")
+    // let cycled = $indicator.attr("data-cycled");
+    let cycled = window.cycledCornerMode;
     cycled = parseInt(cycled);
     cycled += 1;
     cycled = cycled % 3;
 
-    $indicator.attr("data-cycled", cycled);
+    // $indicator.attr("data-cycled", cycled);
+    window.cycledCornerMode = cycled;
 
     switch(cycled) {
         case 0:
             changeBoxMode("plain");
-            break;
+                console.log("-> plain")
+                break;
         case 1:
             changeBoxMode("resizable");
+            console.log("-> resizable")
             break;
         case 2:
             changeBoxMode("rearrange");
+            console.log("-> rearrange")
             break;
     }
 }
