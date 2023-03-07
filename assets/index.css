@@ -1,5 +1,13 @@
 /** Styling classes */
 
+.hidden-starter-box {
+    display: none;
+}
+
+.hidden-by-opacity {
+    display: none !important;
+}
+
 .border-0 {
     border: 0 !important;
 }
@@ -93,7 +101,7 @@ html {
 .page-controls {
     height: 100px;
     min-width: 50px;
-    max-width: 170px;
+    max-width: 2000px;
     position: fixed;
     top: 10px;
     right: 15px;
@@ -154,6 +162,14 @@ button.fa-terminal {
     width: 25px;
     height: 25px;
     vertical-align: middle;
+}
+
+.page-controls__controls #ui-cycle-opacity-box:not(.active)::after {
+    content: " ON";
+}
+
+.page-controls__controls #ui-cycle-opacity-box.active::after {
+    content: " OFF";
 }
 
 #indicator-box-mode {

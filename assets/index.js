@@ -824,9 +824,62 @@ function changeBackgroundColor(event) {
         const color = event.target.value;
         window.lastBox.css("background-color", color);
     } else {
-        alert("Error: You haven't interacted with any current boxes. No box to toggle borders with.")
+        alert("Error: You haven't interacted with any current boxes. No box to change background color with.")
     }
 } // changeBackgroundColor
+
+function changeOpacityBox(event) {
+    if (window.lastBox == null) {
+        window.lastBox = getLastItemIfExists();
+    }
+    if(window.lastBox == null) {
+        return;
+    }
+
+
+    let opacity = prompt("Enter opacity percent 0-100. Decimals are allowed, eg. 50.5");
+
+
+    if(opacity===null) {
+        return;
+    }
+
+    opacity = parseFloat(opacity);
+    if(isNaN(opacity)) {
+        return;
+    }
+
+
+    if (window.lastBox !== null) {
+        window.lastBox.css("opacity", opacity/100);
+    } else {
+        alert("Error: You haven't interacted with any current boxes. No box to change opacity with.")
+    }
+
+
+} // changeOpacityBox
+
+window.cycledOpacityBox = 0;
+function toggleLowOpacityBox() {
+    console.log("toggleLowOpacityBox")
+    if(window.cycledOpacityBox===0) { // on 1 we hide
+        $(".grid-item").each((i,el)=>{
+
+            let anOpacity = el.style.opacity; // which will always exist
+            anOpacity = parseFloat(anOpacity);
+            if(!isNaN(anOpacity)) {
+                if(anOpacity<0.5) {
+                    el.classList.add("hidden-by-opacity");
+                }
+            }
+        });
+        window.cycledOpacityBox = 1;
+    } else {
+        $(".hidden-by-opacity").removeClass("hidden-by-opacity")
+        window.cycledOpacityBox = 0;
+    }
+
+}
 
 function fixLayoutHandles() {
     console.log("fixLayoutHandles")

@@ -113,9 +113,20 @@
                 <span class="fa-regular fa-square"></span> Border Color
                 <input type="color" id="change-border-color" onchange="changeBorderColor(event);">
             </li>
+            <li class="mb-2">
+                <hr/>
+            </li>
             <li class="mb-2 hover:text-green-900 cursor-pointer">
                 <span class="fa-regular fa-square"></span> Background
                 <input type="color" id="change-border-color" onchange="changeBackgroundColor(event);">
+            </li>
+            <li class="mb-2 hover:text-green-900 cursor-pointer">
+                <span onclick="changeOpacityBox()"><span class="fa-regular fa-square"></span> Opacity</span>
+                <!-- <input type="color" id="change-border-color" onchange="changeOpacityBox(event);"> -->
+            </li>
+            <li id="ui-cycle-opacity-box" onclick="$(this).toggleClass('active')" class="mb-2 hover:text-green-900 cursor-pointer">
+                <span onclick="toggleLowOpacityBox();"><span class="fa-regular fa-square"></span> Opacity &lt;0.5:</span>
+                <!-- <input type="color" id="change-border-color" onchange="changeOpacityBox(event);"> -->
             </li>
             <li class="mb-2">
                 <hr/>
@@ -170,7 +181,7 @@
     <main class="grid">
     </main>
 
-    <aside id="template-starter-box-1" aria-hidden="true" class="hidden">
+    <aside id="template-starter-box-1" aria-hidden="true" class="hidden-starter-box">
         <b>Mosaic Notes</b><span>&nbsp;</span>
         <span>By Weng Fei Fung.</span>
         <p>Create boxes stacked in a mosaic way for you to customize with instructions, then print it out for traditional pencil and pen notetaking. You can resize these boxes, add rich text, even paste pictures into it. In the end, print for your note-taking
@@ -187,7 +198,7 @@
         </div>
         <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
     </aside>
-    <aside id="template-starter-box-2" aria-hidden="true" class="hidden">
+    <aside id="template-starter-box-2" aria-hidden="true" class="hidden-starter-box">
         <p>This is a sample box. Create more mosaic boxes. Resize boxes, add content, paste pictures! Toggle on borders for specific boxes. Hide italic texts. Adjust the overall spacing. Go to &nbsp;<i class="fa fa-ellipsis-v"></i>&nbsp; for more options!
         </p>
         <br>
@@ -203,7 +214,7 @@
         </div>
         <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
     </aside>
-    <aside id="template-starter-box-3" aria-hidden="true" class="hidden">
+    <aside id="template-starter-box-3" aria-hidden="true" class="hidden-starter-box">
         <p>
             If you copy content from websites and other software that breaks the layout's resize / rearrange icons, you can do a quick fix by clicking "Fix Layout Handles"
         </p>
