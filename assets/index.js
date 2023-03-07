@@ -805,6 +805,21 @@ function changeBorderColor(event) {
     }
 } // changeBorderColor
 
+function changeBackgroundColor(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (window.lastBox == null) {
+        window.lastBox = getLastItemIfExists();
+    }
+
+    if (window.lastBox !== null) {
+        const color = event.target.value;
+        window.lastBox.css("background-color", color);
+    } else {
+        alert("Error: You haven't interacted with any current boxes. No box to toggle borders with.")
+    }
+} // changeBackgroundColor
+
 function fixLayoutHandles() {
     console.log("fixLayoutHandles")
 
