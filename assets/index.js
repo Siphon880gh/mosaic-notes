@@ -668,7 +668,7 @@ function changePageView(at=-1) {
             $("body").css("max-height", "150vh")
             $(".grid").css("min-width", "100vw")
             $(".grid").css("min-height", "100vh")
-            $(".grid").css("max-height", "150vh")
+            $(".grid").css("max-height", "100vh") // Previously 150vh
             $(".grid").css("flex-flow", "column wrap")
             $(".grid").css("overflow", "scroll")
             console.log("Changed view to: Mosaic Screen")
