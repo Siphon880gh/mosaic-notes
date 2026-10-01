@@ -64,119 +64,70 @@
         </div>
     </figure>
 
-    <div class="show-menu-hotarea"></div>
-    <div class="show-menu-icon-wrapper">
-        <img class="show-menu-icon" src="assets/icons/menu.png" />
-    </div>
-    <nav class="page-controls text-right">
-        <div class="page-controls__white_bg"></div>
-
-        <button class="fa fa-solid fa-ellipsis-v cursor-pointer hover:text-green-600 mr-4" onclick="toggleAllClass('.page-controls__controls', 'hidden')"></button>
-        <ul class="page-controls__controls hidden bg-gray-200 rounded-md p-2 text-left">
-            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="precheckCanDuplicateBox()">
-                <i class="fa fa-clone"></i> Duplicate
-            </li>
-            <li class="mb-2">
-                <hr/>
-            </li>
-            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="deleteLastBox()">
-                <i class="fa fa-times-circle"></i> Delete box
-            </li>
-            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="clearCanvas()">
-                <i class="fa fa-trash-alt"></i> Clear Canvas
-            </li>
-            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="resetCanvas()">
-                <i class="fa fa-recycle"></i> Reset Canvas
-            </li>
-            <li class="mb-2">
-                <hr/>
-            </li>
-            <li class="text-center">
-                <label for="gap"><i class="fa fa-wave-square"></i> Gap global:</label><br/>
-                <input id="gap" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="3" type="number" onchange="changeGapGlobal('.grid', $(this).val()+ 'px')">
-                <label for="grap" class="pl-1">px</label>
-            </li>
-            <li class="text-center">
-                <label for="padding"><i class="fa fa-compress-arrows-alt"></i> Padding global:</label><br/>
-                <input id="padding" class="w-12 border-1 ring-1 border-black ring-black rounded-sm p-1 mt-1 mb-2" min="0" value="10" type="number" onchange="changePaddingGlobal('.grid-item', $(this).val()+ 'px')">
-                <label for="padding" class="pl-1">px</label>
-            </li>
-            <li class="mb-2">
-                <hr/>
-            </li>
-            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="toggleLastBoxBorders();">
-                <span class="fa-regular fa-square"></span> Toggle Border
-            </li>
-            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="changeBorderLength();">
-                <span class="fa-regular fa-square"></span> Border Length
-            </li>
-            <li class="mb-2 hover:text-green-900 cursor-pointer">
-                <span class="fa-regular fa-square"></span> Border Color
-                <input type="color" id="change-border-color" onchange="changeBorderColor(event);">
-            </li>
-            <li class="mb-2">
-                <hr/>
-            </li>
-            <li class="mb-2 hover:text-green-900 cursor-pointer">
-                <span class="fa-regular fa-square"></span> Background
-                <input type="color" id="change-border-color" onchange="changeBackgroundColor(event);">
-            </li>
-            <li class="mb-2 hover:text-green-900 cursor-pointer">
-                <span onclick="changeOpacityBox()"><span class="fa-regular fa-square"></span> Opacity</span>
-                <!-- <input type="color" id="change-border-color" onchange="changeOpacityBox(event);"> -->
-            </li>
-            <li id="ui-cycle-opacity-box" onclick="$(this).toggleClass('active')" class="mb-2 hover:text-green-900 cursor-pointer">
-                <span onclick="toggleLowOpacityBox();"><span class="fa-regular fa-square"></span> Opacity &lt;0.5:</span>
-                <!-- <input type="color" id="change-border-color" onchange="changeOpacityBox(event);"> -->
-            </li>
-            <li class="mb-2">
-                <hr/>
-            </li>
-            <!-- <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="changeBoxModeVisual()">
-                <i class="fa fa-ruler-combined"></i> Readjust Layout:
-                <section id="indicator-box-mode" class="cursor-pointer hover:text-green-600 inline" data-cycled="0">
-                    <span class="icon ui-icon ui-icon-check"></span>
-                    <span class="icon ui-icon ui-icon-gripsmall-diagonal-se"></span>
-                    <span class="icon ui-icon ui-icon-arrow-4-diag"></span>
-                </section>
-            </li> -->
-            <!-- <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="fixLayoutHandles(); closeMenu();">
-                <i class="fa fa-ruler-combined"></i> Fix Layout Handles
-            </li> -->
-            <!-- <li class="mb-2">
-                <hr/>
-            </li> -->
-            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="toggleAllClass('i:not(.fa)', 'hidden'); $(this).toggleClass('active');">
-                <i class="fa fa-print"></i> Collapse italics
-            </li>
-            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="toggleAllClass('i:not(.fa)', 'invisible'); $(this).toggleClass('active');">
-                <i class="fa fa-print"></i> Invisible italics
-            </li>
-            <li class="mb-2 hover:text-green-900 cursor-pointer" onclick="window.print()">
-                <i class="fa fa-print"></i> Print
-            </li>
-        </ul>
-
-        <div style="width:1px; height:1.5rem;"></div>
-        <button id="btn-toggle-edit-preview" class="fa fa-pencil cursor-pointer hover:text-green-600 hover:border-green-600" onclick="toggleEditPreview()"></button><br/>
-
-        <div style="width:1px; height:1.5rem;"></div>
-        <button class="fa fa-television cursor-pointer hover:text-green-600 hover:border-green-600" onclick="changePageView()"></button><br/>
-
-        <div style="width:1px; height:1.5rem;"></div>
-        <button class="cursor-pointer hover:text-green-600 hover:border-green-600" onclick="changeBoxModeVisual()">
-            <div style="width:30px;height:30px;position:relative; border:1px solid rgba(255,255,255,.8);">
-                <span class="icon ui-icon ui-icon-check" style="position:absolute;left:0; top:0;"></span>
-                <span class="icon ui-icon ui-icon-gripsmall-diagonal-se" style="position:absolute;left:-12px; top:0;"></span>
-                <span class="icon ui-icon ui-icon-arrow-4-diag" style="position:absolute;left:-6px; top:13px;"></span>
+    <div class="sheet-toolbar" id="sheet-toolbar">
+        <button type="button" id="btn-open-files" class="btn-quiet" onclick="openFilesPanel()">Open</button>
+        <button type="button" class="btn-quiet" onclick="window.print()">Print</button>
+        <div class="tool-drawer">
+            <button type="button" class="btn-quiet drawer-toggle" id="btn-more-options" aria-expanded="false" aria-controls="drawer-more" onclick="toggleDrawer('drawer-more')">More</button>
+            <div id="drawer-more" class="drawer-panel" hidden>
+                <div class="drawer-group">
+                    <button type="button" class="drawer-heading-btn" aria-expanded="false" onclick="toggleDrawerGroup(this)"><span class="drawer-heading-label"><span class="fa-solid fa-pen" aria-hidden="true"></span>Write</span></button>
+                    <div class="drawer-group-body" hidden>
+                        <button type="button" id="btn-toggle-edit-preview" class="drawer-action" onclick="toggleEditPreview()">Edit</button>
+                        <button type="button" class="drawer-action" onclick="precheckCanDuplicateBox()">Duplicate</button>
+                    </div>
+                </div>
+                <div class="drawer-group">
+                    <button type="button" class="drawer-heading-btn" aria-expanded="false" onclick="toggleDrawerGroup(this)"><span class="drawer-heading-label"><span class="fa-solid fa-note-sticky" aria-hidden="true"></span>Cards</span></button>
+                    <div class="drawer-group-body" hidden>
+                        <button type="button" class="drawer-action" onclick="deleteLastBox()">Delete box</button>
+                        <button type="button" class="drawer-action" onclick="clearCanvas()">Clear canvas</button>
+                        <button type="button" class="drawer-action" onclick="resetCanvas()">Reset canvas</button>
+                    </div>
+                </div>
+                <div class="drawer-group">
+                    <button type="button" class="drawer-heading-btn" aria-expanded="false" onclick="toggleDrawerGroup(this)"><span class="drawer-heading-label"><span class="fa-solid fa-table-cells" aria-hidden="true"></span>Layout</span></button>
+                    <div class="drawer-group-body" hidden>
+                        <button type="button" class="drawer-action" onclick="changeBoxModeVisual()">Box mode: <span id="box-mode-label">Plain</span></button>
+                        <button type="button" class="drawer-action" onclick="changePageView()">Page view: <span id="page-view-label">Printing paper</span></button>
+                    </div>
+                </div>
+                <div class="drawer-group">
+                    <button type="button" class="drawer-heading-btn" aria-expanded="false" onclick="toggleDrawerGroup(this)"><span class="drawer-heading-label"><span class="fa-solid fa-palette" aria-hidden="true"></span>Style</span></button>
+                    <div class="drawer-group-body" hidden>
+                        <p class="drawer-heading">Spacing</p>
+                        <label class="drawer-field" for="gap">Gap
+                            <input id="gap" class="drawer-number" min="0" value="3" type="number" onchange="changeGapGlobal('.grid', this.value + 'px')">
+                            <span>px</span>
+                        </label>
+                        <label class="drawer-field" for="padding">Padding
+                            <input id="padding" class="drawer-number" min="0" value="10" type="number" onchange="changePaddingGlobal('.grid-item', this.value + 'px')">
+                            <span>px</span>
+                        </label>
+                        <p class="drawer-heading">Border</p>
+                        <button type="button" class="drawer-action" onclick="toggleLastBoxBorders()">Toggle border</button>
+                        <button type="button" class="drawer-action" onclick="changeBorderLength()">Border length</button>
+                        <label class="drawer-field">Border color
+                            <input type="color" id="change-border-color" onchange="changeBorderColor(event)">
+                        </label>
+                        <p class="drawer-heading">Fill</p>
+                        <label class="drawer-field">Background
+                            <input type="color" id="change-background-color" onchange="changeBackgroundColor(event)">
+                        </label>
+                        <button type="button" class="drawer-action" onclick="changeOpacityBox()">Opacity</button>
+                        <button type="button" id="ui-cycle-opacity-box" class="drawer-action" onclick="toggleLowOpacityBox(); this.classList.toggle('active')">Hide faint cards</button>
+                        <p class="drawer-heading">Italics</p>
+                        <button type="button" class="drawer-action" onclick="toggleAllClass('i:not(.fa)', 'hidden'); this.classList.toggle('active')">Collapse italics</button>
+                        <button type="button" class="drawer-action" onclick="toggleAllClass('i:not(.fa)', 'invisible'); this.classList.toggle('active')">Invisible italics</button>
+                    </div>
+                </div>
+                <button type="button" id="btn-get-started" class="drawer-action drawer-action--foot" onclick="startGetStartedTour()"><span class="drawer-heading-label"><span class="fa-solid fa-flag" aria-hidden="true"></span>Get started</span></button>
             </div>
-        </button><br/>
+        </div>
+        <button type="button" id="btn-new-text-card" class="btn-ink" onclick="addBox()">New text card</button>
+    </div>
 
-        <div style="width:1px; height:1.5rem;"></div>
-        <button class="fa fa-solid fa-plus cursor-pointer border-circle-gray hover:text-green-600 hover:border-green-600" onclick="addBox()"></button><br/>
-    </nav>
-
-    <button class="fa fa-solid fa-terminal cursor-pointer hover:text-green-600 hover:border-red-600" onclick='commandPromptUserOpen(event)'></button>
+    <button class="fa fa-solid fa-terminal cursor-pointer hover:text-green-600 hover:border-red-600" aria-label="Command palette" title="Command palette" onclick='commandPromptUserOpen(event)'></button>
     <!-- Box settings -->
 
     <main class="grid">
@@ -291,12 +242,66 @@
     </div>
     <!-- command-prompt -->
 
+    <div id="files-panel" class="files-panel" hidden>
+        <div class="files-panel__sheet" role="dialog" aria-modal="true" aria-labelledby="files-panel-title">
+            <h2 id="files-panel-title">Saved files</h2>
+            <p class="files-panel__lede">Every sheet saved on this device.</p>
+            <ul id="files-list" class="files-list"></ul>
+            <p id="files-empty" class="files-empty" hidden>No saved files on this device yet. Name this sheet below to keep it.</p>
+            <form id="files-save-form" class="files-save">
+                <label for="files-save-name">Save this sheet as</label>
+                <div class="files-save__row">
+                    <input id="files-save-name" type="text" autocomplete="off" />
+                    <button type="submit" class="btn-ink">Save</button>
+                </div>
+            </form>
+            <div id="files-replace" class="files-replace" hidden>
+                <p id="files-replace-copy"></p>
+                <div class="files-panel__actions">
+                    <button type="button" id="files-replace-back" class="btn-quiet">Back</button>
+                    <button type="button" id="files-replace-go" class="btn-ink">Open file</button>
+                </div>
+            </div>
+            <p class="files-panel__note">Export, import, and image commands still run from the command palette.</p>
+            <div class="files-panel__actions">
+                <button type="button" id="files-close" class="btn-quiet">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="tour-confirm" class="tour-confirm" hidden>
+        <div class="tour-confirm__sheet" role="dialog" aria-modal="true" aria-labelledby="tour-confirm-title">
+            <h2 id="tour-confirm-title">Reset the canvas?</h2>
+            <p>Get started clears the current canvas and puts the starter sheet back. Save first if you want to keep this page.</p>
+            <div class="tour-confirm__actions">
+                <button type="button" id="tour-confirm-cancel" class="btn-quiet">Cancel</button>
+                <button type="button" id="tour-confirm-start" class="btn-ink">Start tour</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="tour" hidden>
+        <div class="tour-overlay"></div>
+        <div class="tour-popover" role="dialog" aria-modal="true" aria-labelledby="tour-title">
+            <p class="tour-index"><span id="tour-index">1</span> / <span id="tour-total">5</span></p>
+            <h2 id="tour-title"></h2>
+            <p id="tour-body"></p>
+            <div class="tour-actions">
+                <button type="button" id="tour-prev" class="btn-quiet">Previous</button>
+                <button type="button" id="tour-skip" class="btn-quiet">Skip</button>
+                <button type="button" id="tour-next" class="btn-ink">Next</button>
+            </div>
+        </div>
+    </div>
+
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
     <script src="bower_components/medium-editor/dist/js/medium-editor.min.js"></script>
     <script src="assets/themes/medium-editor/flat.plain.icons.min.js"></script>
     <script src="assets/index.js"></script>
     <script src="assets/persist.js"></script>
+    <script src="assets/files-ui.js"></script>
+    <script src="assets/tour.js"></script>
 
 </body>
 

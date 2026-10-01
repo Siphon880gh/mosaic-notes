@@ -35,18 +35,25 @@ body {
     min-height: 11in;
     border-radius: .5rem;
     border: 1px solid rgba(125, 125, 125, .5);
-    margin: 5px auto;
+    margin: 76px auto 5px;
 }
 
 @media print {
-    .page-controls {
-        display: none;
+    .page-controls,
+    .sheet-toolbar,
+    .files-panel,
+    .tour-confirm,
+    #tour,
+    .show-menu-icon-wrapper,
+    .show-menu-hotarea {
+        display: none !important;
     }
     .ui-resizable-handle {
         display: none;
     }
     body {
         border: 0;
+        margin-top: 0;
     }
 }
 
@@ -86,8 +93,8 @@ html {
 
 .show-menu-icon-wrapper {
     position: fixed;
-    top: 10px;
-    right: 10px;
+    top: 58px;
+    right: 12px;
     z-index: 90;
 }
 
@@ -164,12 +171,12 @@ button.fa-terminal {
     vertical-align: middle;
 }
 
-.page-controls__controls #ui-cycle-opacity-box:not(.active)::after {
-    content: " ON";
+#ui-cycle-opacity-box:not(.active)::after {
+    content: " · on";
 }
 
-.page-controls__controls #ui-cycle-opacity-box.active::after {
-    content: " OFF";
+#ui-cycle-opacity-box.active::after {
+    content: " · off";
 }
 
 #indicator-box-mode {
@@ -351,4 +358,421 @@ div[role="dialog"][aria-describedby="command-prompt"] .ui-dialog-buttonset butto
 
 [describedby="command-prompt"] {
     z-index: 9999;
+}
+
+/*
+ * Layering, lowest to highest:
+ * page icon rail 91, sheet toolbar 92, command palette 9999,
+ * files 10020, tour overlay 10040, raised target 10055, tour popover 10070,
+ * reset confirm 10080.
+ */
+
+.sheet-toolbar {
+    position: fixed;
+    top: 12px;
+    right: 12px;
+    z-index: 92;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 6px;
+    max-width: calc(100vw - 24px);
+    padding: 6px;
+    background: #f7f4ee;
+    color: #1c1915;
+    border: 1px solid rgba(28, 25, 21, 0.22);
+    border-radius: 6px;
+    font-family: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+}
+
+.tool-drawer {
+    position: relative;
+}
+
+.drawer-toggle::after {
+    content: "‹";
+    display: inline-block;
+    margin-left: 6px;
+}
+
+.drawer-toggle[aria-expanded="true"] {
+    border-color: #166534;
+    color: #166534;
+}
+
+.drawer-panel {
+    position: fixed;
+    z-index: 96;
+    width: min(260px, calc(100vw - 24px));
+    overflow: auto;
+    margin: 0;
+    padding: 8px;
+    background: #f7f4ee;
+    color: #1c1915;
+    border: 1px solid #1c1915;
+    border-radius: 6px;
+    box-shadow: 0 12px 32px rgba(28, 25, 21, 0.18);
+    text-align: left;
+}
+
+.drawer-panel[hidden] {
+    display: none !important;
+}
+
+.drawer-heading {
+    margin: 10px 4px 4px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #44403c;
+}
+
+.drawer-heading-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+    padding: 10px 6px;
+    background: transparent;
+    color: #1c1915;
+    border: 0;
+    border-radius: 4px;
+    font: inherit;
+    font-size: 15px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.drawer-heading-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.drawer-heading-label .fa-solid {
+    width: 1.15em;
+    flex: 0 0 1.15em;
+    text-align: center;
+    font-size: 14px;
+    color: currentColor;
+}
+
+.drawer-heading-btn::after {
+    content: "▸";
+    color: #44403c;
+}
+
+.drawer-heading-btn[aria-expanded="true"]::after {
+    content: "▾";
+}
+
+.drawer-heading-btn:hover,
+.drawer-heading-btn[aria-expanded="true"] {
+    color: #166534;
+}
+
+.drawer-group + .drawer-group {
+    border-top: 1px solid rgba(28, 25, 21, 0.12);
+}
+
+.drawer-group-body[hidden] {
+    display: none !important;
+}
+
+.drawer-action--foot {
+    margin-top: 6px;
+    border-top: 1px solid rgba(28, 25, 21, 0.12);
+    border-radius: 0;
+}
+
+.drawer-action,
+.drawer-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    margin: 0;
+    padding: 8px 6px;
+    background: transparent;
+    color: #1c1915;
+    border: 0;
+    border-radius: 4px;
+    font: inherit;
+    font-size: 15px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.drawer-action:hover,
+.drawer-field:hover {
+    color: #166534;
+}
+
+.drawer-number {
+    width: 64px;
+    min-height: 32px;
+    padding: 4px 6px;
+    border: 1px solid rgba(28, 25, 21, 0.45);
+    border-radius: 4px;
+    background: #fffdf8;
+    color: #1c1915;
+    font: inherit;
+}
+
+.drawer-field input[type="color"] {
+    width: 36px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid rgba(28, 25, 21, 0.35);
+    background: transparent;
+    cursor: pointer;
+}
+
+.btn-ink,
+.btn-quiet,
+.btn-more {
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.2;
+    min-height: 40px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-ink {
+    background: #166534;
+    color: #f7f4ee;
+    border: 1px solid #14532d;
+    padding: 8px 12px;
+}
+
+.btn-ink:hover,
+.btn-ink:focus-visible {
+    background: #15803d;
+}
+
+.btn-quiet {
+    background: transparent;
+    color: #1c1915;
+    border: 1px solid rgba(28, 25, 21, 0.35);
+    padding: 8px 12px;
+}
+
+.btn-quiet:hover,
+.btn-quiet:focus-visible {
+    border-color: #166534;
+    color: #166534;
+}
+
+.btn-more {
+    width: 40px;
+    padding: 0;
+    background: transparent;
+    color: #1c1915;
+    border: 1px solid rgba(28, 25, 21, 0.35);
+}
+
+.btn-more:hover,
+.btn-more:focus-visible,
+.btn-more[aria-expanded="true"] {
+    color: #166534;
+    border-color: #166534;
+}
+
+.btn-ink:focus-visible,
+.btn-quiet:focus-visible,
+.btn-more:focus-visible,
+.files-list button:focus-visible {
+    outline: 2px solid #166534;
+    outline-offset: 2px;
+}
+
+.files-panel,
+.tour-confirm {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(28, 25, 21, 0.45);
+}
+
+.files-panel {
+    z-index: 10020;
+}
+
+.tour-confirm {
+    z-index: 10080;
+}
+
+.files-panel[hidden],
+.tour-confirm[hidden],
+#tour[hidden] {
+    display: none !important;
+}
+
+.files-panel__sheet,
+.tour-confirm__sheet,
+.tour-popover {
+    width: min(420px, calc(100vw - 32px));
+    max-height: calc(100vh - 32px);
+    overflow: auto;
+    background: #f7f4ee;
+    color: #1c1915;
+    border: 1px solid #1c1915;
+    border-radius: 6px;
+    padding: 20px;
+    font-family: "Iowan Old Style", Palatino, "Palatino Linotype", Georgia, serif;
+    box-shadow: 0 12px 32px rgba(28, 25, 21, 0.18);
+}
+
+.files-panel__sheet h2,
+.tour-confirm__sheet h2,
+.tour-popover h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+.files-panel__lede,
+.files-panel__note,
+.files-empty,
+.tour-confirm__sheet p,
+.tour-popover p {
+    margin: 0 0 12px;
+    font-size: 16px;
+    line-height: 1.45;
+}
+
+.files-list {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    max-height: min(280px, 40vh);
+    overflow: auto;
+    border-top: 1px solid rgba(28, 25, 21, 0.15);
+}
+
+.files-list li + li {
+    border-top: 1px solid rgba(28, 25, 21, 0.12);
+}
+
+.files-list button {
+    width: 100%;
+    text-align: left;
+    background: transparent;
+    color: #1c1915;
+    border: 0;
+    padding: 10px 4px;
+    font: inherit;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.files-list button:hover {
+    color: #166534;
+}
+
+.files-list .is-current {
+    font-weight: 700;
+}
+
+.files-save label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+}
+
+.files-save__row {
+    display: flex;
+    gap: 8px;
+}
+
+.files-save input {
+    flex: 1;
+    min-width: 0;
+    min-height: 40px;
+    padding: 8px;
+    border: 1px solid rgba(28, 25, 21, 0.45);
+    border-radius: 4px;
+    background: #fffdf8;
+    color: #1c1915;
+    font: inherit;
+}
+
+.files-panel__actions,
+.tour-confirm__actions,
+.tour-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.tour-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10040;
+    background: rgba(28, 25, 21, 0.55);
+}
+
+.tour-popover {
+    position: fixed;
+    z-index: 10070;
+    width: min(320px, calc(100vw - 24px));
+    max-height: calc(100vh - 24px);
+    margin: 0;
+}
+
+.tour-index {
+    margin: 0 0 6px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: #44403c;
+}
+
+.tour-ring {
+    outline: 2px solid #f7f4ee;
+    outline-offset: 3px;
+}
+
+.sheet-toolbar.tour-raised,
+.page-controls.tour-raised,
+.tour-raised {
+    z-index: 10055 !important;
+}
+
+main.grid.tour-raised,
+.grid-item.tour-raised {
+    position: relative;
+    z-index: 10055 !important;
+}
+
+body.is-touring .sheet-toolbar,
+body.is-touring .page-controls {
+    pointer-events: none;
+}
+
+.tour-popover,
+.tour-confirm,
+.tour-confirm * {
+    pointer-events: auto;
+}
+
+button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .tour-popover,
+    .files-panel__sheet,
+    .tour-confirm__sheet {
+        transition: none;
+    }
 }

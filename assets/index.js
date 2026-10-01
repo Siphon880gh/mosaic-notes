@@ -242,7 +242,7 @@ $(()=>{
             else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==="e") {
                 slideInPageControls();
                 toggleEditPreview();
-                $("#btn-toggle-edit-preview").animate({color:"white"}, 500, "easeInBounce", function() {
+                $("#btn-toggle-edit-preview").animate({color:"#166534"}, 500, "easeInBounce", function() {
                     $("#btn-toggle-edit-preview").css("color", "")
                 })
                 setTimeout(()=>{
@@ -259,44 +259,31 @@ $(()=>{
 });
 
 // Init page controls menu showing and hiding
-function slideInPageControls() {
-    $(".page-controls").show("slide", {
-        direction: "right"
-    }, 200);
-}
+function slideInPageControls() {}
 
-function slideOutPageControls() {
-    if(!$(".page-controls__controls").hasClass("hidden"))
-        closeMenu();
+function slideOutPageControls() {}
 
-    $(".page-controls").hide("slide", {
-        direction: "right"
-    }, 200);
-}
-function setSlideOutPageControls() {
-    $(".page-controls").hide("slide", {
-        direction: "right"
-    }, 0);
-}
+function setSlideOutPageControls() {}
+
 $(() => {
-    // Initially hide menu / page controls
-    setSlideOutPageControls();
-
-    // Make sure to slide in menu when in general area
-    $(".show-menu-hotarea, .page-controls").mouseenter(() => {
-        slideInPageControls();
-    })
-
-    // Clicking outside general area of page controls will hide controls
-    $("body").on("click", (event) => {
-        if (event.clientX < window.outerWidth - 66 || event.clientY > window.outerWidth - 205) {
-            slideOutPageControls();
-        }
-    })
-
-    // On mobile you can't just move a mouse in general area, so there's a reveal menu icon
-    $(".show-menu-icon").on("click", () => {
-        slideInPageControls();
+    document.getElementById("sheet-toolbar").addEventListener("click", (event) => {
+        if (event.target.closest(".drawer-toggle, .drawer-panel")) return;
+        forceCloseMenu();
+    });
+    document.addEventListener("click", (event) => {
+        if (document.body.classList.contains("is-touring")) return;
+        if (event.target.closest && event.target.closest(".sheet-toolbar, .files-panel, .tour-confirm, #tour")) return;
+        forceCloseMenu();
+    });
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") forceCloseMenu();
+    });
+    window.addEventListener("resize", () => {
+        document.querySelectorAll(".drawer-panel").forEach((panel) => {
+            if (panel.hidden) return;
+            const button = document.querySelector('[aria-controls="' + panel.id + '"]');
+            placeDrawer(panel, button);
+        });
     });
 });
 
@@ -452,7 +439,58 @@ function toggleAllClass(querySelected, clssName) {
 }
 
 function closeMenu() {
-    toggleAllClass('.page-controls__controls', 'hidden');
+    forceCloseMenu();
+}
+
+function forceCloseMenu() {
+    document.querySelectorAll(".drawer-panel").forEach(el => { el.hidden = true; });
+    document.querySelectorAll(".drawer-toggle").forEach(el => el.setAttribute("aria-expanded", "false"));
+    document.querySelectorAll(".drawer-group-body").forEach(el => { el.hidden = true; });
+    document.querySelectorAll(".drawer-heading-btn").forEach(el => el.setAttribute("aria-expanded", "false"));
+}
+
+function toggleDrawerGroup(button) {
+    const body = button.nextElementSibling;
+    if (!body) return;
+    const opening = body.hidden;
+    document.querySelectorAll(".drawer-group-body").forEach(el => { el.hidden = true; });
+    document.querySelectorAll(".drawer-heading-btn").forEach(el => el.setAttribute("aria-expanded", "false"));
+    if (!opening) return;
+    body.hidden = false;
+    button.setAttribute("aria-expanded", "true");
+    const panel = button.closest(".drawer-panel");
+    const trigger = panel ? document.querySelector('[aria-controls="' + panel.id + '"]') : null;
+    placeDrawer(panel, trigger);
+}
+
+function toggleDrawer(id) {
+    const panel = document.getElementById(id);
+    const button = document.querySelector('[aria-controls="' + id + '"]');
+    if (!panel) return;
+    const opening = panel.hidden;
+    forceCloseMenu();
+    if (!opening) return;
+    panel.hidden = false;
+    if (button) button.setAttribute("aria-expanded", "true");
+    placeDrawer(panel, button);
+}
+
+function placeDrawer(panel, button) {
+    if (!panel || panel.hidden || !button) return;
+    const margin = 12;
+    const gap = 6;
+    const trigger = button.getBoundingClientRect();
+    const width = panel.offsetWidth;
+    let left = trigger.right - width;
+    if (left < margin) left = margin;
+    if (left + width > window.innerWidth - margin) {
+        left = Math.max(margin, window.innerWidth - margin - width);
+    }
+    let top = trigger.bottom + gap;
+    const maxHeight = Math.max(120, window.innerHeight - top - margin);
+    panel.style.maxHeight = maxHeight + "px";
+    panel.style.left = Math.round(left) + "px";
+    panel.style.top = Math.round(top) + "px";
 }
 
 /**
@@ -540,6 +578,13 @@ function changeBoxModeVisual() {
             console.log("-> rearrange")
             break;
     }
+    syncBoxModeLabel();
+}
+
+function syncBoxModeLabel() {
+    const names = ["Plain", "Resize", "Rearrange"];
+    const label = document.getElementById("box-mode-label");
+    if (label) label.textContent = names[window.cycledCornerMode] || "Plain";
 }
 
 /**
@@ -550,21 +595,9 @@ function changeBoxModeVisual() {
  * 
  */
 function reassertBoxModeVisual() {
-    let $indicator = $("#indicator-box-mode")
-    let cycled = $indicator.attr("data-cycled");
-    cycled = parseInt(cycled);
-    
-    switch(cycled) {
-        case 0:
-            changeBoxMode("plain");
-            break;
-        case 1:
-            changeBoxMode("resizable");
-            break;
-        case 2:
-            changeBoxMode("rearrange");
-            break;
-    }
+    const cycled = window.cycledCornerMode || 0;
+    const modes = ["plain", "resizable", "rearrange"];
+    changeBoxMode(modes[cycled] || "plain");
 }
 
 
@@ -677,15 +710,27 @@ function changePageView(at=-1) {
         default:
             window.pageView = -1;
             changePageView()
+            return;
     }
+    syncPageViewLabel();
+}
+
+function syncPageViewLabel() {
+    const names = ["Printing paper", "Mosaic paper", "Mosaic screen"];
+    const label = document.getElementById("page-view-label");
+    if (label) label.textContent = names[window.pageView] || "Printing paper";
 }
 
 function toggleEditPreview() {
     $('[contenteditable]').attr('contenteditable', $('[contenteditable]').eq(0).attr('contenteditable')==="false"?true:false)
-    if($("#btn-toggle-edit-preview").hasClass("fa-pencil")) {
-        $("#btn-toggle-edit-preview").removeClass("fa-pencil").addClass("fa-book");
+    const btn = document.getElementById("btn-toggle-edit-preview");
+    if (!btn) return;
+    if (btn.classList.contains("is-preview")) {
+        btn.classList.remove("is-preview");
+        btn.textContent = "Edit";
     } else {
-        $("#btn-toggle-edit-preview").addClass("fa-pencil").removeClass("fa-book");
+        btn.classList.add("is-preview");
+        btn.textContent = "Preview";
     }
 }
 
@@ -1015,15 +1060,8 @@ function commandPromptProcessor(cmd) {
             `);
 
         } else if(cmd.indexOf("list files")===0) {
-            displayMessage("Instructions", "Open <a href='https://developer.chrome.com/docs/devtools/open/' target='_blank'>DevTools console</a> for a list of saved files. Future version will show inside the webpage.", "info", 5000)
-            var savedFiles = [];
-            var prependKey = "mosaic_notes__"
-            for(key in localStorage) {
-                if(key.indexOf(prependKey)===0 && key.indexOf(prependKey+"_page_view")===-1) {
-                    savedFiles.push(key.substr(prependKey.length)) 
-                }
-            }
-            console.log(JSON.stringify(savedFiles));
+            if (typeof openFilesPanel === "function") openFilesPanel();
+            console.log(JSON.stringify(listSavedFiles()));
         }
     }
 } // commandPromptProcessor

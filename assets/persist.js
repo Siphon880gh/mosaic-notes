@@ -20,6 +20,22 @@ function saveBodyHTML(localStorageKey) {
     window.document.title = "MOS - "+localStorageKey
 }
 
+function listSavedFiles() {
+    const prepend = "mosaic_notes__";
+    const names = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (!key || key.indexOf(prepend) !== 0) continue;
+        if (key.indexOf(prepend + "_page_view") === 0) continue;
+        if (key === prepend + "tour_invited") continue;
+        names.push(key.substr(prepend.length));
+    }
+    names.sort(function (a, b) {
+        return a.localeCompare(b);
+    });
+    return names;
+}
+
 function loadBodyHTML(localStorageKey) {
     const prepend = "mosaic_notes__"
     let html = localStorage.getItem(prepend+localStorageKey)
