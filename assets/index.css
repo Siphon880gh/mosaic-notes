@@ -253,6 +253,44 @@ button.fa-terminal {
     box-shadow: 0 0 0 2px #fffdf8, 0 0 0 3px #166534;
 }
 
+/* Desktop: only reveal the strip while ⌘/Ctrl is held. */
+body:not(.is-compact-width):not(.is-modifier-held) .card-color-strip {
+    display: none;
+}
+
+.card-color-strip__toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 50%;
+    color: #44403c;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.card-color-strip__toggle i {
+    transition: transform 0.15s ease;
+}
+
+.card-color-strip.is-expanded .card-color-strip__toggle i {
+    transform: rotate(180deg);
+}
+
+/* iPad/phone: show a collapsed chevron; tapping it reveals the swatches. */
+body.is-compact-width .card-color-strip__toggle {
+    display: inline-flex;
+}
+
+body.is-compact-width .card-color-strip:not(.is-expanded) .card-color-strip__swatch {
+    display: none;
+}
+
 .shortcut-panel {
     position: fixed;
     right: 50%;

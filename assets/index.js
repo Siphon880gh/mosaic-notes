@@ -140,7 +140,9 @@ $(()=>{
             console.log(gridItem);
             console.groupEnd();
             window.lastBox = $(gridItem);
-            showCardColorStrip(window.lastBox);
+            // Clicks inside the strip (swatches, chevron) keep the current strip
+            // so its expanded/collapsed state survives the click.
+            if (!event.target.closest(".card-color-strip")) showCardColorStrip(window.lastBox);
         }
 
         if(event.target.matches("img")) {
@@ -187,6 +189,8 @@ $(()=>{
 
     // Future proof persisting boxes. Would find the last box, however can add more implementations as necessary.
     window.lastBox = getLastItemIfExists();
+
+    initCardColorStripVisibility();
 
     // Capture these before MediumEditor sees them. Its editable key handler runs
     // on the card itself and should not interpret application shortcuts.
@@ -564,12 +568,45 @@ function setCardSequence(sequenceId, colorIndex) {
     applyCardSequenceColor($card);
 }
 
+/* Card color strip visibility
+ * Desktop: swatches stay hidden until the special key (⌘/Ctrl) is held.
+ * iPad/phone (by viewport width): swatches sit behind a collapsed chevron.
+ * Both states are body classes so the CSS decides what shows.
+ */
+const COMPACT_CARD_CONTROLS_QUERY = "(max-width: 1024px)";
+
+function initCardColorStripVisibility() {
+    const compactQuery = window.matchMedia(COMPACT_CARD_CONTROLS_QUERY);
+    const syncCompactWidth = () => document.body.classList.toggle("is-compact-width", compactQuery.matches);
+    syncCompactWidth();
+    if (compactQuery.addEventListener) compactQuery.addEventListener("change", syncCompactWidth);
+    else compactQuery.addListener(syncCompactWidth); // Older Safari
+
+    const syncModifier = e => document.body.classList.toggle("is-modifier-held", !!(e.metaKey || e.ctrlKey));
+    const releaseModifier = () => document.body.classList.remove("is-modifier-held");
+    window.addEventListener("keydown", syncModifier, true);
+    window.addEventListener("keyup", syncModifier, true);
+    // Keyup is missed when focus leaves mid-press (e.g. ⌘Tab), so don't leave swatches stuck on.
+    window.addEventListener("blur", releaseModifier);
+    document.addEventListener("visibilitychange", () => { if (document.hidden) releaseModifier(); });
+}
+
+function toggleCardColorStrip(element) {
+    const strip = element.closest(".card-color-strip");
+    if (!strip) return;
+    const isExpanded = strip.classList.toggle("is-expanded");
+    element.setAttribute("aria-expanded", isExpanded ? "true" : "false");
+    element.setAttribute("aria-label", isExpanded ? "Hide card colors" : "Show card colors");
+}
+
 function renderCardColorStrip($card) {
     const sequence = getSequenceForCard($card);
     const activeIndex = parseInt($card.attr("data-color-index"), 10) || 0;
     const strip = $card.find(".card-color-strip");
     if (!strip.length) return;
-    strip.html(sequence.colors.map((color, index) => `<button type="button" contenteditable="false" class="card-color-strip__swatch ${index === activeIndex ? "is-selected" : ""}" style="--swatch:${color}" aria-label="Set card color ${index + 1} of ${sequence.colors.length}" title="${color}" onclick="setCardSequenceForElement(this, '${sequence.id}', ${index})"></button>`).join(""));
+    const isExpanded = strip.hasClass("is-expanded");
+    const toggle = `<button type="button" contenteditable="false" class="card-color-strip__toggle" aria-expanded="${isExpanded}" aria-label="${isExpanded ? "Hide" : "Show"} card colors" onclick="toggleCardColorStrip(this)"><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></button>`;
+    strip.html(toggle + sequence.colors.map((color, index) => `<button type="button" contenteditable="false" class="card-color-strip__swatch ${index === activeIndex ? "is-selected" : ""}" style="--swatch:${color}" aria-label="Set card color ${index + 1} of ${sequence.colors.length}" title="${color}" onclick="setCardSequenceForElement(this, '${sequence.id}', ${index})"></button>`).join(""));
 }
 
 function setCardSequenceForElement(element, sequenceId, colorIndex) {
