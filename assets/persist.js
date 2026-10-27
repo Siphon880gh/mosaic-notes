@@ -9,8 +9,18 @@ var PERSIST = {
  * Also implement user creating new keys
  * 
  */
+/* App settings share the "mosaic_notes__" prefix with files (e.g. "_color_sequences",
+ * "_page_view"), so names starting with "_" are reserved and never treated as files. */
+function isReservedFileName(name) {
+    return String(name || "").charAt(0) === "_";
+}
+
 function saveBodyHTML(localStorageKey) {
     const prepend = "mosaic_notes__"
+    if (isReservedFileName(localStorageKey)) {
+        displayMessage("Name not allowed", "File names can't start with “_”. That's reserved for app settings.", "red", 4000);
+        return false;
+    }
     let html = $(".grid").html();
     
     console.log(html)
@@ -18,6 +28,7 @@ function saveBodyHTML(localStorageKey) {
     window.PERSIST.pollFile = localStorageKey;
     window.history.pushState("","", "#"+localStorageKey);
     window.document.title = "MOS - "+localStorageKey
+    return true;
 }
 
 function listSavedFiles() {
@@ -26,9 +37,10 @@ function listSavedFiles() {
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (!key || key.indexOf(prepend) !== 0) continue;
-        if (key.indexOf(prepend + "_page_view") === 0) continue;
         if (key === prepend + "tour_invited") continue;
-        names.push(key.substr(prepend.length));
+        const name = key.substr(prepend.length);
+        if (isReservedFileName(name)) continue;
+        names.push(name);
     }
     names.sort(function (a, b) {
         return a.localeCompare(b);
@@ -38,6 +50,7 @@ function listSavedFiles() {
 
 function deleteSavedFile(localStorageKey) {
     const prepend = "mosaic_notes__"
+    if (isReservedFileName(localStorageKey)) return;
     localStorage.removeItem(prepend+localStorageKey)
     if (window.PERSIST.pollFile === localStorageKey) window.PERSIST.pollFile = "";
     // Drop the #file from the URL so a reload doesn't try to reopen it
@@ -50,7 +63,7 @@ function deleteSavedFile(localStorageKey) {
 
 function loadBodyHTML(localStorageKey) {
     const prepend = "mosaic_notes__"
-    let html = localStorage.getItem(prepend+localStorageKey)
+    let html = isReservedFileName(localStorageKey) ? null : localStorage.getItem(prepend+localStorageKey)
     if(html) {
         $(".grid").html(html);
         fixLayoutHandles();

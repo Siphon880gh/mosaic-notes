@@ -1424,15 +1424,15 @@ function commandPromptProcessor(cmd) {
         if(cmd==="save") {
             let localStorageKey = PERSIST.pollFile;
             if(localStorageKey) {
-                saveBodyHTML(localStorageKey);
-                displayMessage("Saved!", `Saved '${localStorageKey}'. Next session you can revisit with either load or open: 'open ${localStorageKey}'`, "green", 5000);
+                if (saveBodyHTML(localStorageKey))
+                    displayMessage("Saved!", `Saved '${localStorageKey}'. Next session you can revisit with either load or open: 'open ${localStorageKey}'`, "green", 5000);
             } else {
                 displayMessage("Error", `No recently opened or saved file to refer to. Please type the save command followed by a filename. Then you may run the shorter \`save\` command on the same session.`, "red", 7000);
             }
         } else if(cmd.includes("save ")) {
             let localStorageKey = cmd.split(" ")[1];
-            saveBodyHTML(localStorageKey);
-            displayMessage("Saved!", `Saved '${cmd.split(" ")[1]}'. Next session you can revisit with either load or open: 'open ${cmd.split(" ")[1]}'`, "green", 5000);
+            if (saveBodyHTML(localStorageKey))
+                displayMessage("Saved!", `Saved '${cmd.split(" ")[1]}'. Next session you can revisit with either load or open: 'open ${cmd.split(" ")[1]}'`, "green", 5000);
         } else if(cmd.includes("load ")) {
             let localStorageKey = cmd.split(" ")[1];
             loadBodyHTML(localStorageKey)

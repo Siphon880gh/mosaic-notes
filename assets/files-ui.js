@@ -66,7 +66,7 @@ function askToOpenFile(name) {
 function confirmFilesReplace() {
     if (pendingSaveName) {
         var name = pendingSaveName;
-        saveBodyHTML(name);
+        if (!saveBodyHTML(name)) return;
         document.getElementById("files-save-name").value = "";
         pendingSaveName = "";
         resetFilesReplace();
@@ -83,8 +83,12 @@ function saveFromPanel(event) {
     event.preventDefault();
     var input = document.getElementById("files-save-name");
     var name = input.value.trim();
-    if (!name || name === "_page_view") {
+    if (!name) {
         displayMessage("Name needed", "Give the sheet a file name before saving.", "red", 3000);
+        return;
+    }
+    if (isReservedFileName(name)) {
+        displayMessage("Name not allowed", "File names can't start with “_”. That's reserved for app settings.", "red", 4000);
         return;
     }
     var exists = listSavedFiles().indexOf(name) !== -1;
