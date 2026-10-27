@@ -197,6 +197,16 @@ $(()=>{
     document.addEventListener('keydown', function(e) {
         if (!(e.metaKey || e.ctrlKey)) return;
         updateShortcutPanel(e);
+        // [Special + Alt + Backspace] delete card, [Special + Alt + Shift + Backspace] clear canvas.
+        // preventDefault keeps the combo from also deleting text inside the card being edited.
+        if (e.altKey && (e.key === "Backspace" || e.key === "Delete")) {
+            if (isTypingInTextField(e.target)) return;
+            e.preventDefault();
+            e.stopPropagation();
+            if (e.repeat || !document.getElementById("color-dialog").hidden) return;
+            if (e.shiftKey) clearCanvas(); else deleteLastBox();
+            return;
+        }
         if (!(e.shiftKey && !e.altKey)) return;
         if (e.key === "ArrowUp" || e.key === "ArrowDown") {
             e.preventDefault();
@@ -252,9 +262,6 @@ $(()=>{
         // [Special + Alt + t]
         } else if ((e.metaKey || e.ctrlKey) && e.altKey && (e.key.toLowerCase()==="t"||e.key.toLowerCase()==="†")) { // Opt+n is a special character on Mac
             precheckCanDuplicateBox()();
-        // [Special + Alt + Backspace]
-        } else if ((e.metaKey || e.ctrlKey) && e.altKey && e.key.toLowerCase()==="backspace") {
-            deleteLastBox();
          
         // [Special + Shift + ?]
         } else if((e.metaKey || e.ctrlKey) && e.shiftKey && hasKey(e.key) && (!e.altKey)) {
@@ -480,10 +487,20 @@ function updateShortcutPanel(event) {
     const copy = document.getElementById("shortcut-panel-copy");
     const hint = document.getElementById("shortcut-panel-hint");
     if (!keyLabel || !copy || !hint) return;
-    if (!event.shiftKey) {
+    const alt = event.metaKey ? "⌥" : "Alt";
+    if (event.altKey) {
+        keyLabel.textContent = key + alt + (event.shiftKey ? "⇧" : "");
+        if (event.key === "Backspace" || event.key === "Delete") {
+            copy.textContent = event.shiftKey ? "Clear canvas" : "Delete card";
+            hint.textContent = "Asks to confirm first";
+        } else {
+            copy.textContent = event.shiftKey ? "⌫ Clear canvas" : "Card actions";
+            hint.textContent = event.shiftKey ? "Removes every card" : "⌫ delete · ⇧⌫ clear canvas · N new · T duplicate";
+        }
+    } else if (!event.shiftKey) {
         keyLabel.textContent = key;
         copy.textContent = "Resize cards";
-        hint.textContent = "Hold " + key + "⇧ to reposition";
+        hint.textContent = "Hold " + key + "⇧ to reposition · " + key + alt + "⌫ delete card · " + key + alt + "⇧⌫ clear canvas";
     } else {
         keyLabel.textContent = key + "⇧";
         if (event.key === "ArrowUp" || event.key === "ArrowDown") {
@@ -643,6 +660,7 @@ function cycleCardColor(direction) {
 }
 
 function closeColorDialog() {
+    window.pendingConfirmAction = null;
     const dialog = document.getElementById("color-dialog");
     dialog.hidden = true;
     dialog.setAttribute("aria-hidden", "true");
@@ -658,6 +676,28 @@ function openColorDialog(html, keyHandler) {
     document.addEventListener("keydown", colorDialogKeyHandler);
     const firstFocus = dialog.querySelector("button, input, select");
     if (firstFocus) firstFocus.focus();
+}
+
+/* In-app confirmation (reuses the color dialog sheet). Cancel, ×, and Escape
+ * all close without running the action. */
+function confirmDestructiveAction(title, message, confirmLabel, onConfirm) {
+    openColorDialog(`<h2 id="color-dialog-title">${title}</h2>
+        <p class="color-dialog__lede">${message}</p>
+        <div class="color-dialog__actions"><button type="button" class="btn-quiet" onclick="closeColorDialog()">Cancel</button><button type="button" class="btn-ink btn-danger" onclick="runPendingConfirmAction()">${confirmLabel}</button></div>`, null);
+    window.pendingConfirmAction = onConfirm;
+}
+
+function runPendingConfirmAction() {
+    const action = window.pendingConfirmAction;
+    closeColorDialog();
+    if (action) action();
+}
+
+function isTypingInTextField(element) {
+    if (!element || !element.closest) return false;
+    if (element.closest("input, textarea, select")) return true;
+    // Cards are contenteditable themselves; the shortcut is meant to work on them.
+    return element.isContentEditable && !element.closest(".grid-item");
 }
 
 function colorDialogKeyHandler(event) {
@@ -1106,30 +1146,31 @@ function precheckCanDuplicateBox() {
 }
 
 function deleteLastBox() {
-    if (window.lastBox == null) {
-        window.lastBox = getLastItemIfExists();
+    const $card = getActiveCard();
+    if (!$card || !$card.length) {
+        displayMessage("No card to delete", "The canvas has no cards.", "info");
+        return;
     }
-
-    if (window.lastBox !== null) {
-        let remindMeByText = `"${window.lastBox.text().substr(0, 50).trim()+"..."}"`;
-        let confirmed = confirm(`Delete the box?\n\n${remindMeByText}`);
-        if (confirmed) {
-            window.lastBox.remove();
-            window.lastBox = null;
-            closeMenu();
-        }
-    } else {
-        alert("Error: You haven't interacted with any current boxes. No box to duplicate.")
-    }
+    const preview = $card.text().replace(/\s+/g, " ").trim().substr(0, 50);
+    confirmDestructiveAction("Delete this card?", preview ? `“${escapeHtml(preview)}…”` : "This card is empty.", "Delete card", () => {
+        $card.remove();
+        window.lastBox = null;
+        closeMenu();
+        // Keep the open file in sync so the card doesn't come back on reload.
+        if (window.PERSIST.pollFile) saveBodyHTML(window.PERSIST.pollFile);
+        displayMessage("Card deleted", "", "green", 1200);
+    });
 }
 
 function clearCanvas() {
-    if (confirm("Delete all boxes. Are you sure?")) {
+    const count = $(".grid .grid-item").length;
+    const savedNote = window.PERSIST.pollFile ? ` Your saved file “${escapeHtml(window.PERSIST.pollFile)}” is left as it was.` : "";
+    confirmDestructiveAction("Clear the canvas?", `This removes all ${count} card${count === 1 ? "" : "s"}.${savedNote}`, "Clear canvas", () => {
         $(".grid").html("");
         window.lastBox = null;
         closeMenu();
         window.PERSIST.pollFile = "";
-    }
+    });
 }
 
 function resetCanvas(force) {
