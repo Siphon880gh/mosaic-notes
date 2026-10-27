@@ -17,6 +17,9 @@ Create boxes stacked in a mosaic way for you to customize with instructions, the
 ## Installation
 Is a front-end client made in jQuery, jQuery UI, and Tailwind CSS. Will work out of the box.
 
+## Saving files
+Sheets are saved as files in your browser's localStorage (Files panel or the `save <name>` command). File names starting with `_` are reserved for app settings (like `_color_sequences` and `_page_view`), so they're hidden from Files and can't be saved, opened, or deleted as files.
+
 ## Future version
 - Will have ability to rearrange your boxes. Thinking of using jQuery UI.
 - Will have ability to save and load your different templates. Working on it at persist.js.
