@@ -67,6 +67,7 @@
     <div class="sheet-toolbar" id="sheet-toolbar">
         <button type="button" id="btn-open-files" class="btn-quiet" onclick="openFilesPanel()">Open</button>
         <button type="button" class="btn-quiet" onclick="window.print()">Print</button>
+        <button type="button" id="btn-card-colors" class="btn-quiet" title="Choose card colors · ⌘⇧↑/↓ cycles" onclick="openCardColorSwitch()">Colors</button>
         <div class="tool-drawer">
             <button type="button" class="btn-quiet drawer-toggle" id="btn-more-options" aria-expanded="false" aria-controls="drawer-more" onclick="toggleDrawer('drawer-more')">More</button>
             <div id="drawer-more" class="drawer-panel" hidden>
@@ -128,6 +129,11 @@
     </div>
 
     <button class="fa fa-solid fa-terminal cursor-pointer hover:text-green-600 hover:border-red-600" aria-label="Command palette" title="Command palette" onclick='commandPromptUserOpen(event)'></button>
+    <aside id="shortcut-panel" class="shortcut-panel" aria-live="polite" aria-hidden="true">
+        <span class="shortcut-panel__key" id="shortcut-panel-key">⌘</span>
+        <span id="shortcut-panel-copy">Resize cards</span>
+        <span class="shortcut-panel__hint" id="shortcut-panel-hint">Hold ⌘⇧ to reposition</span>
+    </aside>
     <!-- Box settings -->
 
     <main class="grid">
@@ -162,6 +168,8 @@
             <div>- Edit/Preview: CMD/CTRL + E</div>
             <div>- New box: CMD/CTRL + ALT/OPT + N</div>
             <div>- Duplicate box: CMD/CTRL + ALT/OPT + T</div>
+            <div>- Cycle card color: CMD/CTRL + Shift + ↑ / ↓</div>
+            <div>- Clone to adjacent card: CMD/CTRL + Shift + D</div>
             <div>- Delete box: CMD/CTRL + ALT/OPTION + Backspace</div>
         </div>
         <span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>
@@ -241,6 +249,13 @@
         <input type="text" id="command-prompt-cmd" />
     </div>
     <!-- command-prompt -->
+
+    <div id="color-dialog" class="color-dialog" hidden aria-hidden="true">
+        <div class="color-dialog__sheet" role="dialog" aria-modal="true" aria-labelledby="color-dialog-title">
+            <button type="button" class="color-dialog__close" aria-label="Close" onclick="closeColorDialog()">×</button>
+            <div id="color-dialog-content"></div>
+        </div>
+    </div>
 
     <div id="files-panel" class="files-panel" hidden>
         <div class="files-panel__sheet" role="dialog" aria-modal="true" aria-labelledby="files-panel-title">

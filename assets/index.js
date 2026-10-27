@@ -140,6 +140,7 @@ $(()=>{
             console.log(gridItem);
             console.groupEnd();
             window.lastBox = $(gridItem);
+            showCardColorStrip(window.lastBox);
         }
 
         if(event.target.matches("img")) {
@@ -187,9 +188,40 @@ $(()=>{
     // Future proof persisting boxes. Would find the last box, however can add more implementations as necessary.
     window.lastBox = getLastItemIfExists();
 
+    // Capture these before MediumEditor sees them. Its editable key handler runs
+    // on the card itself and should not interpret application shortcuts.
+    document.addEventListener('keydown', function(e) {
+        if (!(e.metaKey || e.ctrlKey)) return;
+        updateShortcutPanel(e);
+        if (!(e.shiftKey && !e.altKey)) return;
+        if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+            e.preventDefault();
+            e.stopPropagation();
+            cycleCardColor(e.key === "ArrowUp" ? -1 : 1);
+        } else if (e.key.toLowerCase() === "d") {
+            e.preventDefault();
+            e.stopPropagation();
+            openCloneDialog();
+        }
+    }, true);
+
     // Init modifier keys for changing resizing/rearranging/plain boxes
     document.body.addEventListener('keydown', function(e) {
         if(!e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey) {
+            return;
+        }
+
+        // Card color cycling intentionally uses the arrow keys, so it must run
+        // before modifier keys temporarily switch the visual box mode.
+        if ((e.metaKey || e.ctrlKey) && e.shiftKey && !e.altKey && (e.key === "ArrowUp" || e.key === "ArrowDown")) {
+            e.preventDefault();
+            cycleCardColor(e.key === "ArrowUp" ? -1 : 1);
+            return;
+        }
+
+        if ((e.metaKey || e.ctrlKey) && e.shiftKey && !e.altKey && e.key.toLowerCase() === "d") {
+            e.preventDefault();
+            openCloneDialog();
             return;
         }
 
@@ -255,6 +287,8 @@ $(()=>{
     });
     document.body.addEventListener('keyup', function(e) {
         reassertBoxModeVisual();
+        if (e.metaKey || e.ctrlKey) updateShortcutPanel(e);
+        else hideShortcutPanel();
     });
 });
 
@@ -433,6 +467,283 @@ function getLastItemIfExists() {
         return null;
     }
 } // getLastItemIfExists
+
+function updateShortcutPanel(event) {
+    const panel = document.getElementById("shortcut-panel");
+    if (!panel) return;
+    const key = event.metaKey ? "⌘" : "Ctrl";
+    const keyLabel = document.getElementById("shortcut-panel-key");
+    const copy = document.getElementById("shortcut-panel-copy");
+    const hint = document.getElementById("shortcut-panel-hint");
+    if (!keyLabel || !copy || !hint) return;
+    if (!event.shiftKey) {
+        keyLabel.textContent = key;
+        copy.textContent = "Resize cards";
+        hint.textContent = "Hold " + key + "⇧ to reposition";
+    } else {
+        keyLabel.textContent = key + "⇧";
+        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+            copy.textContent = "Cycle card color";
+            hint.textContent = "↑ previous · ↓ next";
+        } else if (event.key.toLowerCase() === "d") {
+            copy.textContent = "Clone new card";
+            hint.textContent = "Choose style, content, or both";
+        } else {
+            copy.textContent = "Reposition cards";
+            hint.textContent = "D clone · ↑/↓ cycle color";
+        }
+    }
+    panel.classList.add("is-visible");
+    panel.setAttribute("aria-hidden", "false");
+}
+
+function hideShortcutPanel() {
+    const panel = document.getElementById("shortcut-panel");
+    if (!panel) return;
+    panel.classList.remove("is-visible");
+    panel.setAttribute("aria-hidden", "true");
+}
+
+/* Card color sequences live outside individual sheets. Cards keep only a
+ * sequence id and their current color index, so changing a sequence updates
+ * every card that uses it. */
+const COLOR_SEQUENCE_STORAGE_KEY = "mosaic_notes___color_sequences";
+const DEFAULT_COLOR_SEQUENCES = [{
+    id: "default",
+    name: "Mosaic",
+    colors: ["#fef3c7", "#dbeafe", "#dcfce7", "#fce7f3", "#ede9fe"]
+}];
+
+function getColorSequences() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(COLOR_SEQUENCE_STORAGE_KEY));
+        if (Array.isArray(saved) && saved.length && saved.every(sequence => sequence.id && Array.isArray(sequence.colors) && sequence.colors.length)) return saved;
+    } catch (error) { /* Start with the built-in sequence if older data is invalid. */ }
+    localStorage.setItem(COLOR_SEQUENCE_STORAGE_KEY, JSON.stringify(DEFAULT_COLOR_SEQUENCES));
+    return DEFAULT_COLOR_SEQUENCES.map(sequence => ({ ...sequence, colors: [...sequence.colors] }));
+}
+
+function saveColorSequences(sequences) {
+    localStorage.setItem(COLOR_SEQUENCE_STORAGE_KEY, JSON.stringify(sequences));
+    refreshCardColors();
+}
+
+function getActiveCard() {
+    if (window.lastBox && window.lastBox.length && document.contains(window.lastBox[0])) return window.lastBox;
+    window.lastBox = getLastItemIfExists();
+    return window.lastBox;
+}
+
+function getSequenceForCard($card) {
+    const sequences = getColorSequences();
+    const storedId = $card.attr("data-color-sequence");
+    return sequences.find(sequence => sequence.id === storedId) || sequences[0];
+}
+
+function applyCardSequenceColor($card) {
+    if (!$card || !$card.length) return;
+    const sequence = getSequenceForCard($card);
+    let colorIndex = parseInt($card.attr("data-color-index"), 10);
+    if (Number.isNaN(colorIndex) || colorIndex < 0) colorIndex = 0;
+    colorIndex = colorIndex % sequence.colors.length;
+    $card.attr("data-color-sequence", sequence.id);
+    $card.attr("data-color-index", colorIndex);
+    $card.css("background-color", sequence.colors[colorIndex]);
+    if ($card.find(".card-color-strip").length) renderCardColorStrip($card);
+}
+
+function refreshCardColors() {
+    $(".grid-item[data-color-sequence]").each((_, card) => applyCardSequenceColor($(card)));
+}
+
+function setCardSequence(sequenceId, colorIndex) {
+    const $card = getActiveCard();
+    if (!$card || !$card.length) return;
+    $card.attr("data-color-sequence", sequenceId);
+    $card.attr("data-color-index", colorIndex || 0);
+    applyCardSequenceColor($card);
+}
+
+function renderCardColorStrip($card) {
+    const sequence = getSequenceForCard($card);
+    const activeIndex = parseInt($card.attr("data-color-index"), 10) || 0;
+    const strip = $card.find(".card-color-strip");
+    if (!strip.length) return;
+    strip.html(sequence.colors.map((color, index) => `<button type="button" contenteditable="false" class="card-color-strip__swatch ${index === activeIndex ? "is-selected" : ""}" style="--swatch:${color}" aria-label="Set card color ${index + 1} of ${sequence.colors.length}" title="${color}" onclick="setCardSequenceForElement(this, '${sequence.id}', ${index})"></button>`).join(""));
+}
+
+function setCardSequenceForElement(element, sequenceId, colorIndex) {
+    const $card = $(element).closest(".grid-item");
+    if (!$card.length) return;
+    window.lastBox = $card;
+    $card.attr("data-color-sequence", sequenceId);
+    $card.attr("data-color-index", colorIndex);
+    applyCardSequenceColor($card);
+}
+
+function showCardColorStrip($card) {
+    if (!$card || !$card.length) return;
+    $(".card-color-strip").remove();
+    const sequence = getSequenceForCard($card);
+    $card.attr("data-color-sequence", sequence.id);
+    if ($card.attr("data-color-index") === undefined) $card.attr("data-color-index", 0);
+    $card.append('<div class="card-color-strip" contenteditable="false" aria-label="Card color sequence"></div>');
+    applyCardSequenceColor($card);
+}
+
+function cycleCardColor(direction) {
+    const $card = getActiveCard();
+    if (!$card || !$card.length) {
+        displayMessage("Choose a card", "Click a card before cycling its color.", "info");
+        return;
+    }
+    const sequence = getSequenceForCard($card);
+    const currentIndex = parseInt($card.attr("data-color-index"), 10) || 0;
+    $card.attr("data-color-sequence", sequence.id);
+    $card.attr("data-color-index", (currentIndex + direction + sequence.colors.length) % sequence.colors.length);
+    applyCardSequenceColor($card);
+    displayMessage("Color changed", sequence.name + " · " + ((parseInt($card.attr("data-color-index"), 10)) + 1) + " of " + sequence.colors.length, "info", 1200);
+}
+
+function closeColorDialog() {
+    const dialog = document.getElementById("color-dialog");
+    dialog.hidden = true;
+    dialog.setAttribute("aria-hidden", "true");
+    document.removeEventListener("keydown", colorDialogKeyHandler);
+}
+
+function openColorDialog(html, keyHandler) {
+    const dialog = document.getElementById("color-dialog");
+    document.getElementById("color-dialog-content").innerHTML = html;
+    dialog.hidden = false;
+    dialog.setAttribute("aria-hidden", "false");
+    window.colorDialogAction = keyHandler || null;
+    document.addEventListener("keydown", colorDialogKeyHandler);
+    const firstFocus = dialog.querySelector("button, input, select");
+    if (firstFocus) firstFocus.focus();
+}
+
+function colorDialogKeyHandler(event) {
+    if (event.key === "Escape") { closeColorDialog(); return; }
+    if (window.colorDialogAction && !event.metaKey && !event.ctrlKey && !event.altKey) window.colorDialogAction(event);
+}
+
+function openCardColorSwitch() {
+    const $card = getActiveCard();
+    if (!$card || !$card.length) {
+        displayMessage("Choose a card", "Click a card before changing its color.", "info");
+        return;
+    }
+    const active = getSequenceForCard($card);
+    const colorIndex = parseInt($card.attr("data-color-index"), 10) || 0;
+    const sequences = getColorSequences();
+    openColorDialog(`
+        <h2 id="color-dialog-title">Card color</h2>
+        <p class="color-dialog__lede">Choose a sequence, then a color. Use <kbd>⌘⇧↑</kbd> and <kbd>⌘⇧↓</kbd> to cycle this card later.</p>
+        <label class="color-dialog__label" for="card-color-sequence">Sequence</label>
+        <select id="card-color-sequence" class="color-dialog__select" onchange="renderCardColorChoices(this.value)">
+            ${sequences.map(sequence => `<option value="${sequence.id}" ${sequence.id === active.id ? "selected" : ""}>${sequence.name}</option>`).join("")}
+        </select>
+        <div id="card-color-choices" class="color-swatches"></div>
+        <div class="color-dialog__actions"><button type="button" class="btn-quiet" onclick="openColorSequenceSettings()">Manage sequences</button><button type="button" class="btn-ink" onclick="closeColorDialog()">Done</button></div>`, null);
+    renderCardColorChoices(active.id, colorIndex);
+}
+
+function renderCardColorChoices(sequenceId, selectedIndex) {
+    const sequence = getColorSequences().find(item => item.id === sequenceId);
+    const $card = getActiveCard();
+    if (!sequence || !$card || !$card.length) return;
+    const isChangingSequence = $card.attr("data-color-sequence") !== sequence.id;
+    if (isChangingSequence) setCardSequence(sequence.id, 0);
+    const currentIndex = isChangingSequence ? 0 : (selectedIndex === undefined ? (parseInt($card.attr("data-color-index"), 10) || 0) : selectedIndex);
+    document.getElementById("card-color-choices").innerHTML = sequence.colors.map((color, index) => `<button type="button" class="color-swatch ${index === currentIndex ? "is-selected" : ""}" style="--swatch:${color}" aria-label="Use ${color}" title="${color}" onclick="setCardSequence('${sequence.id}', ${index}); renderCardColorChoices('${sequence.id}', ${index})"></button>`).join("");
+}
+
+function openColorSequenceSettings() {
+    const sequences = getColorSequences();
+    openColorDialog(`
+        <h2 id="color-dialog-title">Color sequences</h2>
+        <p class="color-dialog__lede">These sequences are available to every card in the app.</p>
+        <div id="sequence-editor">${sequences.map((sequence, index) => renderSequenceEditor(sequence, index)).join("")}</div>
+        <div class="color-dialog__actions"><button type="button" class="btn-quiet" onclick="addColorSequence()">Add sequence</button><button type="button" class="btn-ink" onclick="closeColorDialog()">Done</button></div>`, null);
+}
+
+function renderSequenceEditor(sequence, index) {
+    return `<section class="sequence-editor" data-sequence-index="${index}">
+        <div class="sequence-editor__head"><label class="color-dialog__label">Name <input class="sequence-name" value="${escapeHtml(sequence.name)}" onchange="updateSequenceName(${index}, this.value)"></label>${index ? `<button type="button" class="btn-link-danger" onclick="deleteColorSequence(${index})">Delete</button>` : ""}</div>
+        <div class="sequence-editor__colors">${sequence.colors.map((color, colorIndex) => `<label class="sequence-color"><input type="color" value="${color}" onchange="updateSequenceColor(${index}, ${colorIndex}, this.value)"><button type="button" aria-label="Remove ${color}" onclick="deleteSequenceColor(${index}, ${colorIndex})">×</button></label>`).join("")}<button type="button" class="add-color" onclick="addSequenceColor(${index})">+</button></div>
+    </section>`;
+}
+
+function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character])); }
+function updateSequences(mutator) { const sequences = getColorSequences(); mutator(sequences); saveColorSequences(sequences); openColorSequenceSettings(); }
+function updateSequenceName(index, name) { updateSequences(sequences => { sequences[index].name = name.trim() || "Untitled sequence"; }); }
+function updateSequenceColor(index, colorIndex, color) { updateSequences(sequences => { sequences[index].colors[colorIndex] = color; }); }
+function addSequenceColor(index) { updateSequences(sequences => { sequences[index].colors.push("#ffffff"); }); }
+function deleteSequenceColor(index, colorIndex) { updateSequences(sequences => { if (sequences[index].colors.length > 1) sequences[index].colors.splice(colorIndex, 1); }); }
+function addColorSequence() { updateSequences(sequences => { sequences.push({ id: "sequence-" + Date.now(), name: "New sequence", colors: ["#fef3c7", "#dbeafe", "#dcfce7"] }); }); }
+function deleteColorSequence(index) { updateSequences(sequences => { if (sequences.length > 1) sequences.splice(index, 1); }); }
+
+function cardContentHtml($card) {
+    const $copy = $card.clone();
+    $copy.find(".handle-rearrange, .ui-resizable-handle, .card-color-strip").remove();
+    return $copy.html();
+}
+
+function findNearestCard($source) {
+    const sourceRect = $source[0].getBoundingClientRect();
+    const cards = $(".grid-item").not($source).toArray();
+    if (!cards.length) return null;
+    const isColumnFlow = $(".grid").css("flex-flow").indexOf("column") === 0;
+    let best = null;
+    cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const primaryDistance = isColumnFlow ? rect.top - sourceRect.top : rect.left - sourceRect.left;
+        const crossDistance = isColumnFlow ? Math.abs(rect.left - sourceRect.left) : Math.abs(rect.top - sourceRect.top);
+        const forwardPenalty = primaryDistance >= -4 ? 0 : 100000;
+        const score = forwardPenalty + Math.abs(primaryDistance) + crossDistance * 1.5;
+        if (!best || score < best.score) best = { card: $(card), score };
+    });
+    return best ? best.card : null;
+}
+
+function openCloneDialog() {
+    const $source = getActiveCard();
+    if (!$source || !$source.length) { displayMessage("Choose a card", "Click a card before cloning.", "info"); return; }
+    openColorDialog(`
+        <h2 id="color-dialog-title">Clone to next card</h2>
+        <p class="color-dialog__lede">A new card will be inserted immediately after this one, following the current layout.</p>
+        <div class="clone-choices">
+            <button type="button" onclick="cloneCardToNeighbor('style')"><strong>Style only</strong><span><kbd>S</kbd> All visual settings</span></button>
+            <button type="button" onclick="cloneCardToNeighbor('content')"><strong>Content only</strong><span><kbd>C</kbd> Text, media, links, and metadata</span></button>
+            <button type="button" onclick="cloneCardToNeighbor('both')"><strong>Style and content</strong><span><kbd>B</kbd> Exact card clone</span></button>
+        </div>`, event => {
+            const key = event.key.toLowerCase();
+            if (["s", "c", "b"].includes(key)) { event.preventDefault(); cloneCardToNeighbor(key === "s" ? "style" : key === "c" ? "content" : "both"); }
+        });
+}
+
+function cloneCardToNeighbor(kind) {
+    const $source = getActiveCard();
+    if (!$source || !$source.length) return;
+    addBox($source.css("width"), $source.css("height"), "&nbsp;");
+    const $target = window.lastBox;
+    $target.insertAfter($source);
+    if (kind === "style" || kind === "both") {
+        $target.attr("style", $source.attr("style") || "");
+        $target.attr("class", $source.attr("class") || "grid-item");
+        ["data-color-sequence", "data-color-index"].forEach(attribute => {
+            const value = $source.attr(attribute);
+            if (value === undefined) $target.removeAttr(attribute); else $target.attr(attribute, value);
+        });
+    }
+    if (kind === "content" || kind === "both") $target.html('<span class="handle-rearrange ui-icon ui-icon-arrow-4-diag"></span>' + cardContentHtml($source));
+    applyCardSequenceColor($target);
+    showCardColorStrip($target);
+    window.lastBox = $target;
+    closeColorDialog();
+    displayMessage("Card cloned", kind === "both" ? "A new card was created with its style and content." : (kind === "style" ? "A new card was created with its style." : "A new card was created with its content."), "green");
+}
 
 function toggleAllClass(querySelected, clssName) {
     document.querySelectorAll(querySelected).forEach(el=>el.classList.toggle(clssName))
@@ -739,6 +1050,8 @@ function addBox(width = "130px", height = "100px", html = "&nbsp;") {
     const $box = $(`<div class="grid-item unreset rounded-lg" contenteditable="true" style="width:${width}; height:${height}">${html}</div>`);
     $(".grid").append($box);
     window.lastBox = $box;
+    applyCardSequenceColor($box);
+    showCardColorStrip($box);
     $box.trigger("focus")
 }
 
