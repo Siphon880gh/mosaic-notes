@@ -959,6 +959,8 @@ button:disabled {
 .color-dialog__close:hover,
 .color-dialog__close:focus-visible { color: #166534; background: rgba(22, 101, 52, 0.08); }
 .color-dialog__label { display: block; margin: 0 0 6px; font-size: 14px; font-weight: 700; }
+.color-dialog__check { display: flex; align-items: center; gap: 8px; margin: 16px 0 0; font-size: 15px; cursor: pointer; }
+.color-dialog__check input { width: 18px; height: 18px; accent-color: #b91c1c; }
 .color-dialog__select,
 .sequence-name { width: 100%; min-height: 40px; padding: 8px; border: 1px solid rgba(28,25,21,.42); border-radius: 4px; background: #fffdf8; color: #1c1915; font: inherit; }
 .color-swatches { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 20px; }

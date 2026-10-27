@@ -680,9 +680,9 @@ function openColorDialog(html, keyHandler) {
 
 /* In-app confirmation (reuses the color dialog sheet). Cancel, ×, and Escape
  * all close without running the action. */
-function confirmDestructiveAction(title, message, confirmLabel, onConfirm) {
+function confirmDestructiveAction(title, message, confirmLabel, onConfirm, extraHtml = "") {
     openColorDialog(`<h2 id="color-dialog-title">${title}</h2>
-        <p class="color-dialog__lede">${message}</p>
+        <p class="color-dialog__lede">${message}</p>${extraHtml}
         <div class="color-dialog__actions"><button type="button" class="btn-quiet" onclick="closeColorDialog()">Cancel</button><button type="button" class="btn-ink btn-danger" onclick="runPendingConfirmAction()">${confirmLabel}</button></div>`, null);
     window.pendingConfirmAction = onConfirm;
 }
@@ -1164,13 +1164,37 @@ function deleteLastBox() {
 
 function clearCanvas() {
     const count = $(".grid .grid-item").length;
-    const savedNote = window.PERSIST.pollFile ? ` Your saved file “${escapeHtml(window.PERSIST.pollFile)}” is left as it was.` : "";
-    confirmDestructiveAction("Clear the canvas?", `This removes all ${count} card${count === 1 ? "" : "s"}.${savedNote}`, "Clear canvas", () => {
+    const fileName = window.PERSIST.pollFile;
+    window.clearCanvasDeletesFile = false; // Default: keep the saved file
+    const fileOption = fileName ? `
+        <label class="color-dialog__check"><input type="checkbox" id="clear-canvas-delete-file" onchange="updateClearCanvasChoice(this.checked)"> Also delete saved file “${escapeHtml(fileName)}”</label>
+        <p class="color-dialog__lede" id="clear-canvas-file-note">${clearCanvasFileNote(false, fileName)}</p>` : "";
+    confirmDestructiveAction("Clear the canvas?", `This removes all ${count} card${count === 1 ? "" : "s"}.`, "Clear canvas", () => {
+        const deleteFile = fileName && window.clearCanvasDeletesFile;
+        window.clearCanvasDeletesFile = false;
         $(".grid").html("");
         window.lastBox = null;
         closeMenu();
         window.PERSIST.pollFile = "";
-    });
+        if (deleteFile) {
+            deleteSavedFile(fileName);
+            displayMessage("Canvas cleared", `Saved file “${fileName}” was deleted.`, "green");
+        }
+    }, fileOption);
+}
+
+function clearCanvasFileNote(deleteFile, fileName) {
+    return deleteFile
+        ? `The saved file “${escapeHtml(fileName)}” will be permanently deleted too.`
+        : `Your saved file “${escapeHtml(fileName)}” is left as it was. Reopen it from Files to get these cards back.`;
+}
+
+function updateClearCanvasChoice(deleteFile) {
+    window.clearCanvasDeletesFile = deleteFile;
+    const note = document.getElementById("clear-canvas-file-note");
+    if (note) note.innerHTML = clearCanvasFileNote(deleteFile, window.PERSIST.pollFile);
+    const confirmButton = document.querySelector("#color-dialog .btn-danger");
+    if (confirmButton) confirmButton.textContent = deleteFile ? "Clear and delete file" : "Clear canvas";
 }
 
 function resetCanvas(force) {

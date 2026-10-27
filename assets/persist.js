@@ -36,6 +36,18 @@ function listSavedFiles() {
     return names;
 }
 
+function deleteSavedFile(localStorageKey) {
+    const prepend = "mosaic_notes__"
+    localStorage.removeItem(prepend+localStorageKey)
+    if (window.PERSIST.pollFile === localStorageKey) window.PERSIST.pollFile = "";
+    // Drop the #file from the URL so a reload doesn't try to reopen it
+    if (window.location.hash.substr(1) === localStorageKey) {
+        window.history.replaceState("", "", window.location.pathname + window.location.search);
+        window.document.title = "Mosaic Notes"
+    }
+    if (typeof renderFilesList === "function" && document.getElementById("files-list")) renderFilesList();
+}
+
 function loadBodyHTML(localStorageKey) {
     const prepend = "mosaic_notes__"
     let html = localStorage.getItem(prepend+localStorageKey)
